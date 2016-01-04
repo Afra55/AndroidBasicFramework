@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">顽主戏剧</string>
+    <string name="cancle">Cancle</string>
+    <string name="confirm">Confirm</string>
+    <string name="click_again_to_exit">Again according to exit the program</string>
+    <string name="home">Home</string>
+    <string name="community">Community</string>
+    <string name="shop">Shop</string>
+    <string name="me">Me</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

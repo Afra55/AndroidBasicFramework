@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme" parent="android:Theme.Holo.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:launchMode">singleTop</item>
+        <item name="android:windowAnimationStyle">@style/activty_fade_in_fade_out</item>
+        <item name="android:screenOrientation">portrait</item>
+    </style>
+</resources>

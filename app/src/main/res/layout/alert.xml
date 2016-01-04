@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_alert"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/alert__title_tv"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:text="titie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#555555"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp" />
+
+    <LinearLayout
+        android:id="@+id/alert_body_content_lly"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <TextView
+            android:id="@+id/alert_content_tv"
+            
+            android:textColor="#6c6c6c"
+            android:text="content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="1px"
+        android:background="@color/devide" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dp" >
+
+        <Button
+            android:id="@+id/alert_cancel_btn"
+            style="@style/blue14Text"
+            android:layout_width="0dp"
+            android:text="@string/cancle"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textColor="@color/gray"
+            android:background="@null"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/tv_VerticalLine"
+            android:layout_width="1px"
+            android:layout_height="fill_parent"
+            android:background="@color/devide" />
+
+        <Button
+            android:id="@+id/alert_confirm_btn"
+            android:layout_width="0dp"
+            android:text="@string/confirm"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:gravity="center" />
+    </LinearLayout>
+
+</LinearLayout>
