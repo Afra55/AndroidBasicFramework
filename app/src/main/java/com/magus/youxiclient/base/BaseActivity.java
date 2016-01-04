@@ -20,7 +20,6 @@ import java.util.regex.Pattern;
 
 public class BaseActivity extends FragmentActivity implements View.OnClickListener{
 
-
     private FrameLayout content;
 
     @Override

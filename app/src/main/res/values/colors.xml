@@ -29,6 +29,8 @@
     <color name="turquoise">#ff86b9b5</color>
     <color name="slate">#ff76a9b5</color>
 
+    <color name="app_bg">@color/white</color>
+
     <!-- 首页底部菜单颜色 -->
     <color name="main_bottom_menu_text">@color/gray</color>
 

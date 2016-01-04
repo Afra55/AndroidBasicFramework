@@ -99,7 +99,7 @@ public class MainActivity extends BaseActivity implements BaseFragment.OnFragmen
             homeFragment = HomeFragment.newInstance("main", "home");
         }
         switchFragment(
-                R.id.base_content,
+                R.id.main_fragment_content,
                 selectedFragment,
                 homeFragment,
                 homeFragment.getClass().getSimpleName());
@@ -113,7 +113,7 @@ public class MainActivity extends BaseActivity implements BaseFragment.OnFragmen
             communityFragment = CommunityFragment.newInstance("main", "community");
         }
         switchFragment(
-                R.id.base_content,
+                R.id.main_fragment_content,
                 selectedFragment,
                 communityFragment,
                 communityFragment.getClass().getSimpleName());
@@ -127,7 +127,7 @@ public class MainActivity extends BaseActivity implements BaseFragment.OnFragmen
             shopFragment = ShopFragment.newInstance("main", "shop");
         }
         switchFragment(
-                R.id.base_content,
+                R.id.main_fragment_content,
                 selectedFragment,
                 shopFragment,
                 shopFragment.getClass().getSimpleName());
@@ -141,7 +141,7 @@ public class MainActivity extends BaseActivity implements BaseFragment.OnFragmen
             meFragment = MeFragment.newInstance("main", "shop");
         }
         switchFragment(
-                R.id.base_content,
+                R.id.main_fragment_content,
                 selectedFragment,
                 meFragment,
                 meFragment.getClass().getSimpleName());
