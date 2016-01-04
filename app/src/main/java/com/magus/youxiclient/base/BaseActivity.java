@@ -175,10 +175,10 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
             SystemBarTintManager tintManager = new SystemBarTintManager(this);
             // 激活状态栏设置
             tintManager.setStatusBarTintEnabled(false);
-            //		    // 激活导航栏设置
+            // 激活导航栏设置
             tintManager.setNavigationBarTintEnabled(false);
             // 设置一个颜色给系统栏  #ff4444红色
-            tintManager.setTintColor(Color.parseColor("#ff4444"));
+            //tintManager.setTintColor(Color.parseColor("#ff4444"));
         }
     }
 

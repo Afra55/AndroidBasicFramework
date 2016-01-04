@@ -1,10 +1,13 @@
 package com.magus.youxiclient.module.home;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.magus.youxiclient.R;
 import com.magus.youxiclient.base.BaseFragment;
@@ -26,7 +29,10 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState, String message) {
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        View vi = inflater.inflate(R.layout.fragment_home, container, false);
+        TextView viewById = (TextView) vi.findViewById(R.id.text_view);
+        viewById.setOnClickListener(this);
+        return vi;
     }
 
     @Override
@@ -41,6 +47,11 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     public void onClick(View v) {
-
+        switch (v.getId()) {
+            case R.id.text_view:
+                Toast.makeText(getActivity(), "home", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getActivity(), TempActivity.class));
+                break;
+        }
     }
 }
