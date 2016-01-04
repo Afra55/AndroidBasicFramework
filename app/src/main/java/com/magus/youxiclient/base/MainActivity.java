@@ -1,11 +1,16 @@
 package com.magus.youxiclient.base;
 
+import android.annotation.TargetApi;
+import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,6 +19,7 @@ import com.magus.youxiclient.module.community.CommunityFragment;
 import com.magus.youxiclient.module.home.HomeFragment;
 import com.magus.youxiclient.module.me.MeFragment;
 import com.magus.youxiclient.module.shop.ShopFragment;
+import com.magus.youxiclient.util.SystemBarTintManager;
 
 
 public class MainActivity extends BaseActivity implements BaseFragment.OnFragmentInteractionListener {
@@ -34,6 +40,7 @@ public class MainActivity extends BaseActivity implements BaseFragment.OnFragmen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setImmersiveStatusBar();
         View mainLayout = LayoutInflater.from(this).inflate(R.layout.activity_main, null);
         setContentLayout(mainLayout);
         initBottomMenu(mainLayout);
@@ -42,6 +49,7 @@ public class MainActivity extends BaseActivity implements BaseFragment.OnFragmen
             currentFragmentId = savedInstanceState.getInt(KEY_BUNDLE_ID, currentFragmentId);
         setCurrentBottomMenuView(currentFragmentId);
     }
+
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -106,7 +114,7 @@ public class MainActivity extends BaseActivity implements BaseFragment.OnFragmen
     }
 
     /* 社区 */
-    private void showCommunityFragment(){
+    private void showCommunityFragment() {
         communityImg.setBackgroundResource(R.drawable.btn_shouye2);
         communityText.setTextColor(getResources().getColor(R.color.red));
         if (communityFragment == null) {
@@ -120,7 +128,7 @@ public class MainActivity extends BaseActivity implements BaseFragment.OnFragmen
     }
 
     /* 购物 */
-    private void showShopFragment(){
+    private void showShopFragment() {
         shopImg.setBackgroundResource(R.drawable.btn_shouye2);
         shopText.setTextColor(getResources().getColor(R.color.red));
         if (shopFragment == null) {
@@ -134,7 +142,7 @@ public class MainActivity extends BaseActivity implements BaseFragment.OnFragmen
     }
 
     /* 我 */
-    private void showMeFragment(){
+    private void showMeFragment() {
         meImg.setBackgroundResource(R.drawable.btn_shouye2);
         meText.setTextColor(getResources().getColor(R.color.red));
         if (meFragment == null) {
