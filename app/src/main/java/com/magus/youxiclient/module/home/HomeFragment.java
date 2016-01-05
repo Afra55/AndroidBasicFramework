@@ -50,6 +50,8 @@ public class HomeFragment extends BaseFragment {
         switch (v.getId()) {
             case R.id.text_view:
                 Toast.makeText(getActivity(), "home", Toast.LENGTH_SHORT).show();
+                String s = null;
+                s.length();
                 break;
         }
     }
