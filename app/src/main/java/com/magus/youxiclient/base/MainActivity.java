@@ -172,6 +172,7 @@ public class MainActivity extends BaseActivity implements BaseFragment.OnFragmen
                                 BaseFragment to, String tag) {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
+        transaction.setCustomAnimations(R.anim.activity_in, R.anim.activity_out);
         if (from == null || !from.isAdded()) {
             if (!to.isAdded()) {
                 transaction.add(id, to, tag).commit();
