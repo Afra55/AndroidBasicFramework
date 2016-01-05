@@ -1,16 +1,11 @@
 package com.magus.youxiclient.base;
 
-import android.annotation.TargetApi;
-import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,7 +14,6 @@ import com.magus.youxiclient.module.community.CommunityFragment;
 import com.magus.youxiclient.module.home.HomeFragment;
 import com.magus.youxiclient.module.me.MeFragment;
 import com.magus.youxiclient.module.shop.ShopFragment;
-import com.magus.youxiclient.util.SystemBarTintManager;
 
 
 public class MainActivity extends BaseActivity implements BaseFragment.OnFragmentInteractionListener {
@@ -172,7 +166,7 @@ public class MainActivity extends BaseActivity implements BaseFragment.OnFragmen
                                 BaseFragment to, String tag) {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        transaction.setCustomAnimations(R.anim.activity_in, R.anim.activity_out);
+        transaction.setCustomAnimations(R.anim.fragment_in, R.anim.fragment_out);
         if (from == null || !from.isAdded()) {
             if (!to.isAdded()) {
                 transaction.add(id, to, tag).commit();
