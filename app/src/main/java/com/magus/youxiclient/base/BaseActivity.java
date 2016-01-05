@@ -17,7 +17,9 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.magus.youxiclient.R;
+import com.magus.youxiclient.util.ImageLoadUtils;
 import com.magus.youxiclient.util.SystemBarTintManager;
 
 import java.util.ArrayList;
@@ -31,6 +33,7 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fresco.initialize(this, ImageLoadUtils.CusstomConfig(this));
         setContentView(R.layout.activity_base);
         content = (FrameLayout) findViewById(R.id.base_content);
     }
