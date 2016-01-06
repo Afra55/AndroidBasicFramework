@@ -26,13 +26,13 @@ import com.magus.youxiclient.R;
  * @author antoine vianey
  *
  */
-public class CustomDialog extends Dialog {
+public class CusstomDialog extends Dialog {
 
-	public CustomDialog(Context context, int theme) {
+	public CusstomDialog(Context context, int theme) {
 		super(context, theme);
 	}
 
-	public CustomDialog(Context context) {
+	public CusstomDialog(Context context) {
 		super(context);
 	}
 
@@ -166,11 +166,11 @@ public class CustomDialog extends Dialog {
 		/**
 		 * Create the custom dialog
 		 */
-		public CustomDialog create() {
+		public CusstomDialog create() {
 			LayoutInflater inflater = (LayoutInflater) context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			// instantiate the dialog with the custom Theme
-			final CustomDialog dialog = new CustomDialog(context, R.style.dialog);
+			final CusstomDialog dialog = new CusstomDialog(context, R.style.dialog);
 			dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 			dialog.setCancelable(true);
 			View layout = inflater.inflate(R.layout.alert, null);

@@ -6,12 +6,12 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.widget.Toast;
 
-import com.magus.youxiclient.view.CustomDialog;
+import com.magus.youxiclient.view.CusstomDialog;
 
 
 public class AlertUtils {
 
-	private static CustomDialog dialog = null;
+	private static CusstomDialog dialog = null;
 	/**
 	 * 弹出框
 	 * @param context
@@ -23,7 +23,7 @@ public class AlertUtils {
 	 * @param lCancel
 	 * @return
 	 */
-	public static CustomDialog.Builder showAlert(final Context context,
+	public static CusstomDialog.Builder showAlert(final Context context,
 			final String title, String content, final String ok,
 			final String cancel, final OnClickListener lOk,
 			final OnClickListener lCancel) {
@@ -31,7 +31,7 @@ public class AlertUtils {
 			Toast.makeText(context, "null"+ (dialog!=null && dialog.isShowing()), Toast.LENGTH_SHORT).show();
 			return null;
 		}
-		CustomDialog.Builder builder = new CustomDialog.Builder(context);
+		CusstomDialog.Builder builder = new CusstomDialog.Builder(context);
 		builder.setTitle(title);
 		builder.setMessage(content);
 		builder.setNegativeButton(cancel, new OnClickListener() {
@@ -57,12 +57,12 @@ public class AlertUtils {
 		return builder;
 	}
 
-	public static CustomDialog.Builder showConfirmAlert(final Context context,
+	public static CusstomDialog.Builder showConfirmAlert(final Context context,
 			final String title, String content) {
 		if (context instanceof Activity && ((Activity) context).isFinishing() || (dialog!=null && dialog.isShowing())) {
 			return null;
 		}
-		CustomDialog.Builder builder = new CustomDialog.Builder(context);
+		CusstomDialog.Builder builder = new CusstomDialog.Builder(context);
 		builder.setTitle(title);
 		builder.setMessage(content);
 		builder.setPositiveButton("确定", new OnClickListener() {
@@ -77,12 +77,12 @@ public class AlertUtils {
 		return builder;
 	}
 
-	public static CustomDialog.Builder showConfirmAlert(final Context context,
+	public static CusstomDialog.Builder showConfirmAlert(final Context context,
 			final String title, final String confirm, String content) {
 		if (context instanceof Activity && ((Activity) context).isFinishing()  || (dialog!=null && dialog.isShowing())) {
 			return null;
 		}
-		CustomDialog.Builder builder = new CustomDialog.Builder(context);
+		CusstomDialog.Builder builder = new CusstomDialog.Builder(context);
 		builder.setTitle(title);
 		builder.setMessage(content);
 		builder.setPositiveButton(confirm, new OnClickListener() {
@@ -97,12 +97,12 @@ public class AlertUtils {
 		return builder;
 	}
 
-	public static CustomDialog.Builder showConfirmAlert(final Context context,
+	public static CusstomDialog.Builder showConfirmAlert(final Context context,
 			final String title, String content, final OnClickListener lOk) {
 		if (context instanceof Activity && ((Activity) context).isFinishing()  || (dialog!=null && dialog.isShowing())) {
 			return null;
 		}
-		CustomDialog.Builder builder = new CustomDialog.Builder(context);
+		CusstomDialog.Builder builder = new CusstomDialog.Builder(context);
 		builder.setTitle(title);
 		builder.setMessage(content);
 		builder.setPositiveButton("确定", new OnClickListener() {

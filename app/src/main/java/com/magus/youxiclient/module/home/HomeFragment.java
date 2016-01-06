@@ -2,6 +2,7 @@ package com.magus.youxiclient.module.home;
 
 
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,20 +10,24 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.magus.youxiclient.R;
 import com.magus.youxiclient.base.BaseFragment;
 import com.magus.youxiclient.util.DisplayUtil;
+import com.magus.youxiclient.util.ImageLoadUtils;
 import com.magus.youxiclient.view.refreshforheader.PtrDefaultHandler;
 import com.magus.youxiclient.view.refreshforheader.PtrFrameLayout;
 import com.magus.youxiclient.view.refreshforheader.PtrHandler;
 import com.magus.youxiclient.view.refreshforheader.header.MaterialHeader;
-import com.magus.youxiclient.view.refreshforheader.header.StoreHouseHeader;
-import com.magus.youxiclient.view.refreshforheader.header.StoreHousePath;
+
+import java.util.ArrayList;
 
 public class HomeFragment extends BaseFragment {
 
     private PtrFrameLayout pullToRefresh; // 下拉控件
     private RelativeLayout homeContainerRly;
+    private ViewPager binnerVp; // 广告Binner
+    private ArrayList<Object> binnerViewArray; // 存储Binner view的容器
 
     public static HomeFragment newInstance(String param1, String param2) {
         Bundle args = new Bundle();
@@ -41,16 +46,12 @@ public class HomeFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState, String message) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-
         homeContainerRly = (RelativeLayout)view.findViewById(R.id.home_container_rly);
         pullToRefresh = (PtrFrameLayout) view.findViewById(R.id.home_pull_to_refresh);
         initPullToRefresh();
 
-        /* 测试用 start */
-        TextView viewById = (TextView) view.findViewById(R.id.text_view);
-        viewById.setOnClickListener(this);
-        /* 测试用 start */
-
+        binnerVp = (ViewPager) view.findViewById(R.id.vp_banner);
+        initBanner();
         return view;
     }
 
@@ -99,6 +100,18 @@ public class HomeFragment extends BaseFragment {
         /* 测试用下拉监听 end */
     }
 
+    /* 初始化Binner */
+    private void initBanner() {
+        binnerViewArray = new ArrayList<>();
+        String binnerPath = "https://avatars0.githubusercontent.com/u/7507927?v=3&s=460";
+        for (int i = 0; i < 5; i++) {
+            SimpleDraweeView draweeView = new SimpleDraweeView(getContext());
+            ImageLoadUtils.getInstance(getContext()).display(binnerPath, draweeView);
+            binnerViewArray.add(draweeView);
+        }
+
+    }
+
 
     @Override
     protected void onFragmentSeleted(boolean isFirst) {
@@ -113,11 +126,7 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.text_view:
-                Toast.makeText(getActivity(), "home", Toast.LENGTH_SHORT).show();
-                String s = null;
-                s.length();
-                break;
+
         }
     }
 }
