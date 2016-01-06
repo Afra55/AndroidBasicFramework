@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RadioButton xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/indicator_size"
+    android:layout_height="@dimen/indicator_size"
+    android:layout_margin="2dip"
+    android:button="@drawable/ad_vp_indicator_bg"
+    android:clickable="false">
+</RadioButton>

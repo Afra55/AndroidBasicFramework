@@ -14,11 +14,31 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.util.*;
 
 import com.google.gson.Gson;
 
 public class Utils {
 
+    private static long lastClickTime;
+
+    /**
+     * 防暴力点击
+     *
+     * @return ture:多次点击，不处理
+     */
+    public static boolean isFastDoubleClick() {
+        long time = System.currentTimeMillis();
+        long timeD = time - lastClickTime;
+
+        android.util.Log.e("点击时间差：", timeD + "");
+        if (0 < timeD && timeD < 500) {
+            lastClickTime = time;
+            return true;
+        }
+        lastClickTime = time;
+        return false;
+    }
 
     /**
      * 检查是否有能上网的网络连接存在

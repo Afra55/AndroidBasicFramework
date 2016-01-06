@@ -1,33 +1,43 @@
 package com.magus.youxiclient.module.home;
 
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.magus.youxiclient.R;
+import com.magus.youxiclient.adapter.BinnerAdapter;
 import com.magus.youxiclient.base.BaseFragment;
+import com.magus.youxiclient.util.BinnerHelper;
 import com.magus.youxiclient.util.DisplayUtil;
 import com.magus.youxiclient.util.ImageLoadUtils;
+import com.magus.youxiclient.util.Log;
 import com.magus.youxiclient.view.refreshforheader.PtrDefaultHandler;
 import com.magus.youxiclient.view.refreshforheader.PtrFrameLayout;
 import com.magus.youxiclient.view.refreshforheader.PtrHandler;
 import com.magus.youxiclient.view.refreshforheader.header.MaterialHeader;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class HomeFragment extends BaseFragment {
 
     private PtrFrameLayout pullToRefresh; // 下拉控件
     private RelativeLayout homeContainerRly;
     private ViewPager binnerVp; // 广告Binner
-    private ArrayList<Object> binnerViewArray; // 存储Binner view的容器
+    private ArrayList<View> binnerViewArray; // 存储Binner view的容器
+    private BinnerAdapter binnerAdapter;
 
     public static HomeFragment newInstance(String param1, String param2) {
         Bundle args = new Bundle();
@@ -51,7 +61,8 @@ public class HomeFragment extends BaseFragment {
         initPullToRefresh();
 
         binnerVp = (ViewPager) view.findViewById(R.id.vp_banner);
-        initBanner();
+        RadioGroup binnerIndicatorRg = (RadioGroup) view.findViewById(R.id.vp_indicator_rg);
+        initBanner(binnerIndicatorRg);
         return view;
     }
 
@@ -101,15 +112,29 @@ public class HomeFragment extends BaseFragment {
     }
 
     /* 初始化Binner */
-    private void initBanner() {
+    private void initBanner(RadioGroup binnerIndicatorRg) {
         binnerViewArray = new ArrayList<>();
         String binnerPath = "https://avatars0.githubusercontent.com/u/7507927?v=3&s=460";
+        ArrayList<View> startAndEndView = new ArrayList<>(); // 请务必存储 开始和最后的view
         for (int i = 0; i < 5; i++) {
             SimpleDraweeView draweeView = new SimpleDraweeView(getContext());
             ImageLoadUtils.getInstance(getContext()).display(binnerPath, draweeView);
             binnerViewArray.add(draweeView);
+            if (i == 0) { // 开始的view
+                SimpleDraweeView start = new SimpleDraweeView(getContext());
+                ImageLoadUtils.getInstance(getContext()).display(binnerPath, draweeView);
+                startAndEndView.add(start);
+            }else if (i == 4) { // 结束的view
+                SimpleDraweeView end = new SimpleDraweeView(getContext());
+                ImageLoadUtils.getInstance(getContext()).display(binnerPath, draweeView);
+                startAndEndView.add(end);
+            }
         }
 
+        BinnerHelper.initViewList(binnerViewArray, startAndEndView);
+        binnerAdapter = new BinnerAdapter(binnerViewArray);
+        binnerVp.setAdapter(binnerAdapter);
+        BinnerHelper.getInstance().start(getContext(), binnerVp, binnerViewArray, binnerIndicatorRg);
     }
 
 
@@ -129,4 +154,5 @@ public class HomeFragment extends BaseFragment {
 
         }
     }
+
 }

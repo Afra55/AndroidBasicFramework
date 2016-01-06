@@ -75,8 +75,7 @@ public class ImageLoadUtils {
         hierarchy.setPlaceholderImage(R.mipmap.ic_launcher); // 修改占位图
         hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.FOCUS_CROP); // 修改缩放类型
         hierarchy.setActualImageFocusPoint(new PointF(0.5f, 0.5f)); // 居中显示
-        RoundingParams roundingParams = hierarchy.getRoundingParams();
-        roundingParams.setCornersRadius(10);
+        RoundingParams roundingParams = RoundingParams.fromCornersRadius(10);
         roundingParams.setBorder(R.color.gray, 1); // 设置边框颜色及宽度
         // roundingParams.setOverlayColor(R.color.transparent); // 固定背景颜色
         // roundingParams.setCornersRadii(10, 10, 10, 10); // 指定四个角的圆角度数

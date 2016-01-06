@@ -13,9 +13,9 @@ import java.util.ArrayList;
 public class BinnerAdapter extends PagerAdapter {
 
 
-    private final ArrayList<Object> contentArray;
+    private final ArrayList<View> contentArray;
 
-    public BinnerAdapter(ArrayList<Object> arr) {
+    public BinnerAdapter(ArrayList<View> arr) {
         this.contentArray = arr;
     }
 
@@ -31,7 +31,7 @@ public class BinnerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        container.addView((View) contentArray.get(position));
+        container.addView(contentArray.get(position));
         return contentArray.get(position);
     }
 
