@@ -51,10 +51,16 @@ public class BinnerHelper {
 
     private void initIndicator(ArrayList<View> binnerViewArray, RadioGroup binnerIndicatorRg) {
         binnerIndicatorRg.removeAllViews();
-        for (int i = 0; i < binnerViewArray.size() - 2; i++) {
+        for (int i = 0; i < binnerViewArray.size(); i++) {
             LayoutInflater layoutInflater = LayoutInflater.from(context);
             RadioButton rbIndicator = (RadioButton) layoutInflater.inflate(
                     R.layout.ad_vp_indicator_rb, binnerIndicatorRg, false);
+            if (binnerViewArray.size() > 3)
+                if (i == 0) {
+                    rbIndicator.setVisibility(View.GONE);
+                } else if (i == binnerViewArray.size() - 1) {
+                    rbIndicator.setVisibility(View.GONE);
+                }
             binnerIndicatorRg.addView(rbIndicator);
         }
         ((RadioButton) binnerIndicatorRg.getChildAt(0)).setChecked(true);
@@ -64,16 +70,9 @@ public class BinnerHelper {
         binnerVp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                    int currentPosition;
-                    if (position == 0) {
-                        currentPosition = binnerViewArray.size() - 3;
-                    }else if (position == binnerViewArray.size() - 1) {
-                        currentPosition = 0;
-                    } else {
-                        currentPosition = position - 1;
-                    }
-
-                    ((RadioButton) binnerIndicatorRg.getChildAt(currentPosition)).setChecked(true);
+                if (position != 0 && position != binnerViewArray.size() - 1) {
+                    ((RadioButton) binnerIndicatorRg.getChildAt(position)).setChecked(true);
+                }
             }
 
             @Override
@@ -81,12 +80,11 @@ public class BinnerHelper {
                 if (binnerViewArray.size() <= 1) {
                     return;
                 }
+                Log.i("positon", position + "");
                 if (position == 0) {
                     binnerVp.setCurrentItem(binnerViewArray.size() - 2, false);
                 } else if (position == binnerViewArray.size() - 1) {
                     binnerVp.setCurrentItem(1, false);
-                } else {
-
                 }
             }
 
@@ -187,6 +185,9 @@ public class BinnerHelper {
      * @param startAndEndView 存储开始和结束的 view
      */
     public static void initViewList(ArrayList<View> binnerViewArray, ArrayList<View> startAndEndView) {
+        if (binnerViewArray.size() <= 1) {
+            return;
+        }
         ArrayList<View> binnerViewArrayClone = (ArrayList<View>) binnerViewArray.clone();
         binnerViewArray.clear();
         for (int i = 0; i < binnerViewArrayClone.size() + 2; i++) {
