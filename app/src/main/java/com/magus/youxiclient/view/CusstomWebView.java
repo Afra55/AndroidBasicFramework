@@ -1,10 +1,8 @@
 package com.magus.youxiclient.view;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.util.AttributeSet;
 import android.view.View;
-import android.webkit.JsResult;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
@@ -51,24 +49,7 @@ public class CusstomWebView extends WebView {
         getSettings().setUseWideViewPort(true);
         getSettings().setLoadWithOverviewMode(true);// 设置网页能适配手机屏幕
 
-        setWebChromeClient(new CusstomWebChromeClient(context) {
-            @Override
-            public void onReceivedTitle(WebView view, String title) {
-                super.onReceivedTitle(view, title);
-            }
-
-            @Override
-            public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
-
-                return super.onJsAlert(view, url, message, result);
-            }
-
-            @Override
-            public boolean onJsConfirm(WebView view, String url, String message, JsResult result) {
-                return super.onJsConfirm(view, url, message, result);
-            }
-        });
-
+        setWebChromeClient(new CusstomWebChromeClient(context));
         setWebViewClient(new CusstomWebViewClient(context));
     }
 }
