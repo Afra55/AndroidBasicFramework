@@ -167,8 +167,8 @@ public class ImageLoadUtils {
      * @param simpleDraweeView
      */
     public void display(Uri uri, SimpleDraweeView simpleDraweeView) {
-        simpleDraweeView.setHierarchy(initHierarchy(simpleDraweeView));
         simpleDraweeView.setController(initController(simpleDraweeView, uri));
+        simpleDraweeView.setHierarchy(initHierarchy(simpleDraweeView));
     }
 
     public void display(String url, SimpleDraweeView simpleDraweeView) {
