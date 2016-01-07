@@ -1,18 +1,13 @@
 package com.magus.youxiclient.module.home;
 
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.magus.youxiclient.R;
@@ -21,15 +16,12 @@ import com.magus.youxiclient.base.BaseFragment;
 import com.magus.youxiclient.util.BinnerHelper;
 import com.magus.youxiclient.util.DisplayUtil;
 import com.magus.youxiclient.util.ImageLoadUtils;
-import com.magus.youxiclient.util.Log;
 import com.magus.youxiclient.view.refreshforheader.PtrDefaultHandler;
 import com.magus.youxiclient.view.refreshforheader.PtrFrameLayout;
 import com.magus.youxiclient.view.refreshforheader.PtrHandler;
 import com.magus.youxiclient.view.refreshforheader.header.MaterialHeader;
 
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class HomeFragment extends BaseFragment {
 
@@ -122,11 +114,11 @@ public class HomeFragment extends BaseFragment {
             binnerViewArray.add(draweeView);
             if (i == 0) { // 开始的view
                 SimpleDraweeView start = new SimpleDraweeView(getContext());
-                ImageLoadUtils.getInstance(getContext()).display(binnerPath, draweeView);
+                ImageLoadUtils.getInstance(getContext()).display(binnerPath, start);
                 startAndEndView.add(start);
-            }else if (i == 4) { // 结束的view
+            } else if (i == 4) { // 结束的view
                 SimpleDraweeView end = new SimpleDraweeView(getContext());
-                ImageLoadUtils.getInstance(getContext()).display(binnerPath, draweeView);
+                ImageLoadUtils.getInstance(getContext()).display(binnerPath, end);
                 startAndEndView.add(end);
             }
         }

@@ -80,7 +80,6 @@ public class BinnerHelper {
                 if (binnerViewArray.size() <= 1) {
                     return;
                 }
-                Log.i("positon", position + "");
                 if (position == 0) {
                     binnerVp.setCurrentItem(binnerViewArray.size() - 2, false);
                 } else if (position == binnerViewArray.size() - 1) {
