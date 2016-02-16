@@ -6,7 +6,15 @@
         <item name="android:windowAnimationStyle">@style/activty_fade_in_fade_out</item>
         <item name="android:launchMode">singleTop</item>
         <item name="android:screenOrientation">portrait</item>
-        <item name="android:windowBackground">@drawable/bg_start</item> <!-- app启动画面 -->
+    </style>
+
+    <!-- 引导页theme -->
+    <style name="SplashTheme" parent="android:Theme.Light.NoTitleBar">
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+
+        <!-- app启动画面 -->
+        <item name="android:windowBackground">@drawable/bg_start</item>
     </style>
 
 </resources>
