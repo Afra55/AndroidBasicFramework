@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme" parent="android:Theme.Material.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="android:windowAnimationStyle">@style/activty_fade_in_fade_out</item>
+    <style name="BaseTheme" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
         <item name="android:launchMode">singleTop</item>
         <item name="android:screenOrientation">portrait</item>
     </style>
 
-    <!-- 引导页theme -->
-    <style name="SplashTheme" parent="android:Theme.Light.NoTitleBar">
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowNoTitle">true</item>
+    <style name="AppTheme" parent="BaseTheme">
+        <!-- Customize your theme here. -->
+        <item name="android:windowAnimationStyle">@style/activty_fade_in_fade_out</item>
+    </style>
 
+    <!-- 引导页theme -->
+    <style name="SplashTheme" parent="BaseTheme">
         <!-- app启动画面 -->
         <item name="android:windowBackground">@drawable/bg_start</item>
     </style>
