@@ -1,4 +1,4 @@
-<com.magus.youxiclient.view.refreshforheader.PtrFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.afra55.baseclient.view.refreshforheader.PtrFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/home_pull_to_refresh"
@@ -24,4 +24,4 @@
     </RelativeLayout>
 
 
-</com.magus.youxiclient.view.refreshforheader.PtrFrameLayout>
+</com.afra55.baseclient.view.refreshforheader.PtrFrameLayout>
