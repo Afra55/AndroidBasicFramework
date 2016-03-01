@@ -27,12 +27,8 @@ public class BinnerHelper {
     private BinnerHelper() {
     }
 
-    private static class BinnerHelperHoler {
-        public static BinnerHelper instance = new BinnerHelper();
-    }
-
     public static BinnerHelper getInstance() {
-        return BinnerHelperHoler.instance;
+        return new BinnerHelper();
     }
 
     public BinnerHelper start(Context context, ViewPager viewPager, final ArrayList<View> binnerViewArray, RadioGroup binnerIndicatorRg) {
