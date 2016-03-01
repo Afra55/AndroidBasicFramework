@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">顽主戏剧</string>
+    <string name="app_name">App</string>
     <string name="cancle">取消</string>
     <string name="confirm">确定</string>
     <string name="click_again_to_exit">再按一次退出程序</string>
