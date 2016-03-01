@@ -1,4 +1,4 @@
-package com.magus.youxiclient;
+package com.afra55.baseclient;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
