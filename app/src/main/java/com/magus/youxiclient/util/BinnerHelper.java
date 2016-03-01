@@ -70,21 +70,30 @@ public class BinnerHelper {
         binnerVp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                if (position != 0 && position != binnerViewArray.size() - 1) {
+                if (positionOffset >= 0.5) {
+                    int nextPosition = position + 1;
+                    if (nextPosition == binnerViewArray.size() - 1) {
+                        ((RadioButton) binnerIndicatorRg.getChildAt(1)).setChecked(true);
+                    } else {
+                        ((RadioButton) binnerIndicatorRg.getChildAt(nextPosition)).setChecked(true);
+                    }
+                } else if (position == 0) {
+                    ((RadioButton) binnerIndicatorRg.getChildAt(binnerViewArray.size() - 2)).setChecked(true);
+                } else {
                     ((RadioButton) binnerIndicatorRg.getChildAt(position)).setChecked(true);
+                }
+                if (binnerViewArray.size() <= 1) {
+                    return;
+                }
+                if (position == 0 && positionOffset <= 0.01) {
+                    binnerVp.setCurrentItem(binnerViewArray.size() - 2, false);
+                } else if (position == binnerViewArray.size() - 1) {
+                    binnerVp.setCurrentItem(1, false);
                 }
             }
 
             @Override
             public void onPageSelected(int position) {
-                if (binnerViewArray.size() <= 1) {
-                    return;
-                }
-                if (position == 0) {
-                    binnerVp.setCurrentItem(binnerViewArray.size() - 2, false);
-                } else if (position == binnerViewArray.size() - 1) {
-                    binnerVp.setCurrentItem(1, false);
-                }
             }
 
             @Override
