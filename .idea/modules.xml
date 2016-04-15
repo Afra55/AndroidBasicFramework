@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/YouXiClient.iml" filepath="$PROJECT_DIR$/YouXiClient.iml" />
+      <module fileurl="file://$PROJECT_DIR$/AndroidBasicFramework.iml" filepath="$PROJECT_DIR$/AndroidBasicFramework.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
