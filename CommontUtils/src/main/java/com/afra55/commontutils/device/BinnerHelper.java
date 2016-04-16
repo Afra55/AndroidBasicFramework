@@ -1,4 +1,4 @@
-package com.afra55.baseclient.util;
+package com.afra55.commontutils.device;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.afra55.baseclient.R;
+import com.afra55.commontutils.R;
 
 import java.util.ArrayList;
 import java.util.Timer;
