@@ -3,6 +3,6 @@
     android:shape="oval"
     android:useLevel="false"
     >
-    <solid android:color="@color/app_bg" />
+    <solid android:color="@android:color/white" />
     <size android:height="@dimen/indicator_size" android:width="@dimen/indicator_size"/>
 </shape>

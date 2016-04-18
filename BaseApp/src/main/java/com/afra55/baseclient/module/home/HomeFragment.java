@@ -9,11 +9,11 @@ import android.view.ViewGroup;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 
+import com.afra55.baseclient.util.BinnerHelper;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.afra55.baseclient.R;
 import com.afra55.baseclient.adapter.BinnerAdapter;
 import com.afra55.baseclient.base.BaseFragment;
-import com.afra55.baseclient.util.BinnerHelper;
 import com.afra55.baseclient.util.DisplayUtil;
 import com.afra55.baseclient.util.ImageLoadUtils;
 import com.afra55.baseclient.view.refreshforheader.PtrDefaultHandler;
