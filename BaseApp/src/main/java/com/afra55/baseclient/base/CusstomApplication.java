@@ -1,7 +1,10 @@
 package com.afra55.baseclient.base;
 
 import android.app.Application;
+import android.app.LauncherActivity;
 
+import com.afra55.commontutils.AppCache;
+import com.afra55.commontutils.crash.AppCrashHandler;
 import com.facebook.common.internal.Supplier;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.backends.okhttp.OkHttpImagePipelineConfigFactory;
@@ -17,6 +20,8 @@ public class CusstomApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        AppCache.setContext(this.getApplicationContext());
 
 //        OkHttpClient okHttpClient = new OkHttpClient();
 //
@@ -34,7 +39,7 @@ public class CusstomApplication extends Application {
 //        Fresco.initialize(this, config);
 
         /* 异常捕获(debug 时不捕获异常) */
-        Thread.setDefaultUncaughtExceptionHandler(new MyUncaughtExceptionHandler(this));
+        AppCrashHandler.getInstance(this, MainActivity.class);
 
     }
 }

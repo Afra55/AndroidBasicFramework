@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CommontUtils</string>
+    <string name="app_breakdown">程序出现异常,即将重启应用</string>
 </resources>

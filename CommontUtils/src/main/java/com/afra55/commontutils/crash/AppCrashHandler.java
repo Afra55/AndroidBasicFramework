@@ -1,4 +1,4 @@
-package com.afra55.baseclient.base;
+package com.afra55.commontutils.crash;
 
 import android.app.ActivityManager;
 import android.app.AlarmManager;
@@ -9,29 +9,62 @@ import android.content.Intent;
 import android.os.Looper;
 import android.widget.Toast;
 
-import com.afra55.baseclient.R;
-import com.afra55.baseclient.util.Log;
+import com.afra55.commontutils.BuildConfig;
+import com.afra55.commontutils.R;
+import com.afra55.commontutils.log.LogUtil;
 
-/**
- * Created by yangshuai in the 10:53 of 2016.01.05 .
- */
-public class MyUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
+import java.lang.Thread.UncaughtExceptionHandler;
 
-    private static final String TAG = "ExceptionHandler";
-    private Thread.UncaughtExceptionHandler mUncaughtExceptionHandler;
-    private Application mApplication;
+public class AppCrashHandler implements Thread.UncaughtExceptionHandler{
 
-    public MyUncaughtExceptionHandler(Application context) {
-        mApplication = context;
-        mUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
-    }
+    private static final String TAG = AppCrashHandler.class.getSimpleName();
 
-    @Override
-    public void uncaughtException(Thread thread, Throwable ex) {
-        if (mApplication.getPackageName().equals(getProcessName(mApplication)))  {
+	private Application application;
 
-            if (Log.showLog) {
-                mUncaughtExceptionHandler.uncaughtException(thread, ex);
+    private Class mRestartClass;
+
+	private UncaughtExceptionHandler uncaughtExceptionHandler;
+
+	private static AppCrashHandler instance;
+
+	private AppCrashHandler(Application context, Class restartClass) {
+		this.application = context;
+        mRestartClass = restartClass;
+
+		// get default
+		uncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
+		
+		// install
+		Thread.setDefaultUncaughtExceptionHandler(this);
+	}
+
+	public static AppCrashHandler getInstance(Application mContext, Class restartClass) {
+		if (instance == null) {
+			instance = new AppCrashHandler(mContext, restartClass);
+		}
+		
+		return instance;
+	}
+
+	public final void saveException(Throwable ex, boolean uncaught) {
+		CrashSaver.save(application, ex, uncaught);
+	}
+	
+	public void setUncaughtExceptionHandler(UncaughtExceptionHandler handler) {
+		if (handler != null) {
+			this.uncaughtExceptionHandler = handler;
+		}
+	}
+
+	@Override
+	public void uncaughtException(Thread thread, Throwable ex) {
+		// save log
+		saveException(ex, true);
+
+        if (application.getPackageName().equals(getProcessName(application)))  {
+
+            if (BuildConfig.DEBUG) {
+                uncaughtExceptionHandler.uncaughtException(thread, ex);
             } else {
                 toastSorry();
                 restart();
@@ -40,7 +73,7 @@ public class MyUncaughtExceptionHandler implements Thread.UncaughtExceptionHandl
         } else {
             android.os.Process.killProcess(android.os.Process.myPid());
         }
-    }
+	}
 
     private void toastSorry() {
         new Thread(){
@@ -48,7 +81,7 @@ public class MyUncaughtExceptionHandler implements Thread.UncaughtExceptionHandl
             public void run() {
                 Looper.prepare();
                 Toast.makeText(
-                        mApplication.getApplicationContext(),
+                        application.getApplicationContext(),
                         R.string.app_breakdown,
                         Toast.LENGTH_SHORT).show();
                 Looper.loop();
@@ -76,9 +109,10 @@ public class MyUncaughtExceptionHandler implements Thread.UncaughtExceptionHandl
         } catch (InterruptedException e) {
             android.util.Log.e(TAG, "error : " + e);
         }
+        Application mApplication = (Application) application.getApplicationContext();
         Intent intent = new Intent(
                 mApplication.getApplicationContext(),
-                MainActivity.class);
+                mRestartClass);
         PendingIntent restartIntent = PendingIntent.getActivity(
                 mApplication.getApplicationContext(), 0, intent,
                 Intent.FLAG_ACTIVITY_NEW_TASK);
