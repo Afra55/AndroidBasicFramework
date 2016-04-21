@@ -36,14 +36,10 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
 
     private static Handler handler;
 
-    private FrameLayout content;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Fresco.initialize(this, ImageLoadUtils.CusstomConfig(this));
-        setContentView(R.layout.activity_base);
-        content = (FrameLayout) findViewById(R.id.base_content);
 
         LogUtil.ui("activity: " + getClass().getSimpleName() + " onCreate()");
     }
@@ -86,39 +82,6 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
         }
     }
 
-    private void fillLayoutView() {
-        String layoutName = getLayoutName();
-        int layoutId = getFieldValue("layout", layoutName, this);
-        if (layoutId != -1) {
-            setContentLayout(layoutId);
-        }
-
-    }
-
-    private String getLayoutName() {
-        String className = this.getClass().getSimpleName();
-        className = className.substring(0, 1).toLowerCase() + className.substring(1, className.length());
-        Pattern p = Pattern.compile("\\p{Upper}");
-        Matcher m = p.matcher(className);
-
-        ArrayList<String> names = new ArrayList<String>();
-
-        int index = 0;
-        int lastIndex = index;
-        while (m.find()) {
-            index = className.indexOf(m.group());
-            names.add(className.substring(lastIndex, index));
-            lastIndex = index;
-        }
-        names.add(className.substring(lastIndex, className.length()));
-
-        //        Collections.reverse(names);
-        className = names.get(names.size() - 1);
-        for (int i = 0; i < names.size() - 1; i++) {
-            className += "_" + names.get(i);
-        }
-        return className.toLowerCase();
-    }
 
     /**
      * 根据给定的类型名和字段名，返回R文件中的字段的值
@@ -140,20 +103,7 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
         return i;
     }
 
-    protected void setContentLayout(int layoutId) {
-        View sonView = LayoutInflater.from(this).inflate(layoutId, null);
-        content.addView(sonView,new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT));
-
-        getChildViewForm(getWindow().getDecorView());
-    }
-
-    protected void setContentLayout(View view) {
-        content.addView(view);
-        getChildViewForm(getWindow().getDecorView());
-    }
-
-    private void getChildViewForm(View view) {
+    protected void getChildViewForm(View view) {
         try {
             if (view instanceof ViewGroup) {
                 ViewGroup g = (ViewGroup) view;
@@ -166,10 +116,6 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    protected FrameLayout getModuleContentLayout() {
-        return content;
     }
 
 

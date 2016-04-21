@@ -54,7 +54,7 @@ public class MainActivity extends BaseActivity implements BaseFragment.OnFragmen
         super.onCreate(savedInstanceState);
         setImmersiveStatusBar();
         View mainLayout = LayoutInflater.from(this).inflate(R.layout.activity_main, null);
-        setContentLayout(mainLayout);
+        setContentView(mainLayout);
         initBottomMenu(mainLayout);
 
         if (savedInstanceState != null)

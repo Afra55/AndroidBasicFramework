@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import com.afra55.commontutils.dialog.DialogMaker;
 import com.afra55.commontutils.log.LogUtil;
 
 public abstract class BaseFragment extends Fragment implements View.OnClickListener{

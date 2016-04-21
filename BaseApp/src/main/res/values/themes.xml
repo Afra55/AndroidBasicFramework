@@ -10,7 +10,7 @@
 
     <style name="AppTheme" parent="BaseTheme">
         <!-- Customize your theme here. -->
-        <item name="android:windowAnimationStyle">@style/activty_fade_in_fade_out</item>
+        <!--<item name="android:windowAnimationStyle">@style/activty_fade_in_fade_out</item>-->
     </style>
 
     <!-- 引导页theme -->
@@ -18,6 +18,10 @@
         <!-- app启动画面 -->
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowBackground">@drawable/splash_bg</item>
+    </style>
+    
+    <style name="MainTheme" parent="BaseTheme">
+
     </style>
 
     <style name="Dialog" parent="android:style/Theme.Dialog">

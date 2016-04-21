@@ -22,7 +22,7 @@ public class WelcomeActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentLayout(R.layout.activity_welcome);
+        setContentView(R.layout.activity_welcome);
 
         if (savedInstanceState != null) {
             setIntent(new Intent()); // 从堆栈恢复，不再重复解析之前的intent
@@ -43,6 +43,9 @@ public class WelcomeActivity extends BaseActivity {
             Runnable runnable = new Runnable() {
                 @Override
                 public void run() {
+                    if (isDestroyedCompatible()) {
+                        return;
+                    }
                     if (canAutoLogin()) {
                         onIntent();
                     } else {
@@ -110,6 +113,7 @@ public class WelcomeActivity extends BaseActivity {
     }
 
     private void showMainActivity(Intent intent) {
+        LogUtil.i(TAG, "show main activity");
         if (isDestroyedCompatible()) {
             return;
         }

@@ -2,9 +2,14 @@ package com.afra55.baseclient.base;
 
 import android.app.Application;
 import android.app.LauncherActivity;
+import android.util.Log;
 
 import com.afra55.commontutils.AppCache;
 import com.afra55.commontutils.crash.AppCrashHandler;
+import com.afra55.commontutils.log.LogUtil;
+import com.afra55.commontutils.storage.StorageType;
+import com.afra55.commontutils.storage.StorageUtil;
+import com.afra55.commontutils.sys.ScreenUtil;
 import com.facebook.common.internal.Supplier;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.backends.okhttp.OkHttpImagePipelineConfigFactory;
@@ -22,6 +27,14 @@ public class CusstomApplication extends Application {
         super.onCreate();
 
         AppCache.setContext(this.getApplicationContext());
+
+        // init tools
+        StorageUtil.init(this, null);
+        ScreenUtil.init(this);
+
+        // init log
+        String path = StorageUtil.getDirectoryByDirType(StorageType.TYPE_LOG);
+        LogUtil.init(path, Log.DEBUG);
 
 //        OkHttpClient okHttpClient = new OkHttpClient();
 //
