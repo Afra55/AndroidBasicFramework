@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -13,10 +14,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.afra55.commontutils.log.LogUtil;
+import com.afra55.commontutils.sys.ReflectionUtil;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.afra55.baseclient.R;
 import com.afra55.baseclient.util.ImageLoadUtils;
@@ -28,6 +32,10 @@ import java.util.regex.Pattern;
 
 public class BaseActivity extends FragmentActivity implements View.OnClickListener{
 
+    private boolean destroyed = false;
+
+    private static Handler handler;
+
     private FrameLayout content;
 
     @Override
@@ -36,6 +44,46 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
         Fresco.initialize(this, ImageLoadUtils.CusstomConfig(this));
         setContentView(R.layout.activity_base);
         content = (FrameLayout) findViewById(R.id.base_content);
+
+        LogUtil.ui("activity: " + getClass().getSimpleName() + " onCreate()");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        LogUtil.ui("activity: " + getClass().getSimpleName() + " onDestroy()");
+        destroyed = true;
+    }
+
+    protected final Handler getHandler() {
+        if (handler == null) {
+            handler = new Handler(getMainLooper());
+        }
+        return handler;
+    }
+
+    /**
+     * 判断页面是否已经被销毁（异步回调时使用）
+     */
+    protected boolean isDestroyedCompatible() {
+        if (Build.VERSION.SDK_INT >= 17) {
+            return isDestroyedCompatible17();
+        } else {
+            return destroyed || super.isFinishing();
+        }
+    }
+
+    @TargetApi(17)
+    private boolean isDestroyedCompatible17() {
+        return super.isDestroyed();
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    private void invokeFragmentManagerNoteStateNotSaved() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            ReflectionUtil.invokeMethod(getFragmentManager(), "noteStateNotSaved", null);
+        }
     }
 
     private void fillLayoutView() {
@@ -124,29 +172,13 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
         return content;
     }
 
-    //双击退出
-    private long exitTime = -1;
 
-    private void exit() {
-        if ((System.currentTimeMillis() - exitTime) > 2000) {
-            Toast.makeText(this, R.string.click_again_to_exit, Toast.LENGTH_SHORT).show();
-            exitTime = System.currentTimeMillis();
-        } else {
-            finish();
-            android.os.Process.killProcess(android.os.Process.myPid());
-            System.exit(0);
-        }
-    }
-
-    //双击返回键退出
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if ((this instanceof MainActivity) && event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_BACK) {
-            exit();
-            return false;
-        }
-        return super.onKeyDown(keyCode, event);
+    public void onBackPressed() {
+        invokeFragmentManagerNoteStateNotSaved();
+        super.onBackPressed();
     }
+
 
     //Toast公共方法
     private Toast toast = null;
@@ -203,5 +235,47 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
         switch (v.getId()) {
 
         }
+    }
+
+    protected void showKeyboard(boolean isShow) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        if (isShow) {
+            if (getCurrentFocus() == null) {
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+            } else {
+                imm.showSoftInput(getCurrentFocus(), 0);
+            }
+        } else {
+            if (getCurrentFocus() != null) {
+                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+
+        }
+    }
+
+    /**
+     * 延时弹出键盘
+     *
+     * @param focus ：键盘的焦点项
+     */
+    protected void showKeyboardDelayed(View focus) {
+        final View viewToFocus = focus;
+        if (focus != null) {
+            focus.requestFocus();
+        }
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                if (viewToFocus == null || viewToFocus.isFocused()) {
+                    showKeyboard(true);
+                }
+            }
+        }, 200);
+    }
+
+    protected <T extends View> T findView(int resId) {
+        return (T) (findViewById(resId));
     }
 }

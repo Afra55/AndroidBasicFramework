@@ -13,6 +13,9 @@ import com.afra55.commontutils.log.LogUtil;
 
 public abstract class BaseFragment extends Fragment implements View.OnClickListener{
 
+
+    private int containerId;
+
     protected static final String ARG_PARAM1 = "param1";
     protected static final String ARG_PARAM2 = "param2";
 
@@ -27,6 +30,14 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
     protected final boolean isDestroyed() {
         return destroyed;
+    }
+
+    public int getContainerId() {
+        return containerId;
+    }
+
+    public void setContainerId(int containerId) {
+        this.containerId = containerId;
     }
 
     public BaseFragment() {

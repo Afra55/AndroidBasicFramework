@@ -1,13 +1,17 @@
 package com.afra55.baseclient.base;
 
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afra55.baseclient.R;
 import com.afra55.baseclient.module.community.CommunityFragment;
@@ -30,6 +34,20 @@ public class MainActivity extends BaseActivity implements BaseFragment.OnFragmen
     private CommunityFragment communityFragment;
     private ShopFragment shopFragment;
     private MeFragment meFragment;
+
+    public static void start(Context context) {
+        start(context, null);
+    }
+
+    public static void start(Context context, Intent extras) {
+        Intent intent = new Intent();
+        intent.setClass(context, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        if (extras != null) {
+            intent.putExtras(extras);
+        }
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +79,7 @@ public class MainActivity extends BaseActivity implements BaseFragment.OnFragmen
         view.findViewById(R.id.main_bottom_menu_shop).setOnClickListener(this);
         view.findViewById(R.id.main_bottom_menu_me).setOnClickListener(this);
 
-        homeImg = (ImageView) view.findViewById(R.id.main_bottom_menu_home_img);
+        homeImg = findView(R.id.main_bottom_menu_home_img);
         homeText = (TextView) view.findViewById(R.id.main_bottom_menu_home_text);
         communityImg = (ImageView) view.findViewById(R.id.main_bottom_menu_community_img);
         communityText = (TextView) view.findViewById(R.id.main_bottom_menu_community_text);
@@ -214,4 +232,28 @@ public class MainActivity extends BaseActivity implements BaseFragment.OnFragmen
 
     }
     /* 与 fragment 交互 end */
+
+    //双击退出
+    private long exitTime = -1;
+    private void exit() {
+        if ((System.currentTimeMillis() - exitTime) > 2000) {
+            Toast.makeText(this, R.string.click_again_to_exit, Toast.LENGTH_SHORT).show();
+            exitTime = System.currentTimeMillis();
+        } else {
+            finish();
+            android.os.Process.killProcess(android.os.Process.myPid());
+            System.exit(0);
+        }
+    }
+
+    //双击返回键退出
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_BACK) {
+            exit();
+            return false;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 }
