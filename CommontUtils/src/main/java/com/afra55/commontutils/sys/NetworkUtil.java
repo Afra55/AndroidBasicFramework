@@ -11,7 +11,8 @@ import android.os.Build;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
-import com.netease.nim.uikit.common.util.log.LogUtil;
+import com.afra55.commontutils.log.LogUtil;
+
 
 public class NetworkUtil {
 

@@ -45,17 +45,24 @@ public class HomeFragment extends BaseFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState, String message) {
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_home, container, false);
+    }
 
-        homeContainerRly = (RelativeLayout)view.findViewById(R.id.home_container_rly);
-        pullToRefresh = (PtrFrameLayout) view.findViewById(R.id.home_pull_to_refresh);
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        findView();
+
         initPullToRefresh();
+        initBanner((RadioGroup) findView(R.id.vp_indicator_rg));
 
-        binnerVp = (ViewPager) view.findViewById(R.id.vp_banner);
-        RadioGroup binnerIndicatorRg = (RadioGroup) view.findViewById(R.id.vp_indicator_rg);
-        initBanner(binnerIndicatorRg);
-        return view;
+    }
+
+    private void findView() {
+        homeContainerRly = findView(R.id.home_container_rly);
+        pullToRefresh = findView(R.id.home_pull_to_refresh);
+        binnerVp = findView(R.id.vp_banner);
     }
 
     /* 初始化下拉控件 */
