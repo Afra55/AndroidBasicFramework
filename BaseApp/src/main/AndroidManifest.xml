@@ -4,27 +4,28 @@
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
-        android:name="com.afra55.baseclient.base.CusstomApplication"
+        android:name=".base.CusstomApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.afra55.baseclient.base.MainActivity"
-            android:theme="@style/SplashTheme"
-            android:launchMode="singleTask">
+            android:name=".base.WelcomeActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.afra55.baseclient.base.BaseActivity" />
-
+        <activity android:name=".base.MainActivity"
+            android:hardwareAccelerated="true"
+            android:launchMode="singleTask"/>
     </application>
 
 </manifest>
