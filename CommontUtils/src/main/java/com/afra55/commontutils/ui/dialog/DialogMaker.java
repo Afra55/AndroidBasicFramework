@@ -1,4 +1,4 @@
-package com.afra55.commontutils.dialog;
+package com.afra55.commontutils.ui.dialog;
 
 import android.content.Context;
 import android.content.DialogInterface.OnCancelListener;
