@@ -2,6 +2,7 @@ package com.afra55.commontutils.storage;
 
 public enum StorageType {
     TYPE_LOG(DirectoryName.LOG_DIRECTORY_NAME),
+    TYPE_DATA(DirectoryName.DATA_DIRECTORY_NAME),
     TYPE_TEMP(DirectoryName.TEMP_DIRECTORY_NAME),
     TYPE_FILE(DirectoryName.FILE_DIRECTORY_NAME),
     TYPE_AUDIO(DirectoryName.AUDIO_DIRECTORY_NAME),

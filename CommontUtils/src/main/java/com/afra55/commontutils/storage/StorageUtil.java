@@ -5,6 +5,9 @@ import android.os.Build;
 import android.os.Environment;
 import android.text.TextUtils;
 
+import com.afra55.commontutils.AppCache;
+import com.afra55.commontutils.R;
+
 import java.io.File;
 
 public class StorageUtil {
@@ -110,10 +113,10 @@ public class StorageUtil {
     public static String getSystemImagePath() {
         if (Build.VERSION.SDK_INT > 7) {
             String picturePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath();
-            return picturePath + "/nim/";
-        } else {
+			return picturePath + "/" + AppCache.getContext().getResources().getString(R.string.app_name) + "/";
+		} else {
             String picturePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath();
-            return picturePath + "/nim/";
+            return picturePath + "/" + AppCache.getContext().getResources().getString(R.string.app_name) + "/";
         }
     }
 
