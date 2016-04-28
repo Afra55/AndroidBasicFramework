@@ -3,6 +3,6 @@
     android:layout_width="@dimen/indicator_size"
     android:layout_height="@dimen/indicator_size"
     android:layout_margin="2dip"
-    android:button="@drawable/ad_vp_indicator_bg"
-    android:clickable="false">
-</RadioButton>
+    android:background="@drawable/ad_vp_indicator_bg"
+    android:button="@null"
+    android:clickable="false"/>

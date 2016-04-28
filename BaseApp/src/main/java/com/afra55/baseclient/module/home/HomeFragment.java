@@ -113,7 +113,7 @@ public class HomeFragment extends BaseFragment {
     /* 初始化Binner */
     private void initBanner(RadioGroup binnerIndicatorRg) {
         binnerViewArray = new ArrayList<>();
-        String binnerPath = "https://avatars0.githubusercontent.com/u/7507927?v=3&s=460";
+        String binnerPath = "http://ossweb-img.qq.com/images/lol/web201310/skin/big143000.jpg";
         ArrayList<View> startAndEndView = new ArrayList<>(); // 请务必存储 开始和最后的view
         for (int i = 0; i < 5; i++) {
             SimpleDraweeView draweeView = new SimpleDraweeView(getContext());

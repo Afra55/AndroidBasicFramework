@@ -52,7 +52,6 @@ public class MainActivity extends BaseActivity implements BaseFragment.OnFragmen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setImmersiveStatusBar();
         View mainLayout = LayoutInflater.from(this).inflate(R.layout.activity_main, null);
         setContentView(mainLayout);
         initBottomMenu(mainLayout);

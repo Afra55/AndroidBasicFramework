@@ -4,6 +4,7 @@ import android.app.Application;
 import android.app.LauncherActivity;
 import android.util.Log;
 
+import com.afra55.baseclient.BuildConfig;
 import com.afra55.commontutils.AppCache;
 import com.afra55.commontutils.crash.AppCrashHandler;
 import com.afra55.commontutils.log.LogUtil;
@@ -52,7 +53,9 @@ public class CusstomApplication extends Application {
 //        Fresco.initialize(this, config);
 
         /* 异常捕获(debug 时不捕获异常) */
-        AppCrashHandler.getInstance(this, MainActivity.class);
+        if (!BuildConfig.DEBUG) {
+            AppCrashHandler.getInstance(this, MainActivity.class);
+        }
 
     }
 }
