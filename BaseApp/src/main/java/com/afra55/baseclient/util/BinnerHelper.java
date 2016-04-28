@@ -67,20 +67,24 @@ public class BinnerHelper {
         binnerVp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                ((RadioButton) binnerIndicatorRg.getChildAt(lastCheckedPosition)).setChecked(false);
+                int willCheckedPosition;
                 if (positionOffset >= 0.5) {
                     int nextPosition = position + 1;
                     if (nextPosition == binnerViewArray.size() - 1) {
-                        lastCheckedPosition = 1;
+                        willCheckedPosition = 1;
                     } else {
-                        lastCheckedPosition = nextPosition;
+                        willCheckedPosition = nextPosition;
                     }
                 } else if (position == 0) {
-                    lastCheckedPosition = binnerViewArray.size() - 2;
+                    willCheckedPosition = binnerViewArray.size() - 2;
                 } else {
-                    lastCheckedPosition = position;
+                    willCheckedPosition = position;
                 }
-                ((RadioButton) binnerIndicatorRg.getChildAt(lastCheckedPosition)).setChecked(true);
+                if (willCheckedPosition != lastCheckedPosition) {
+                    ((RadioButton) binnerIndicatorRg.getChildAt(lastCheckedPosition)).setChecked(false);
+                }
+                ((RadioButton) binnerIndicatorRg.getChildAt(willCheckedPosition)).setChecked(true);
+                lastCheckedPosition = willCheckedPosition;
                 if (binnerViewArray.size() <= 1) {
                     return;
                 }
