@@ -2,27 +2,23 @@ package com.afra55.baseclient.base;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.afra55.baseclient.util.ImageLoadUtils;
-import com.afra55.baseclient.util.SystemBarTintManager;
 import com.afra55.commontutils.log.LogUtil;
 import com.afra55.commontutils.sys.ReflectionUtil;
 import com.facebook.drawee.backends.pipeline.Fresco;
 
-public class BaseActivity extends FragmentActivity implements View.OnClickListener{
+public class BaseActivity extends AppCompatActivity implements View.OnClickListener{
 
     private boolean destroyed = false;
 
