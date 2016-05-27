@@ -13,6 +13,7 @@ import com.afra55.commontutils.log.LogUtil;
 
 public abstract class BaseFragment extends Fragment implements View.OnClickListener{
 
+    private BaseActivity mActivity;
 
     private int containerId;
 
@@ -91,6 +92,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
+            mActivity = (BaseActivity) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
