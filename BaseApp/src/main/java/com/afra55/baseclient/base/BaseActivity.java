@@ -5,6 +5,8 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v4.view.LayoutInflaterFactory;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +25,9 @@ import com.afra55.baseclient.util.ImageLoadUtils;
 import com.afra55.commontutils.log.LogUtil;
 import com.afra55.commontutils.sys.ReflectionUtil;
 import com.facebook.drawee.backends.pipeline.Fresco;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BaseActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -195,5 +200,61 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
 
     protected <T extends View> T findView(int resId) {
         return (T) (findViewById(resId));
+    }
+
+    // fragment 相关
+    public BaseFragment addFragment(BaseFragment fragment) {
+        List<BaseFragment> fragments = new ArrayList<>(1);
+        fragments.add(fragment);
+
+        return addFragments(fragments).get(0);
+    }
+
+    public List<BaseFragment> addFragments(List<BaseFragment> fragments) {
+        List<BaseFragment> fragmentList = new ArrayList<>(fragments.size());
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        boolean commit = false;
+        for (int i = 0; i< fragmentList.size(); i++) {
+            BaseFragment fragment = fragments.get(i);
+            int id = fragment.getContainerId();
+
+            BaseFragment fragmentTemp = (BaseFragment) fragmentManager.findFragmentById(id);
+            if (fragmentTemp == null) {
+                fragmentTemp = fragment;
+                fragmentTransaction.add(id, fragment);
+                commit = true;
+            }
+
+            fragmentList.add(i, fragmentTemp);
+        }
+
+        if (commit) {
+            try {
+                fragmentTransaction.commitAllowingStateLoss();
+            } catch (Exception e) {
+            }
+        }
+        return fragmentList;
+    }
+
+    public BaseFragment switchFragmentContent(BaseFragment fragment) {
+        return switchFragmentContent(fragment, false);
+    }
+
+    protected BaseFragment switchFragmentContent(BaseFragment fragment, boolean needAddToBackStack) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(fragment.getContainerId(), fragment);
+        if (needAddToBackStack) {
+            fragmentTransaction.addToBackStack(fragment.getClass().getSimpleName());
+        }
+        try {
+            fragmentTransaction.commitAllowingStateLoss();
+        } catch (Exception e) {
+        }
+        return fragment;
     }
 }
