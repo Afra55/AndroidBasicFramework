@@ -11,7 +11,7 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.afra55.commontutils.log.LogUtil;
 
-public abstract class BaseFragment extends Fragment implements View.OnClickListener{
+public abstract class BaseFragment extends Fragment implements View.OnClickListener {
 
     private BaseActivity mActivity;
 
@@ -193,6 +193,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
     /**
      * 在onActivityCreated(Bundle savedInstanceState)里使用
+     *
      * @param resId
      * @param <T>
      * @return

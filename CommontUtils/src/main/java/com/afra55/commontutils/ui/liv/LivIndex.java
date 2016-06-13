@@ -5,14 +5,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.netease.nim.uikit.common.ui.liv.LetterIndexView.OnTouchingLetterChangedListener;
-
 import java.util.Map;
 
 /**
  * 字母导航，点击字母，列表滑动到指定字母集合上。
- *
- * @author huangjun
  */
 public class LivIndex {
 
@@ -51,7 +47,7 @@ public class LivIndex {
         this.livIndex.setVisibility(View.GONE);
     }
 
-    private class LetterChangedListener implements OnTouchingLetterChangedListener {
+    private class LetterChangedListener implements LetterIndexView.OnTouchingLetterChangedListener {
 
         @Override
         public void onHit(String letter) {

@@ -22,7 +22,7 @@
         <item name="android:windowBackground">@drawable/splash_bg</item>
     </style>
     
-    <style name="MainTheme" parent="BaseTheme">
+    <style name="MainTheme" parent="AppTheme">
 
     </style>
 
