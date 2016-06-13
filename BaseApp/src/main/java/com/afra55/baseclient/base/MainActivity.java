@@ -110,7 +110,7 @@ public class MainActivity extends BaseActivity implements BaseFragment.OnFragmen
 
     /* 首页 */
     private void showHomeFragment() {
-        homeImg.setBackgroundResource(R.drawable.btn_shouye2);
+        homeImg.setBackgroundResource(R.drawable.icon_home_selected);
         homeText.setTextColor(getResources().getColor(R.color.red));
         if (homeFragment == null && !isDestroyedCompatible()) {
             homeFragment = HomeFragment.newInstance("main", "home");
@@ -124,7 +124,7 @@ public class MainActivity extends BaseActivity implements BaseFragment.OnFragmen
 
     /* 社区 */
     private void showCommunityFragment() {
-        communityImg.setBackgroundResource(R.drawable.btn_shouye2);
+        communityImg.setBackgroundResource(R.drawable.icon_community_selected);
         communityText.setTextColor(getResources().getColor(R.color.red));
         if (communityFragment == null && !isDestroyedCompatible()) {
             communityFragment = CommunityFragment.newInstance("main", "community");
@@ -138,7 +138,7 @@ public class MainActivity extends BaseActivity implements BaseFragment.OnFragmen
 
     /* 购物 */
     private void showShopFragment() {
-        shopImg.setBackgroundResource(R.drawable.btn_shouye2);
+        shopImg.setBackgroundResource(R.drawable.icon_shop_selected);
         shopText.setTextColor(getResources().getColor(R.color.red));
         if (shopFragment == null && !isDestroyedCompatible() ) {
             shopFragment = ShopFragment.newInstance("main", "shop");
@@ -152,7 +152,7 @@ public class MainActivity extends BaseActivity implements BaseFragment.OnFragmen
 
     /* 我 */
     private void showMeFragment() {
-        meImg.setBackgroundResource(R.drawable.btn_shouye2);
+        meImg.setBackgroundResource(R.drawable.icon_me_selected);
         meText.setTextColor(getResources().getColor(R.color.red));
         if (meFragment == null && !isDestroyedCompatible()) {
             meFragment = MeFragment.newInstance("main", "shop");
@@ -166,10 +166,10 @@ public class MainActivity extends BaseActivity implements BaseFragment.OnFragmen
 
     /* 重置底部菜单状态 */
     private void resetBottomMenuState() {
-        homeImg.setBackgroundResource(R.drawable.btn_shouye);
-        communityImg.setBackgroundResource(R.drawable.btn_shouye);
-        shopImg.setBackgroundResource(R.drawable.btn_shouye);
-        meImg.setBackgroundResource(R.drawable.btn_shouye);
+        homeImg.setBackgroundResource(R.drawable.icon_home);
+        communityImg.setBackgroundResource(R.drawable.icon_community);
+        shopImg.setBackgroundResource(R.drawable.icon_shop);
+        meImg.setBackgroundResource(R.drawable.icon_me);
 
         homeText.setTextColor(getResources().getColor(R.color.main_bottom_menu_text));
         communityText.setTextColor(getResources().getColor(R.color.main_bottom_menu_text));

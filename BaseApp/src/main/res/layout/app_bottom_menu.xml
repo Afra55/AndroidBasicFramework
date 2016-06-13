@@ -26,7 +26,7 @@
                 android:id="@+id/main_bottom_menu_home_img"
                 android:layout_width="@dimen/main_bottom_img_size"
                 android:layout_height="@dimen/main_bottom_img_size"
-                android:background="@drawable/btn_shouye" />
+                android:background="@drawable/icon_home" />
 
             <TextView
                 android:id="@+id/main_bottom_menu_home_text"
@@ -49,7 +49,7 @@
                 android:id="@+id/main_bottom_menu_community_img"
                 android:layout_width="@dimen/main_bottom_img_size"
                 android:layout_height="@dimen/main_bottom_img_size"
-                android:background="@drawable/btn_shouye" />
+                android:background="@drawable/icon_community" />
 
             <TextView
                 android:id="@+id/main_bottom_menu_community_text"
@@ -72,7 +72,7 @@
                 android:id="@+id/main_bottom_menu_shop_img"
                 android:layout_width="@dimen/main_bottom_img_size"
                 android:layout_height="@dimen/main_bottom_img_size"
-                android:background="@drawable/btn_shouye" />
+                android:background="@drawable/icon_shop" />
 
             <TextView
                 android:id="@+id/main_bottom_menu_shop_text"
@@ -95,7 +95,7 @@
                 android:id="@+id/main_bottom_menu_me_img"
                 android:layout_width="@dimen/main_bottom_img_size"
                 android:layout_height="@dimen/main_bottom_img_size"
-                android:background="@drawable/btn_shouye" />
+                android:background="@drawable/icon_me" />
 
             <TextView
                 android:id="@+id/main_bottom_menu_me_text"
