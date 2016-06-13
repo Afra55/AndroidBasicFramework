@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -114,56 +112,56 @@ public class MainActivity extends BaseActivity implements BaseFragment.OnFragmen
     private void showHomeFragment() {
         homeImg.setBackgroundResource(R.drawable.btn_shouye2);
         homeText.setTextColor(getResources().getColor(R.color.red));
-        if (homeFragment == null) {
+        if (homeFragment == null && !isDestroyedCompatible()) {
             homeFragment = HomeFragment.newInstance("main", "home");
         }
         switchFragment(
-                R.id.main_fragment_content,
                 selectedFragment,
-                homeFragment,
-                homeFragment.getClass().getSimpleName());
+                homeFragment);
+
+        selectedFragment = homeFragment;
     }
 
     /* 社区 */
     private void showCommunityFragment() {
         communityImg.setBackgroundResource(R.drawable.btn_shouye2);
         communityText.setTextColor(getResources().getColor(R.color.red));
-        if (communityFragment == null) {
+        if (communityFragment == null && !isDestroyedCompatible()) {
             communityFragment = CommunityFragment.newInstance("main", "community");
         }
         switchFragment(
-                R.id.main_fragment_content,
                 selectedFragment,
-                communityFragment,
-                communityFragment.getClass().getSimpleName());
+                communityFragment);
+
+        selectedFragment = communityFragment;
     }
 
     /* 购物 */
     private void showShopFragment() {
         shopImg.setBackgroundResource(R.drawable.btn_shouye2);
         shopText.setTextColor(getResources().getColor(R.color.red));
-        if (shopFragment == null) {
+        if (shopFragment == null && !isDestroyedCompatible() ) {
             shopFragment = ShopFragment.newInstance("main", "shop");
         }
         switchFragment(
-                R.id.main_fragment_content,
                 selectedFragment,
-                shopFragment,
-                shopFragment.getClass().getSimpleName());
+                shopFragment);
+
+        selectedFragment = shopFragment;
     }
 
     /* 我 */
     private void showMeFragment() {
         meImg.setBackgroundResource(R.drawable.btn_shouye2);
         meText.setTextColor(getResources().getColor(R.color.red));
-        if (meFragment == null) {
+        if (meFragment == null && !isDestroyedCompatible()) {
             meFragment = MeFragment.newInstance("main", "shop");
         }
         switchFragment(
-                R.id.main_fragment_content,
                 selectedFragment,
-                meFragment,
-                meFragment.getClass().getSimpleName());
+                meFragment);
+
+        selectedFragment = meFragment;
     }
 
     /* 重置底部菜单状态 */
@@ -177,30 +175,6 @@ public class MainActivity extends BaseActivity implements BaseFragment.OnFragmen
         communityText.setTextColor(getResources().getColor(R.color.main_bottom_menu_text));
         shopText.setTextColor(getResources().getColor(R.color.main_bottom_menu_text));
         meText.setTextColor(getResources().getColor(R.color.main_bottom_menu_text));
-    }
-
-    private void switchFragment(int id, BaseFragment from,
-                                BaseFragment to, String tag) {
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.setCustomAnimations(R.anim.fragment_in, R.anim.fragment_out);
-        if (from == null || !from.isAdded()) {
-            if (!to.isAdded()) {
-                transaction.add(id, to, tag).commit();
-            } else {
-                transaction.show(to).commit();
-            }
-        } else {
-            if (!to.isAdded()) {
-                from.setFragmentSeleted(false);
-                transaction.hide(from).add(id, to, tag).commit();
-            } else {
-                from.setFragmentSeleted(false);
-                transaction.hide(from).show(to).commit();
-                to.setFragmentSeleted(true);
-            }
-        }
-        selectedFragment = to;
     }
 
     @Override
@@ -234,6 +208,7 @@ public class MainActivity extends BaseActivity implements BaseFragment.OnFragmen
 
     //双击退出
     private long exitTime = -1;
+
     private void exit() {
         if ((System.currentTimeMillis() - exitTime) > 2000) {
             Toast.makeText(this, R.string.click_again_to_exit, Toast.LENGTH_SHORT).show();

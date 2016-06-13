@@ -18,9 +18,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afra55.baseclient.R;
 import com.afra55.baseclient.util.ImageLoadUtils;
 import com.afra55.commontutils.log.LogUtil;
 import com.afra55.commontutils.sys.ReflectionUtil;
@@ -240,11 +240,16 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         return fragmentList;
     }
 
-    public BaseFragment switchFragmentContent(BaseFragment fragment) {
-        return switchFragmentContent(fragment, false);
+    /**
+     * fragment 只使用一次就被替换掉，使用 replace
+     * @param fragment
+     * @return
+     */
+    public BaseFragment replaceFragmentContent(BaseFragment fragment) {
+        return replaceFragmentContent(fragment, false);
     }
 
-    protected BaseFragment switchFragmentContent(BaseFragment fragment, boolean needAddToBackStack) {
+    protected BaseFragment replaceFragmentContent(BaseFragment fragment, boolean needAddToBackStack) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(fragment.getContainerId(), fragment);
@@ -256,5 +261,42 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         } catch (Exception e) {
         }
         return fragment;
+    }
+
+    /**
+     * 如果使用 fragment 切换动画或常驻界面的话，最好使用 hide 和 show。
+     * @param from
+     * @param to
+     */
+    protected void switchFragment(BaseFragment from,
+                                BaseFragment to) {
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.setCustomAnimations(R.anim.fragment_in, R.anim.fragment_out);
+        if (from == null || !from.isAdded()) {
+            if (!to.isAdded()) {
+                transaction.add(to.getContainerId(), to, to.getClass().getSimpleName()).commit();
+            } else {
+                transaction.show(to).commit();
+            }
+        } else {
+            if (!to.isAdded()) {
+                from.setFragmentSeleted(false);
+                transaction.hide(from).add(to.getContainerId(), to, to.getClass().getSimpleName()).commit();
+            } else {
+                from.setFragmentSeleted(false);
+                transaction.hide(from).show(to).commit();
+                to.setFragmentSeleted(true);
+            }
+        }
+    }
+
+    /**
+     * 判断 sdk_int 是否小于等于系统版本号
+     * @param sdk_int
+     * @return
+     */
+    protected boolean isCompatible(int sdk_int) {
+        return android.os.Build.VERSION.SDK_INT >= sdk_int;
     }
 }

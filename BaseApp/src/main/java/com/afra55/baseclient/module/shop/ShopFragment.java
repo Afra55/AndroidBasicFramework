@@ -25,7 +25,7 @@ public class ShopFragment extends BaseFragment {
     }
 
     public ShopFragment() {
-        // Required empty public constructor
+        setContainerId(R.id.main_fragment_content);
     }
 
     @Override

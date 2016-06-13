@@ -41,7 +41,7 @@ public class HomeFragment extends BaseFragment {
     }
 
     public HomeFragment() {
-        // Required empty public constructor
+        setContainerId(R.id.main_fragment_content);
     }
 
     @Override
