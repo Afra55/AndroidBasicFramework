@@ -3,25 +3,12 @@ package com.afra55.baseclient.base;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.view.LayoutInflaterCompat;
-import android.support.v4.view.LayoutInflaterFactory;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
-import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.View;
-
-import com.afra55.baseclient.util.ImageLoadUtils;
-import com.afra55.commontutils.log.LogUtil;
-import com.facebook.drawee.backends.pipeline.Fresco;
 
 import java.util.List;
 
 public class BaseActivity extends AppCompatActivity implements BaseActivityUI{
-
-    private boolean destroyed = false;
-
-    private static Handler handler;
 
     private BaseActivityPresenter mBaseActivityPresenter;
 
@@ -67,7 +54,6 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityUI{
 
     @Override
     public void onBackPressed() {
-        invokeFragmentManagerNoteStateNotSaved();
         mBaseActivityPresenter.onBackPressed();
     }
 
