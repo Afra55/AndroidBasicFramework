@@ -18,7 +18,7 @@ import com.afra55.baseclient.module.me.MeFragment;
 import com.afra55.baseclient.module.shop.ShopFragment;
 
 
-public class MainActivity extends BaseActivity implements BaseFragment.OnFragmentInteractionListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener, BaseFragment.OnFragmentInteractionListener {
 
     private static final int INIT_TAB_ID = -1;
     private static final String KEY_BUNDLE_ID = "key_bundle_id";
@@ -179,7 +179,6 @@ public class MainActivity extends BaseActivity implements BaseFragment.OnFragmen
 
     @Override
     public void onClick(View v) {
-        super.onClick(v);
         if (v.getId() == currentFragmentId) {
             return;
         }
