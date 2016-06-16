@@ -27,28 +27,10 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityUI{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        LayoutInflaterCompat.setFactory(LayoutInflater.from(this), new LayoutInflaterFactory() {
-            @Override
-            public View onCreateView(View parent, String name, Context context, AttributeSet attrs) {
-
-
-                AppCompatDelegate delegate = getDelegate();
-                View view = delegate.createView(parent, name, context, attrs);
-                // 全局搜索 View 替换 View
-//                if (view != null && view instanceof TextView) {
-//                    (TextView)view;
-//                }
-                return view;
-            }
-        });
-
-        super.onCreate(savedInstanceState);
-        Fresco.initialize(this, ImageLoadUtils.CusstomConfig(this));
-
-        LogUtil.ui("activity: " + getClass().getSimpleName() + " onCreate()");
-
         mBaseActivityPresenter = new BaseActivityPresenter(this);
+        mBaseActivityPresenter.onCreate();
+        super.onCreate(savedInstanceState);
+        mBaseActivityPresenter.initSomeThing();
     }
 
     @Override

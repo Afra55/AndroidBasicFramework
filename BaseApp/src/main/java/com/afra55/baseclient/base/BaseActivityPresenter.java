@@ -6,19 +6,27 @@ import android.os.Build;
 import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.LayoutInflaterCompat;
+import android.support.v4.view.LayoutInflaterFactory;
+import android.support.v7.app.AppCompatDelegate;
+import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.afra55.baseclient.R;
+import com.afra55.baseclient.util.ImageLoadUtils;
 import com.afra55.commontutils.log.LogUtil;
 import com.afra55.commontutils.sys.ReflectionUtil;
+import com.facebook.drawee.backends.pipeline.Fresco;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Victor Yang on 2016/6/16.
+ * BaseActivityPresenter
  */
 public class BaseActivityPresenter implements View.OnClickListener{
 
@@ -27,6 +35,31 @@ public class BaseActivityPresenter implements View.OnClickListener{
     private boolean destroyed = false;
 
     private BaseActivityUI mBaseUI;
+
+    public void onCreate() {
+        LayoutInflaterCompat.setFactory(LayoutInflater.from(mBaseUI.getContext()), new LayoutInflaterFactory() {
+            @Override
+            public View onCreateView(View parent, String name, Context context, AttributeSet attrs) {
+
+
+                AppCompatDelegate delegate = mBaseUI.getActivity().getDelegate();
+                View view = delegate.createView(parent, name, context, attrs);
+                // 全局搜索 View 替换 View
+//                if (view != null && view instanceof TextView) {
+//                    (TextView)view;
+//                }
+                return view;
+            }
+        });
+    }
+
+    /**
+     * 初始化某些事情
+     */
+    public void initSomeThing() {
+        Fresco.initialize(mBaseUI.getContext(), ImageLoadUtils.CusstomConfig(mBaseUI.getContext()));
+        LogUtil.ui("activity: " + getClass().getSimpleName() + " onCreate()");
+    }
 
     public BaseActivityPresenter(BaseActivityUI baseUI) {
         mBaseUI = baseUI;
