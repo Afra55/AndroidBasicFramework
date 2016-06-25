@@ -1,4 +1,4 @@
-package com.afra55.baseclient.base;
+package com.afra55.baseclient.base.presenter;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -16,6 +16,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.afra55.baseclient.R;
+import com.afra55.baseclient.base.BaseFragment;
+import com.afra55.baseclient.base.ui.BaseActivityUI;
 import com.afra55.baseclient.util.ImageLoadUtils;
 import com.afra55.commontutils.log.LogUtil;
 import com.afra55.commontutils.sys.ReflectionUtil;
@@ -65,7 +67,7 @@ public class BaseActivityPresenter implements View.OnClickListener{
         mBaseUI = baseUI;
     }
 
-    protected void onDestroy() {
+    public void onDestroy() {
         LogUtil.ui("activity: " + getClass().getSimpleName() + " onDestroy()");
         destroyed = true;
     }

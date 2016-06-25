@@ -6,9 +6,12 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.afra55.baseclient.base.presenter.BaseActivityPresenter;
+import com.afra55.baseclient.base.ui.BaseActivityUI;
+
 import java.util.List;
 
-public class BaseActivity extends AppCompatActivity implements BaseActivityUI{
+public class BaseActivity extends AppCompatActivity implements BaseActivityUI {
 
     private BaseActivityPresenter mBaseActivityPresenter;
 
