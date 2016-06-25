@@ -19,6 +19,7 @@ import com.afra55.baseclient.R;
 import com.afra55.baseclient.base.BaseFragment;
 import com.afra55.baseclient.base.ui.BaseActivityUI;
 import com.afra55.baseclient.util.ImageLoadUtils;
+import com.afra55.commontutils.device.KeyBoardUtils;
 import com.afra55.commontutils.log.LogUtil;
 import com.afra55.commontutils.sys.ReflectionUtil;
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -120,22 +121,7 @@ public class BaseActivityPresenter implements View.OnClickListener{
     }
 
     public void showKeyboard(boolean isShow) {
-        InputMethodManager imm = (InputMethodManager) mBaseUI.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-
-        if (isShow) {
-            if (mBaseUI.getActivity().getCurrentFocus() == null) {
-                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-            } else {
-                imm.showSoftInput(mBaseUI.getActivity().getCurrentFocus(), 0);
-            }
-        } else {
-            if (mBaseUI.getActivity().getCurrentFocus() != null) {
-                imm.hideSoftInputFromWindow(
-                        mBaseUI.getActivity().getCurrentFocus().getWindowToken()
-                        , InputMethodManager.HIDE_NOT_ALWAYS);
-            }
-
-        }
+        KeyBoardUtils.showKeyboard(mBaseUI.getActivity(), isShow);
     }
 
     public void showKeyboardDelayed(View focus) {

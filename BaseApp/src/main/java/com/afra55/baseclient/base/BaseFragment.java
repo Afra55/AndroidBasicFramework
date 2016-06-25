@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import com.afra55.commontutils.device.KeyBoardUtils;
 import com.afra55.commontutils.log.LogUtil;
 
 public abstract class BaseFragment extends Fragment implements View.OnClickListener {
@@ -203,44 +204,10 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     }
 
     protected void showKeyboard(boolean isShow) {
-        Activity activity = getActivity();
-        if (activity == null) {
-            return;
-        }
-
-        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (imm == null) {
-            return;
-        }
-
-        if (isShow) {
-            if (activity.getCurrentFocus() == null) {
-                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-            } else {
-                imm.showSoftInput(activity.getCurrentFocus(), 0);
-            }
-        } else {
-            if (activity.getCurrentFocus() != null) {
-                imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(),
-                        InputMethodManager.HIDE_NOT_ALWAYS);
-            }
-
-        }
+        KeyBoardUtils.showKeyboard(getActivity(), isShow);
     }
 
     protected void hideKeyboard(View view) {
-        Activity activity = getActivity();
-        if (activity == null) {
-            return;
-        }
-
-        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (imm == null) {
-            return;
-        }
-
-        imm.hideSoftInputFromWindow(
-                view.getWindowToken(),
-                InputMethodManager.HIDE_NOT_ALWAYS);
+        KeyBoardUtils.hideKeyboard(getActivity(), view);
     }
 }
