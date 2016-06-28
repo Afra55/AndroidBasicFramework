@@ -1,196 +1,86 @@
 package com.afra55.baseclient.base;
 
-import android.app.Activity;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 
-import com.afra55.commontutils.device.KeyBoardUtils;
-import com.afra55.commontutils.log.LogUtil;
+import com.afra55.baseclient.base.presenter.BaseFragmentPresenter;
+import com.afra55.baseclient.base.ui.BaseFragmentUI;
 
-public abstract class BaseFragment extends Fragment implements View.OnClickListener {
+public abstract class BaseFragment extends Fragment implements View.OnClickListener, BaseFragmentUI {
 
-    private BaseActivity mActivity;
-
-    private int containerId;
-
-    protected static final String ARG_PARAM1 = "param1";
-    protected static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
-
-    private static final Handler handler = new Handler();
-
-    private boolean destroyed;
+    private BaseFragmentPresenter mBaseFragmentPresenter;
 
     protected final boolean isDestroyed() {
-        return destroyed;
+        return mBaseFragmentPresenter.isDestroyed();
     }
 
     public int getContainerId() {
-        return containerId;
+        return mBaseFragmentPresenter.getContainerId();
     }
 
     public void setContainerId(int containerId) {
-        this.containerId = containerId;
+        mBaseFragmentPresenter.setContainerId(containerId);
     }
 
     public BaseFragment() {
-        // Required empty public constructor
+        mBaseFragmentPresenter = new BaseFragmentPresenter(this);
     }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment BaseFragment.
-     * <p/>
-     * like this:
-     * <p/>
-     * public static BaseFragment newInstance(String param1, String param2) {
-     * BaseFragment fragment = new BaseFragment();
-     * Bundle args = new Bundle();
-     * args.putString(ARG_PARAM1, param1);
-     * args.putString(ARG_PARAM2, param2);
-     * fragment.setArguments(args);
-     * return fragment;
-     * }
-     */
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        mBaseFragmentPresenter.onCreate(savedInstanceState);
     }
 
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        LogUtil.ui("fragment: " + getClass().getSimpleName() + " onActivityCreated()");
-
-        destroyed = false;
+        mBaseFragmentPresenter.onActivityCreated(savedInstanceState);
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-            mActivity = (BaseActivity) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+        mBaseFragmentPresenter.onAttach(context);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
+        mBaseFragmentPresenter.onDetach();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        LogUtil.ui("fragment: " + getClass().getSimpleName() + " onDestroy()");
-        destroyed = true;
+        mBaseFragmentPresenter.onDestroy();
     }
 
-    protected final Handler getHandler() {
-        return handler;
+    @Override
+    public final Handler getHandler() {
+        return mBaseFragmentPresenter.getHandler();
     }
 
-    protected final void postRunnable(final Runnable runnable) {
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                // validate
-                // TODO use getActivity ?
-                if (!isAdded()) {
-                    return;
-                }
-
-                // run
-                runnable.run();
-            }
-        });
+    @Override
+    public final void postRunnable(final Runnable runnable) {
+       mBaseFragmentPresenter.postRunnable(runnable);
     }
 
-    protected final void postDelayed(final Runnable runnable, long delay) {
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // validate
-                // TODO use getActivity ?
-                if (!isAdded()) {
-                    return;
-                }
-
-                // run
-                runnable.run();
-            }
-        }, delay);
+    @Override
+    public final void postDelayed(final Runnable runnable, long delay) {
+       mBaseFragmentPresenter.postDelayed(runnable, delay);
     }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-
-        void onFragmentInteraction(String message);
-    }
-
-    private boolean isFirst = true;
 
     /**
      * 当Fragment选中时
      */
+    @Override
     public void setFragmentSeleted(boolean selected) {
-        if (!selected) {
-            onFragmentUnSeleted();
-        } else if (isFirst) {
-            onFragmentSeleted(true);
-            isFirst = false;
-        } else {
-            onFragmentSeleted(false);
-        }
+        mBaseFragmentPresenter.setFragmentSeleted(selected);
     }
-
-    /**
-     * 当Fragment切换为选中时
-     */
-    protected abstract void onFragmentSeleted(boolean isFirst);
-
-    /**
-     * 当Fragment切换为未选中时
-     */
-    protected abstract void onFragmentUnSeleted();
 
     /**
      * 在onActivityCreated(Bundle savedInstanceState)里使用
@@ -199,15 +89,28 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
      * @param <T>
      * @return
      */
-    protected <T extends View> T findView(int resId) {
-        return (T) (getView().findViewById(resId));
+    @Override
+    public <T extends View> T findView(int resId) {
+        return mBaseFragmentPresenter.findView(resId);
     }
 
-    protected void showKeyboard(boolean isShow) {
-        KeyBoardUtils.showKeyboard(getActivity(), isShow);
+    @Override
+    public void showKeyboard(boolean isShow) {
+        mBaseFragmentPresenter.showKeyboard(isShow);
     }
 
-    protected void hideKeyboard(View view) {
-        KeyBoardUtils.hideKeyboard(getActivity(), view);
+    @Override
+    public void hideKeyboard(View view) {
+        mBaseFragmentPresenter.hideKeyboard(view);
+    }
+
+    @Override
+    public String getInitParam1() {
+        return mBaseFragmentPresenter.getInitParam1();
+    }
+
+    @Override
+    public String getInitParam2() {
+        return mBaseFragmentPresenter.getInitParam2();
     }
 }

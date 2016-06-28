@@ -138,7 +138,7 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityUI {
     }
 
     @Override
-    public AppCompatActivity getActivity() {
+    public BaseActivity getActivity() {
         return this;
     }
 }

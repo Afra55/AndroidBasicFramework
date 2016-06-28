@@ -4,9 +4,9 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.afra55.baseclient.base.BaseActivity;
 import com.afra55.baseclient.base.BaseFragment;
 
 import java.util.List;
@@ -78,6 +78,6 @@ public interface BaseActivityUI {
 
     Context getContext();
 
-    AppCompatActivity getActivity();
+    BaseActivity getActivity();
 
 }

@@ -1,11 +1,14 @@
 package com.afra55.baseclient.base.ui;
 
-import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
 import android.view.View;
+
+import com.afra55.baseclient.base.BaseActivity;
+import com.afra55.baseclient.base.BaseFragment;
 
 /**
  * Created by Victor Yang on 2016/6/25.
@@ -29,9 +32,12 @@ public interface BaseFragmentUI {
 
     void hideKeyboard(View view);
 
-    Activity getActivity();
-
     Context getContext();
 
+    BaseFragment getFragment();
 
+    <T extends View> T findView(int resId);
+
+    String getInitParam1();
+    String getInitParam2();
 }

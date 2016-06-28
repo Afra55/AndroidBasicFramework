@@ -39,6 +39,10 @@ public class BaseActivityPresenter implements View.OnClickListener{
 
     private BaseActivityUI mBaseUI;
 
+    public BaseActivityPresenter(BaseActivityUI baseUI) {
+        mBaseUI = baseUI;
+    }
+
     public void onCreate() {
         LayoutInflaterCompat.setFactory(LayoutInflater.from(mBaseUI.getContext()), new LayoutInflaterFactory() {
             @Override
@@ -62,10 +66,6 @@ public class BaseActivityPresenter implements View.OnClickListener{
     public void initSomeThing() {
         Fresco.initialize(mBaseUI.getContext(), ImageLoadUtils.CusstomConfig(mBaseUI.getContext()));
         LogUtil.ui("activity: " + getClass().getSimpleName() + " onCreate()");
-    }
-
-    public BaseActivityPresenter(BaseActivityUI baseUI) {
-        mBaseUI = baseUI;
     }
 
     public void onDestroy() {
