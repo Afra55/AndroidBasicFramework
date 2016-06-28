@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 
+import com.afra55.baseclient.base.presenter.BaseActivityPresenter;
+import com.afra55.baseclient.base.presenter.BaseFragmentPresenter;
 import com.afra55.baseclient.util.BinnerHelper;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.afra55.baseclient.R;
@@ -33,8 +35,8 @@ public class HomeFragment extends BaseFragment {
 
     public static HomeFragment newInstance(String param1, String param2) {
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(BaseFragmentPresenter.ARG_PARAM1, param1);
+        args.putString(BaseFragmentPresenter.ARG_PARAM2, param2);
         HomeFragment fragment = new HomeFragment();
         fragment.setArguments(args);
         return fragment;
@@ -136,17 +138,6 @@ public class HomeFragment extends BaseFragment {
         BinnerHelper.getInstance().start(getContext(), binnerVp, binnerViewArray, binnerIndicatorRg);
     }
 
-
-    @Override
-    protected void onFragmentSeleted(boolean isFirst) {
-
-    }
-
-    @Override
-    protected void onFragmentUnSeleted() {
-
-    }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -154,4 +145,13 @@ public class HomeFragment extends BaseFragment {
         }
     }
 
+    @Override
+    public void onFragmentSelected(boolean isFirst) {
+
+    }
+
+    @Override
+    public void onFragmentUnSelected() {
+
+    }
 }

@@ -1,22 +1,18 @@
 package com.afra55.baseclient.base.ui;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
 import android.view.View;
 
-import com.afra55.baseclient.base.BaseActivity;
 import com.afra55.baseclient.base.BaseFragment;
+import com.afra55.baseclient.base.OnFragmentSelectListener;
 
 /**
  * Created by Victor Yang on 2016/6/25.
  * MVP- V
  */
 public interface BaseFragmentUI {
-
-    void onButtonPressed(Uri uri);
 
     void onActivityCreated(Bundle savedInstanceState);
 

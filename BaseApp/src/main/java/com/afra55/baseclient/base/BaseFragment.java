@@ -9,7 +9,8 @@ import android.view.View;
 import com.afra55.baseclient.base.presenter.BaseFragmentPresenter;
 import com.afra55.baseclient.base.ui.BaseFragmentUI;
 
-public abstract class BaseFragment extends Fragment implements View.OnClickListener, BaseFragmentUI {
+public abstract class BaseFragment extends Fragment
+        implements View.OnClickListener, BaseFragmentUI, OnFragmentSelectListener {
 
     private BaseFragmentPresenter mBaseFragmentPresenter;
 
@@ -112,5 +113,10 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     @Override
     public String getInitParam2() {
         return mBaseFragmentPresenter.getInitParam2();
+    }
+
+    @Override
+    public BaseFragment getFragment() {
+        return this;
     }
 }

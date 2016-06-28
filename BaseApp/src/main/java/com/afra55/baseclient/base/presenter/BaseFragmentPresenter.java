@@ -1,12 +1,13 @@
 package com.afra55.baseclient.base.presenter;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 
 import com.afra55.baseclient.base.BaseActivity;
+import com.afra55.baseclient.base.OnFragmentInteractionListener;
+import com.afra55.baseclient.base.OnFragmentSelectListener;
 import com.afra55.baseclient.base.ui.BaseFragmentUI;
 import com.afra55.commontutils.device.KeyBoardUtils;
 import com.afra55.commontutils.log.LogUtil;
@@ -20,19 +21,28 @@ public class BaseFragmentPresenter {
 
     private BaseActivity mActivity;
 
+    private OnFragmentInteractionListener mInteractionListener;
+
+    private OnFragmentSelectListener mFragmentSelectListener;
+
     public BaseFragmentPresenter(BaseFragmentUI baseFragmentUI) {
         mBaseFragmentUI = baseFragmentUI;
+        if (baseFragmentUI.getFragment() instanceof OnFragmentSelectListener) {
+            mFragmentSelectListener = (OnFragmentSelectListener) baseFragmentUI.getFragment();
+        } else {
+            throw new RuntimeException(baseFragmentUI.getFragment().toString()
+                    + " must implement OnFragmentSelectListener");
+        }
     }
 
     private int containerId;
 
-    protected static final String ARG_PARAM1 = "param1";
-    protected static final String ARG_PARAM2 = "param2";
+    public static final String ARG_PARAM1 = "param1";
+    public static final String ARG_PARAM2 = "param2";
 
     private String mInitParam1;
     private String mInitParam2;
 
-    private OnFragmentInteractionListener mListener;
 
     private boolean destroyed;
 
@@ -86,33 +96,6 @@ public class BaseFragmentPresenter {
         }, delay);
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-
-        void onFragmentInteraction(String message);
-
-        /**
-         * 当Fragment切换为选中时
-         */
-        void onFragmentSeleted(boolean isFirst);
-
-        /**
-         * 当Fragment切换为未选中时
-         */
-        void onFragmentUnSeleted();
-    }
-
     public void onCreate(Bundle savedInstanceState) {
         if (mBaseFragmentUI.getFragment().getArguments() != null) {
             mInitParam1 = mBaseFragmentUI.getFragment().getArguments().getString(ARG_PARAM1);
@@ -137,16 +120,21 @@ public class BaseFragmentPresenter {
 
     public void onAttach(Context context) {
         if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-            mActivity = (BaseActivity) context;
+            mInteractionListener = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+        if (context instanceof BaseActivity) {
+            mActivity = (BaseActivity) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must extends BaseActivity");
+        }
     }
 
     public void onDetach() {
-        mListener = null;
+        mInteractionListener = null;
     }
 
     public void onDestroy() {
@@ -160,16 +148,16 @@ public class BaseFragmentPresenter {
      * 当Fragment选中时
      */
     public void setFragmentSeleted(boolean selected) {
-        if (mListener == null) {
+        if (mInteractionListener == null) {
             return;
         }
         if (!selected) {
-            mListener.onFragmentUnSeleted();
+            mFragmentSelectListener.onFragmentUnSelected();
         } else if (isFirst) {
-            mListener.onFragmentSeleted(true);
+            mFragmentSelectListener.onFragmentSelected(isFirst);
             isFirst = false;
         } else {
-            mListener.onFragmentSeleted(false);
+            mFragmentSelectListener.onFragmentSelected(isFirst);
         }
     }
 
