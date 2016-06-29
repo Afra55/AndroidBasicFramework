@@ -8,23 +8,43 @@ import android.view.View;
 
 import com.afra55.commontutils.base.presenter.BaseFragmentPresenter;
 import com.afra55.commontutils.base.ui.BaseFragmentUI;
+import com.afra55.commontutils.device.KeyBoardUtils;
+import com.afra55.commontutils.log.LogUtil;
 
 
 public abstract class BaseFragment extends Fragment
-        implements View.OnClickListener, BaseFragmentUI, OnFragmentSelectListener {
+        implements View.OnClickListener, BaseFragmentUI {
 
     private BaseFragmentPresenter mBaseFragmentPresenter;
 
-    protected final boolean isDestroyed() {
-        return mBaseFragmentPresenter.isDestroyed();
+    private boolean destroyed;
+
+    protected BaseActivity mActivity;
+
+    protected OnFragmentInteractionListener mInteractionListener;
+
+    public static final String ARG_PARAM1 = "mInitParam1";
+    public static final String ARG_PARAM2 = "mInitParam2";
+
+    private String mInitParam1;
+    private String mInitParam2;
+
+    private static final Handler handler = new Handler();
+
+    @Override
+    public boolean isDestroyed() {
+        return destroyed;
     }
 
+    private int containerId;
+
+    @Override
     public int getContainerId() {
-        return mBaseFragmentPresenter.getContainerId();
+        return containerId;
     }
 
     public void setContainerId(int containerId) {
-        mBaseFragmentPresenter.setContainerId(containerId);
+        this.containerId = containerId;
     }
 
     public BaseFragment() {
@@ -34,55 +54,107 @@ public abstract class BaseFragment extends Fragment
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBaseFragmentPresenter.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mInitParam1 = getArguments().getString(ARG_PARAM1);
+            mInitParam2 = getArguments().getString(ARG_PARAM2);
+        }
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mBaseFragmentPresenter.onActivityCreated(savedInstanceState);
+        LogUtil.ui("fragment: " + getClass().getSimpleName() + " onActivityCreated()");
+        destroyed = false;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mBaseFragmentPresenter.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mInteractionListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+        if (context instanceof BaseActivity) {
+            mActivity = (BaseActivity) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must extends BaseActivity");
+        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mBaseFragmentPresenter.onDetach();
+        mInteractionListener = null;
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mBaseFragmentPresenter.onDestroy();
+        LogUtil.ui("fragment: " + getClass().getSimpleName() + " onDestroy()");
+        destroyed = true;
     }
 
     @Override
     public final Handler getHandler() {
-        return mBaseFragmentPresenter.getHandler();
+        return handler;
     }
 
     @Override
     public final void postRunnable(final Runnable runnable) {
-       mBaseFragmentPresenter.postRunnable(runnable);
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                // validate
+                // TODO use getActivity ?
+                if (!isAdded()) {
+                    return;
+                }
+
+                // run
+                runnable.run();
+            }
+        });
     }
 
     @Override
     public final void postDelayed(final Runnable runnable, long delay) {
-       mBaseFragmentPresenter.postDelayed(runnable, delay);
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // validate
+                // TODO use getActivity ?
+                if (!isAdded()) {
+                    return;
+                }
+
+                // run
+                runnable.run();
+            }
+        }, delay);
     }
 
+    public boolean isFirst = true;
+
     /**
-     * 当Fragment选中时
+     * 当Fragment选中时, 手动调用
      */
     @Override
     public void setFragmentSeleted(boolean selected) {
-        mBaseFragmentPresenter.setFragmentSeleted(selected);
+        if (!selected) {
+            onFragmentUnSelected();
+        } else if (isFirst) {
+            onFragmentSelected(isFirst);
+            isFirst = false;
+        } else {
+            onFragmentSelected(isFirst);
+        }
     }
+
+    protected abstract void onFragmentSelected(boolean isFirst);
+    protected abstract void onFragmentUnSelected();
 
     /**
      * 在onActivityCreated(Bundle savedInstanceState)里使用
@@ -93,27 +165,27 @@ public abstract class BaseFragment extends Fragment
      */
     @Override
     public <T extends View> T findView(int resId) {
-        return mBaseFragmentPresenter.findView(resId);
+        return (T) (getView().findViewById(resId));
     }
 
     @Override
     public void showKeyboard(boolean isShow) {
-        mBaseFragmentPresenter.showKeyboard(isShow);
+        KeyBoardUtils.showKeyboard(mActivity, isShow);
     }
 
     @Override
     public void hideKeyboard(View view) {
-        mBaseFragmentPresenter.hideKeyboard(view);
+        KeyBoardUtils.hideKeyboard(mActivity, view);
     }
 
     @Override
     public String getInitParam1() {
-        return mBaseFragmentPresenter.getInitParam1();
+        return mInitParam1;
     }
 
     @Override
     public String getInitParam2() {
-        return mBaseFragmentPresenter.getInitParam2();
+        return mInitParam2;
     }
 
     @Override

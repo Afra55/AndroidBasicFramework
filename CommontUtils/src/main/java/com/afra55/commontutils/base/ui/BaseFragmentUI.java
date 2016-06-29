@@ -35,4 +35,8 @@ public interface BaseFragmentUI {
 
     String getInitParam1();
     String getInitParam2();
+
+    boolean isDestroyed();
+
+    int getContainerId();
 }

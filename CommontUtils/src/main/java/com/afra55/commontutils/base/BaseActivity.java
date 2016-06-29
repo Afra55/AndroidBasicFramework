@@ -2,6 +2,7 @@ package com.afra55.commontutils.base;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,7 +28,7 @@ import java.util.List;
  * Model 业务逻辑和实体模型
  * Presenter 负责完成View于Model间的交互
  */
-public class BaseActivity extends AppCompatActivity implements BaseActivityUI {
+public class BaseActivity extends AppCompatActivity implements BaseActivityUI, OnFragmentInteractionListener {
 
     private static Handler handler;
 
@@ -179,4 +180,13 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityUI {
         return this;
     }
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public void onFragmentInteraction(String message) {
+
+    }
 }
