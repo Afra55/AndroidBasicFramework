@@ -150,4 +150,14 @@ public class SysInfoUtil {
     		return null;
     	}
     }
+
+	/**
+	 * 判断 sdk_int 是否小于等于系统版本号
+	 *
+	 * @param sdk_int
+	 * @return
+	 */
+	public static boolean isCompatible(int sdk_int) {
+		return Build.VERSION.SDK_INT >= sdk_int;
+	}
 }

@@ -14,7 +14,8 @@ import java.util.List;
  * Created by Victor Yang on 2016/6/29.
  */
 public class FragmentUtils {
-    public static BaseFragment addFragment(FragmentManager fragmentManager, BaseActivity mBaseActivity, BaseFragment fragment) {
+    public static BaseFragment addFragment(FragmentManager fragmentManager
+            , BaseFragment fragment) {
         List<BaseFragment> fragments = new ArrayList<>(1);
         fragments.add(fragment);
 

@@ -23,7 +23,6 @@ import com.facebook.imagepipeline.request.BasePostprocessor;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.facebook.imagepipeline.request.Postprocessor;
-import com.afra55.baseclient.R;
 
 /**
  * Created by yangshuai in the 14:10 of 2016.01.05 .
@@ -72,17 +71,10 @@ public class ImageLoadUtils {
 
     public GenericDraweeHierarchy initHierarchy(SimpleDraweeView simpleDraweeView) {
         GenericDraweeHierarchy hierarchy = simpleDraweeView.getHierarchy();
-        hierarchy.setPlaceholderImage(R.mipmap.ic_launcher); // 修改占位图
         hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.FOCUS_CROP); // 修改缩放类型
         hierarchy.setActualImageFocusPoint(new PointF(0.5f, 0.5f)); // 居中显示
         RoundingParams roundingParams = RoundingParams.fromCornersRadius(10);
-        roundingParams.setBorder(R.color.gray, 1); // 设置边框颜色及宽度
-        // roundingParams.setOverlayColor(R.color.transparent); // 固定背景颜色
-        // roundingParams.setCornersRadii(10, 10, 10, 10); // 指定四个角的圆角度数
-        // roundingParams.setRoundAsCircle(false); // 设置为圆圈
         hierarchy.setRoundingParams(roundingParams); // 设置圆角
-        hierarchy.setFailureImage(context.getResources().getDrawable(R.mipmap.ic_launcher)); // 设置加载失败的占位图
-        hierarchy.setRetryImage(context.getResources().getDrawable(R.mipmap.ic_launcher)); // 设置重试加载的占位图
         hierarchy.setProgressBarImage(new ProgressBarDrawable()); // 图片加载进度条, 如果想精确显示加载进度，需要重写 Drawable.onLevelChange
         hierarchy.setFadeDuration(250); // 淡出效果
         return hierarchy;

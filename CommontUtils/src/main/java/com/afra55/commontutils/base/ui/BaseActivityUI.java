@@ -28,9 +28,6 @@ public interface BaseActivityUI {
     @TargetApi(17)
     boolean isDestroyedCompatible17();
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    void invokeFragmentManagerNoteStateNotSaved();
-
     void onBackPressed();
 
     void showToast(String message);
@@ -47,8 +44,6 @@ public interface BaseActivityUI {
      * @param focus ：键盘的焦点项
      */
     void showKeyboardDelayed(View focus);
-
-    <T extends View> T findView(int resId);
 
     BaseFragment addFragment(BaseFragment fragment);
 
@@ -70,16 +65,7 @@ public interface BaseActivityUI {
      */
     void switchFragment(BaseFragment from, BaseFragment to);
 
-    /**
-     * 判断 sdk_int 是否小于等于系统版本号
-     * @param sdk_int
-     * @return
-     */
-    boolean isCompatible(int sdk_int);
-
     Context getContext();
 
     BaseActivity getActivity();
-
-    FragmentManager getSuportFragmentManager();
 }

@@ -1,6 +1,8 @@
 package com.afra55.commontutils.base;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentManager;
@@ -14,6 +16,7 @@ import android.view.View;
 
 import com.afra55.commontutils.base.presenter.BaseActivityPresenter;
 import com.afra55.commontutils.base.ui.BaseActivityUI;
+import com.afra55.commontutils.device.KeyBoardUtils;
 import com.afra55.commontutils.log.LogUtil;
 import com.afra55.commontutils.tip.ToastUtils;
 
@@ -27,6 +30,8 @@ import java.util.List;
 public class BaseActivity extends AppCompatActivity implements BaseActivityUI {
 
     private BaseActivityPresenter mBaseActivityPresenter;
+
+    private boolean destroyed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +62,7 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityUI {
     @Override
     protected void onDestroy() {
         LogUtil.ui("activity: " + getClass().getSimpleName() + " onDestroy()");
-        mBaseActivityPresenter.onDestroy();
+        destroyed = true;
         super.onDestroy();
     }
 
@@ -71,23 +76,21 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityUI {
      */
     @Override
     public boolean isDestroyedCompatible() {
-        return mBaseActivityPresenter.isDestroyedCompatible();
+        if (Build.VERSION.SDK_INT >= 17) {
+            return isDestroyedCompatible17();
+        } else {
+            return destroyed || isFinishing();
+        }
     }
 
-    @Override
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     public boolean isDestroyedCompatible17() {
-        return mBaseActivityPresenter.isDestroyedCompatible17();
+        return isDestroyed();
     }
-
-    @Override
-    public void invokeFragmentManagerNoteStateNotSaved() {
-        mBaseActivityPresenter.invokeFragmentManagerNoteStateNotSaved();
-    }
-
 
     @Override
     public void onBackPressed() {
-        mBaseActivityPresenter.onBackPressed();
+        mBaseActivityPresenter.invokeFragmentManagerNoteStateNotSaved(getSupportFragmentManager());
     }
 
     @Override
@@ -97,7 +100,7 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityUI {
 
     @Override
     public void showKeyboard(boolean isShow) {
-        mBaseActivityPresenter.showKeyboard(isShow);
+        KeyBoardUtils.showKeyboard(getActivity(), isShow);
     }
 
     /**
@@ -107,24 +110,35 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityUI {
      */
     @Override
     public void showKeyboardDelayed(View focus) {
-        mBaseActivityPresenter.showKeyboardDelayed(focus);
+        final View viewToFocus = focus;
+        if (focus != null) {
+            focus.requestFocus();
+        }
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                if (viewToFocus == null || viewToFocus.isFocused()) {
+                    showKeyboard(true);
+                }
+            }
+        }, 200);
     }
 
-    @Override
     public <T extends View> T findView(int resId) {
-        return mBaseActivityPresenter.findView(resId);
+        return (T) (findViewById(resId));
     }
 
     // fragment 相关
     @Override
     public BaseFragment addFragment(BaseFragment fragment) {
 
-        return mBaseActivityPresenter.addFragment(fragment);
+        return mBaseActivityPresenter.addFragment(getSupportFragmentManager(), fragment);
     }
 
     @Override
     public List<BaseFragment> addFragments(List<BaseFragment> fragments) {
-        return mBaseActivityPresenter.addFragments(fragments);
+        return mBaseActivityPresenter.addFragments(getSupportFragmentManager(), fragments);
     }
 
     /**
@@ -135,12 +149,12 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityUI {
      */
     @Override
     public BaseFragment replaceFragmentContent(BaseFragment fragment) {
-        return mBaseActivityPresenter.replaceFragmentContent(fragment);
+        return mBaseActivityPresenter.replaceFragmentContent(getSupportFragmentManager(), fragment);
     }
 
     @Override
     public BaseFragment replaceFragmentContent(BaseFragment fragment, boolean needAddToBackStack) {
-        return mBaseActivityPresenter.replaceFragmentContent(fragment, needAddToBackStack);
+        return mBaseActivityPresenter.replaceFragmentContent(getSupportFragmentManager(), fragment, needAddToBackStack);
     }
 
     /**
@@ -151,18 +165,7 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityUI {
      */
     @Override
     public void switchFragment(BaseFragment from, BaseFragment to) {
-        mBaseActivityPresenter.switchFragment(from, to);
-    }
-
-    /**
-     * 判断 sdk_int 是否小于等于系统版本号
-     *
-     * @param sdk_int
-     * @return
-     */
-    @Override
-    public boolean isCompatible(int sdk_int) {
-        return mBaseActivityPresenter.isCompatible(sdk_int);
+        mBaseActivityPresenter.switchFragment(getSupportFragmentManager(), from, to);
     }
 
     @Override
