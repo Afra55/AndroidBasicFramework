@@ -1,8 +1,5 @@
 package com.afra55.commontutils.base.presenter;
 
-import android.os.Handler;
-import android.view.View;
-
 import com.afra55.commontutils.base.ui.BaseFragmentUI;
 
 /**
