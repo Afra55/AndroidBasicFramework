@@ -29,6 +29,8 @@ import java.util.List;
  */
 public class BaseActivity extends AppCompatActivity implements BaseActivityUI {
 
+    private static Handler handler;
+
     private BaseActivityPresenter mBaseActivityPresenter;
 
     private boolean destroyed = false;
@@ -68,7 +70,10 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityUI {
 
     @Override
     public final Handler getHandler() {
-        return mBaseActivityPresenter.getHandler();
+        if (handler == null) {
+            handler = new Handler(getMainLooper());
+        }
+        return handler;
     }
 
     /**
@@ -91,6 +96,7 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityUI {
     @Override
     public void onBackPressed() {
         mBaseActivityPresenter.invokeFragmentManagerNoteStateNotSaved(getSupportFragmentManager());
+        super.onBackPressed();
     }
 
     @Override
@@ -130,13 +136,11 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityUI {
     }
 
     // fragment 相关
-    @Override
     public BaseFragment addFragment(BaseFragment fragment) {
 
         return mBaseActivityPresenter.addFragment(getSupportFragmentManager(), fragment);
     }
 
-    @Override
     public List<BaseFragment> addFragments(List<BaseFragment> fragments) {
         return mBaseActivityPresenter.addFragments(getSupportFragmentManager(), fragments);
     }
@@ -147,12 +151,10 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityUI {
      * @param fragment
      * @return
      */
-    @Override
     public BaseFragment replaceFragmentContent(BaseFragment fragment) {
         return mBaseActivityPresenter.replaceFragmentContent(getSupportFragmentManager(), fragment);
     }
 
-    @Override
     public BaseFragment replaceFragmentContent(BaseFragment fragment, boolean needAddToBackStack) {
         return mBaseActivityPresenter.replaceFragmentContent(getSupportFragmentManager(), fragment, needAddToBackStack);
     }
@@ -163,7 +165,6 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityUI {
      * @param from
      * @param to
      */
-    @Override
     public void switchFragment(BaseFragment from, BaseFragment to) {
         mBaseActivityPresenter.switchFragment(getSupportFragmentManager(), from, to);
     }

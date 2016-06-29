@@ -25,10 +25,6 @@ import java.util.List;
  */
 public class BaseActivityPresenter {
 
-    private static Handler handler;
-
-
-
     private BaseActivityUI mBaseUI;
 
     public BaseActivityPresenter(BaseActivityUI baseUI) {
@@ -40,13 +36,6 @@ public class BaseActivityPresenter {
      */
     public void initSomeThing() {
         Fresco.initialize(mBaseUI.getContext(), ImageLoadUtils.CusstomConfig(mBaseUI.getContext()));
-    }
-
-    public final Handler getHandler() {
-        if (handler == null) {
-            handler = new Handler(mBaseUI.getContext().getMainLooper());
-        }
-        return handler;
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
