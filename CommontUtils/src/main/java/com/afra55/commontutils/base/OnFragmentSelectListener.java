@@ -1,4 +1,4 @@
-package com.afra55.baseclient.base;
+package com.afra55.commontutils.base;
 
 /**
  * Created by Victor Yang on 2016/6/28.

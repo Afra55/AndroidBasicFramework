@@ -1,4 +1,4 @@
-package com.afra55.baseclient.base;
+package com.afra55.commontutils.base;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -6,8 +6,9 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
-import com.afra55.baseclient.base.presenter.BaseFragmentPresenter;
-import com.afra55.baseclient.base.ui.BaseFragmentUI;
+import com.afra55.commontutils.base.presenter.BaseFragmentPresenter;
+import com.afra55.commontutils.base.ui.BaseFragmentUI;
+
 
 public abstract class BaseFragment extends Fragment
         implements View.OnClickListener, BaseFragmentUI, OnFragmentSelectListener {

@@ -1,14 +1,14 @@
-package com.afra55.baseclient.base.presenter;
+package com.afra55.commontutils.base.presenter;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 
-import com.afra55.baseclient.base.BaseActivity;
-import com.afra55.baseclient.base.OnFragmentInteractionListener;
-import com.afra55.baseclient.base.OnFragmentSelectListener;
-import com.afra55.baseclient.base.ui.BaseFragmentUI;
+import com.afra55.commontutils.base.BaseActivity;
+import com.afra55.commontutils.base.OnFragmentInteractionListener;
+import com.afra55.commontutils.base.OnFragmentSelectListener;
+import com.afra55.commontutils.base.ui.BaseFragmentUI;
 import com.afra55.commontutils.device.KeyBoardUtils;
 import com.afra55.commontutils.log.LogUtil;
 

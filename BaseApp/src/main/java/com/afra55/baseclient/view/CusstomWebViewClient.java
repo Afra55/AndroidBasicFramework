@@ -7,7 +7,7 @@ import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.afra55.baseclient.base.BaseActivity;
+import com.afra55.commontutils.base.BaseActivity;
 import com.afra55.baseclient.util.Log;
 
 /**

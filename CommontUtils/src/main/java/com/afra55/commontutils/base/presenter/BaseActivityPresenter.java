@@ -1,26 +1,18 @@
-package com.afra55.baseclient.base.presenter;
+package com.afra55.commontutils.base.presenter;
 
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.os.Build;
 import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.LayoutInflaterCompat;
-import android.support.v4.view.LayoutInflaterFactory;
-import android.support.v7.app.AppCompatDelegate;
-import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Toast;
 
-import com.afra55.baseclient.R;
-import com.afra55.baseclient.base.BaseFragment;
-import com.afra55.baseclient.base.ui.BaseActivityUI;
-import com.afra55.baseclient.util.ImageLoadUtils;
+import com.afra55.commontutils.R;
+import com.afra55.commontutils.base.BaseFragment;
+import com.afra55.commontutils.base.ui.BaseActivityUI;
 import com.afra55.commontutils.device.KeyBoardUtils;
-import com.afra55.commontutils.log.LogUtil;
+import com.afra55.commontutils.fragment.FragmentUtils;
+import com.afra55.commontutils.fresco.ImageLoadUtils;
 import com.afra55.commontutils.sys.ReflectionUtil;
 import com.facebook.drawee.backends.pipeline.Fresco;
 
@@ -44,20 +36,7 @@ public class BaseActivityPresenter implements View.OnClickListener{
     }
 
     public void onCreate() {
-        LayoutInflaterCompat.setFactory(LayoutInflater.from(mBaseUI.getContext()), new LayoutInflaterFactory() {
-            @Override
-            public View onCreateView(View parent, String name, Context context, AttributeSet attrs) {
 
-
-                AppCompatDelegate delegate = mBaseUI.getActivity().getDelegate();
-                View view = delegate.createView(parent, name, context, attrs);
-                // 全局搜索 View 替换 View
-//                if (view != null && view instanceof TextView) {
-//                    (TextView)view;
-//                }
-                return view;
-            }
-        });
     }
 
     /**
@@ -65,11 +44,10 @@ public class BaseActivityPresenter implements View.OnClickListener{
      */
     public void initSomeThing() {
         Fresco.initialize(mBaseUI.getContext(), ImageLoadUtils.CusstomConfig(mBaseUI.getContext()));
-        LogUtil.ui("activity: " + getClass().getSimpleName() + " onCreate()");
     }
 
     public void onDestroy() {
-        LogUtil.ui("activity: " + getClass().getSimpleName() + " onDestroy()");
+
         destroyed = true;
     }
 
@@ -108,18 +86,6 @@ public class BaseActivityPresenter implements View.OnClickListener{
         mBaseUI.getActivity().onBackPressed();
     }
 
-    //Toast公共方法
-    private Toast toast = null;
-
-    public void showToast(String message) {
-        if (toast == null) {
-            toast = Toast.makeText(mBaseUI.getContext(), message, Toast.LENGTH_SHORT);
-        } else {
-            toast.setText(message);
-        }
-        toast.show();
-    }
-
     public void showKeyboard(boolean isShow) {
         KeyBoardUtils.showKeyboard(mBaseUI.getActivity(), isShow);
     }
@@ -148,7 +114,7 @@ public class BaseActivityPresenter implements View.OnClickListener{
         List<BaseFragment> fragments = new ArrayList<>(1);
         fragments.add(fragment);
 
-        return addFragments(fragments).get(0);
+        return FragmentUtils.addFragment(mBaseUI);
     }
 
     public List<BaseFragment> addFragments(List<BaseFragment> fragments) {
@@ -233,7 +199,7 @@ public class BaseActivityPresenter implements View.OnClickListener{
     }
 
     public boolean isCompatible(int sdk_int) {
-        return android.os.Build.VERSION.SDK_INT >= sdk_int;
+        return Build.VERSION.SDK_INT >= sdk_int;
     }
 
     @Override

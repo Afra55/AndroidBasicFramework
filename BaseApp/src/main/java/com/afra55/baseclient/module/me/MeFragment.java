@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.afra55.baseclient.R;
-import com.afra55.baseclient.base.BaseFragment;
+import com.afra55.commontutils.base.BaseFragment;
 
 public class MeFragment extends BaseFragment {
 

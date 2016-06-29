@@ -1,4 +1,4 @@
-package com.afra55.baseclient.base;
+package com.afra55.commontutils.base;
 
 import android.net.Uri;
 

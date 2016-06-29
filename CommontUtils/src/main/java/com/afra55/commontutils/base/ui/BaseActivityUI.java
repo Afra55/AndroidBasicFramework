@@ -1,13 +1,14 @@
-package com.afra55.baseclient.base.ui;
+package com.afra55.commontutils.base.ui;
 
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.os.Handler;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 
-import com.afra55.baseclient.base.BaseActivity;
-import com.afra55.baseclient.base.BaseFragment;
+import com.afra55.commontutils.base.BaseActivity;
+import com.afra55.commontutils.base.BaseFragment;
 
 import java.util.List;
 
@@ -80,4 +81,5 @@ public interface BaseActivityUI {
 
     BaseActivity getActivity();
 
+    FragmentManager getSuportFragmentManager();
 }

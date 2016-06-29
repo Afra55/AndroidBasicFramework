@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.afra55.baseclient.R;
-import com.afra55.baseclient.base.BaseFragment;
+import com.afra55.commontutils.base.BaseFragment;
 
 /**
  * A simple {@link Fragment} subclass.

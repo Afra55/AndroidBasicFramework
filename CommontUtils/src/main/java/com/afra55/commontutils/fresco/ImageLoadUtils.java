@@ -1,4 +1,4 @@
-package com.afra55.baseclient.util;
+package com.afra55.commontutils.fresco;
 
 import android.content.Context;
 import android.graphics.Bitmap;

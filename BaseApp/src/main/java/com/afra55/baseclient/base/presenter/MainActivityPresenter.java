@@ -1,4 +1,4 @@
-package com.afra55.baseclient.base;
+package com.afra55.baseclient.base.presenter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,15 +12,24 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afra55.baseclient.R;
+import com.afra55.commontutils.base.BaseFragment;
+import com.afra55.baseclient.base.MainActivity;
+import com.afra55.baseclient.base.ui.MainActivityUI;
 import com.afra55.baseclient.module.community.CommunityFragment;
 import com.afra55.baseclient.module.home.HomeFragment;
 import com.afra55.baseclient.module.me.MeFragment;
 import com.afra55.baseclient.module.shop.ShopFragment;
-import com.afra55.commontutils.base.BaseActivity;
-import com.afra55.commontutils.base.BaseFragment;
 
+/**
+ * Created by Victor Yang on 2016/6/28.
+ */
+public class MainActivityPresenter {
 
-public class MainActivity extends BaseActivity implements View.OnClickListener, OnFragmentInteractionListener {
+    private MainActivityUI mMainActivityUI;
+
+    public MainActivityPresenter(MainActivityUI mainActivityUI) {
+        mMainActivityUI = mainActivityUI;
+    }
 
     private static final int INIT_TAB_ID = -1;
     private static final String KEY_BUNDLE_ID = "key_bundle_id";
@@ -49,8 +58,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         context.startActivity(intent);
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View mainLayout = LayoutInflater.from(this).inflate(R.layout.activity_main, null);
         setContentView(mainLayout);
@@ -62,8 +70,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(Bundle outState) {
         if (outState != null) {
             if (currentFragmentId != INIT_TAB_ID) {
                 outState.putInt(KEY_BUNDLE_ID, currentFragmentId);
@@ -72,7 +79,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     /* 初始化底部菜单 */
-    private void initBottomMenu(View view) {
+    public void initBottomMenu(View view) {
         view.findViewById(R.id.main_bottom_menu_home).setOnClickListener(this);
         view.findViewById(R.id.main_bottom_menu_community).setOnClickListener(this);
         view.findViewById(R.id.main_bottom_menu_shop).setOnClickListener(this);
@@ -89,7 +96,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     /* 设置当前选中的fragment */
-    private void setCurrentBottomMenuView(int id) {
+    public void setCurrentBottomMenuView(int id) {
         resetBottomMenuState();
         switch (id) {
             case R.id.main_bottom_menu_home:
@@ -179,7 +186,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         meText.setTextColor(getResources().getColor(R.color.main_bottom_menu_text));
     }
 
-    @Override
     public void onClick(View v) {
         if (v.getId() == currentFragmentId) {
             return;
@@ -196,12 +202,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     /* 与 fragment 交互 start */
-    @Override
     public void onFragmentInteraction(Uri uri) {
 
     }
 
-    @Override
     public void onFragmentInteraction(String message) {
 
     }

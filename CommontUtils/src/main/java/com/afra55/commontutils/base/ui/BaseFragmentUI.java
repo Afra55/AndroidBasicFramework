@@ -1,12 +1,11 @@
-package com.afra55.baseclient.base.ui;
+package com.afra55.commontutils.base.ui;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 
-import com.afra55.baseclient.base.BaseFragment;
-import com.afra55.baseclient.base.OnFragmentSelectListener;
+import com.afra55.commontutils.base.BaseFragment;
 
 /**
  * Created by Victor Yang on 2016/6/25.

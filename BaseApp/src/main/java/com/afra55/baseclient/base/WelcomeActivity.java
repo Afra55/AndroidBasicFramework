@@ -3,13 +3,10 @@ package com.afra55.baseclient.base;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.TextUtils;
-import android.util.Log;
 
 import com.afra55.baseclient.R;
-import com.afra55.commontutils.AppCache;
+import com.afra55.commontutils.base.BaseActivity;
 import com.afra55.commontutils.log.LogUtil;
-import com.afra55.commontutils.sys.SysInfoUtil;
 
 public class WelcomeActivity extends BaseActivity {
 
