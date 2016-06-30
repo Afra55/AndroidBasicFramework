@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 
+import com.afra55.baseclient.module.home.presenter.HomeFragmentPresenter;
+import com.afra55.baseclient.module.home.ui.HomeFragmentUI;
 import com.afra55.baseclient.util.BinnerHelper;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.afra55.baseclient.R;
@@ -23,7 +25,9 @@ import com.afra55.baseclient.view.refreshforheader.header.MaterialHeader;
 
 import java.util.ArrayList;
 
-public class HomeFragment extends BaseFragment {
+public class HomeFragment extends BaseFragment implements PtrHandler, HomeFragmentUI {
+
+    private HomeFragmentPresenter mHomeFragmentPresenter;
 
     private PtrFrameLayout pullToRefresh; // 下拉控件
     private RelativeLayout homeContainerRly;
@@ -33,8 +37,8 @@ public class HomeFragment extends BaseFragment {
 
     public static HomeFragment newInstance(String param1, String param2) {
         Bundle args = new Bundle();
-        args.putString(BaseFragmentPresenter.ARG_PARAM1, param1);
-        args.putString(BaseFragmentPresenter.ARG_PARAM2, param2);
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
         HomeFragment fragment = new HomeFragment();
         fragment.setArguments(args);
         return fragment;
@@ -52,6 +56,9 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        mHomeFragmentPresenter = new HomeFragmentPresenter(this);
+
         findView();
 
         initPullToRefresh();
@@ -90,50 +97,12 @@ public class HomeFragment extends BaseFragment {
         pullToRefresh.addPtrUIHandler(header);
 
         /* 测试用下拉监听 start */
-        pullToRefresh.setPtrHandler(new PtrHandler() {
-            @Override
-            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
-                /* 根据实际情况做改动 */
-                return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
-            }
-
-            @Override
-            public void onRefreshBegin(PtrFrameLayout frame) {
-                frame.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        pullToRefresh.refreshComplete();
-                    }
-                }, 1800);
-            }
-        });
-        /* 测试用下拉监听 end */
+        pullToRefresh.setPtrHandler(this);
     }
 
     /* 初始化Binner */
     private void initBanner(RadioGroup binnerIndicatorRg) {
-        binnerViewArray = new ArrayList<>();
-        String binnerPath = "http://ossweb-img.qq.com/images/lol/web201310/skin/big143000.jpg";
-        ArrayList<View> startAndEndView = new ArrayList<>(); // 请务必存储 开始和最后的view
-        for (int i = 0; i < 5; i++) {
-            SimpleDraweeView draweeView = new SimpleDraweeView(getContext());
-            ImageLoadUtils.getInstance(getContext()).display(binnerPath, draweeView);
-            binnerViewArray.add(draweeView);
-            if (i == 0) { // 开始的view
-                SimpleDraweeView start = new SimpleDraweeView(getContext());
-                ImageLoadUtils.getInstance(getContext()).display(binnerPath, start);
-                startAndEndView.add(start);
-            } else if (i == 4) { // 结束的view
-                SimpleDraweeView end = new SimpleDraweeView(getContext());
-                ImageLoadUtils.getInstance(getContext()).display(binnerPath, end);
-                startAndEndView.add(end);
-            }
-        }
-
-        BinnerHelper.initViewList(binnerViewArray, startAndEndView);
-        binnerAdapter = new BinnerAdapter(binnerViewArray);
-        binnerVp.setAdapter(binnerAdapter);
-        BinnerHelper.getInstance().start(getContext(), binnerVp, binnerViewArray, binnerIndicatorRg);
+        mHomeFragmentPresenter.initBinner(getContext(), binnerVp, binnerIndicatorRg);
     }
 
     @Override
@@ -151,5 +120,20 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onFragmentUnSelected() {
 
+    }
+
+    @Override
+    public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+        return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
+    }
+
+    @Override
+    public void onRefreshBegin(PtrFrameLayout frame) {
+        frame.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        pullToRefresh.refreshComplete();
+                    }
+                }, 1800);
     }
 }
