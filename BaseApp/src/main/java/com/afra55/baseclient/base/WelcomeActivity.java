@@ -5,12 +5,16 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.afra55.baseclient.R;
+import com.afra55.baseclient.base.presenter.WelcomeActivityPresenter;
+import com.afra55.baseclient.base.ui.WelcomeActivityUI;
 import com.afra55.commontutils.base.BaseActivity;
 import com.afra55.commontutils.log.LogUtil;
 
-public class WelcomeActivity extends BaseActivity {
+public class WelcomeActivity extends BaseActivity implements WelcomeActivityUI{
 
     private static final String TAG = "WelcomeActivity";
+
+    private WelcomeActivityPresenter mWelcomeActivityPresenter;
 
     private boolean customSplash = false;
 
@@ -20,6 +24,8 @@ public class WelcomeActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+
+        mWelcomeActivityPresenter = new WelcomeActivityPresenter(this);
 
         if (savedInstanceState != null) {
             setIntent(new Intent()); // 从堆栈恢复，不再重复解析之前的intent
@@ -40,16 +46,7 @@ public class WelcomeActivity extends BaseActivity {
             Runnable runnable = new Runnable() {
                 @Override
                 public void run() {
-                    if (isDestroyedCompatible()) {
-                        return;
-                    }
-                    if (canAutoLogin()) {
-                        onIntent();
-                    } else {
-                        // 到登陆界面,
-                        showMainActivity();
-                        finish();
-                    }
+                    mWelcomeActivityPresenter.handleFirstEnter();
                 }
             };
             if (customSplash) {
@@ -84,17 +81,10 @@ public class WelcomeActivity extends BaseActivity {
     }
 
     // 处理收到的Intent
-    private void onIntent() {
+    @Override
+    public void onIntent() {
         LogUtil.i(TAG, "onIntent...");
         showMainActivity();
-    }
-
-    /**
-     * 已经登陆过，自动登陆
-     */
-    private boolean canAutoLogin() {
-        // 处理
-        return false;
     }
 
     /**
@@ -105,11 +95,13 @@ public class WelcomeActivity extends BaseActivity {
         customSplash = true;
     }
 
-    private void showMainActivity() {
+    @Override
+    public void showMainActivity() {
         showMainActivity(null);
     }
 
-    private void showMainActivity(Intent intent) {
+    @Override
+    public void showMainActivity(Intent intent) {
         LogUtil.i(TAG, "show main activity");
         if (isDestroyedCompatible()) {
             return;
