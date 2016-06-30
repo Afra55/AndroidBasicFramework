@@ -87,3 +87,9 @@
 }
 -dontwarn okio.**
 -dontwarn com.android.volley.toolbox.**
+
+# retrofit2
+-dontwarn retrofit2.**
+-keep class retrofit2.** { *; }
+-keepattributes Signature
+-keepattributes Exceptions
