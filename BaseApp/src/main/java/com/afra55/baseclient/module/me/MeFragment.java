@@ -7,9 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.afra55.baseclient.R;
+import com.afra55.baseclient.module.me.presenter.MeFragmentPresenter;
+import com.afra55.baseclient.module.me.ui.MeFragmentUI;
 import com.afra55.commontutils.base.BaseFragment;
 
-public class MeFragment extends BaseFragment {
+public class MeFragment extends BaseFragment implements MeFragmentUI{
+
+    private MeFragmentPresenter mMeFragmentPresenter;
 
     public static MeFragment newInstance(String param1, String param2) {
         Bundle args = new Bundle();
@@ -25,18 +29,24 @@ public class MeFragment extends BaseFragment {
     }
 
     @Override
+    protected void onFragmentSelected(boolean isFirst) {
+
+    }
+
+    @Override
+    protected void onFragmentUnSelected() {
+
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_me, container, false);
     }
 
     @Override
-    protected void onFragmentSeleted(boolean isFirst) {
-
-    }
-
-    @Override
-    protected void onFragmentUnSeleted() {
-
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mMeFragmentPresenter = new MeFragmentPresenter(this);
     }
 
     @Override

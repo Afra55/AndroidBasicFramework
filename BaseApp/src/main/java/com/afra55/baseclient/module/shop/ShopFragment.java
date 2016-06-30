@@ -8,12 +8,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.afra55.baseclient.R;
+import com.afra55.baseclient.module.shop.presenter.ShopFragmentPresenter;
+import com.afra55.baseclient.module.shop.ui.ShopFragmentUI;
 import com.afra55.commontutils.base.BaseFragment;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShopFragment extends BaseFragment {
+public class ShopFragment extends BaseFragment implements ShopFragmentUI {
+
+    private ShopFragmentPresenter mShopFragmentPresenter;
 
     public static ShopFragment newInstance(String param1, String param2) {
         Bundle args = new Bundle();
@@ -29,18 +33,24 @@ public class ShopFragment extends BaseFragment {
     }
 
     @Override
+    protected void onFragmentSelected(boolean isFirst) {
+
+    }
+
+    @Override
+    protected void onFragmentUnSelected() {
+
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_shop, container, false);
     }
 
     @Override
-    protected void onFragmentSeleted(boolean isFirst) {
-
-    }
-
-    @Override
-    protected void onFragmentUnSeleted() {
-
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mShopFragmentPresenter = new ShopFragmentPresenter(this);
     }
 
     @Override
