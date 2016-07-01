@@ -12,6 +12,12 @@
 # If your project uses WebView with JS, uncomment the following
 # and specify the fully qualified class name to the JavaScript interface
 # class:
+
+
+# keep 所有的 javabean ==========================需要替换包名========================
+-keep class com.example.shuai.apimodule.bean.**
+-keep class com.example.shuai.apimodule.bean.**{*;}
+
 -keepclassmembers class fqcn.of.javascript.interface.for.webview {
    public *;
 }
@@ -93,8 +99,3 @@
 -keep class retrofit2.** { *; }
 -keepattributes Signature
 -keepattributes Exceptions
-
-# keep 所有的 javabean ==================================================
--keep class * extends com.example.shuai.apimodule.bean.BaseBean
--keep class com.example.shuai.apimodule.bean.**
--keep class com.example.shuai.apimodule.bean.**{*;}
