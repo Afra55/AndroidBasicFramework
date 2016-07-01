@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by Victor Yang on 2016/7/1.
  */
-public class TranslateBean {
+public class TranslateBean extends BaseBean{
 
     /**
      * from : en

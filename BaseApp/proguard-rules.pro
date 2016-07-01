@@ -93,3 +93,8 @@
 -keep class retrofit2.** { *; }
 -keepattributes Signature
 -keepattributes Exceptions
+
+# keep 所有的 javabean ==================================================
+-keep class * extends com.example.shuai.apimodule.bean.BaseBean
+-keep class com.example.shuai.apimodule.bean.**
+-keep class com.example.shuai.apimodule.bean.**{*;}
