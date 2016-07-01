@@ -12,7 +12,7 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -28,4 +28,5 @@ dependencies {
     compile 'com.facebook.fresco:fresco:0.10.0'
     compile 'com.facebook.fresco:imagepipeline-okhttp:0.10.0'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.android.support:design:24.0.0'
 }

@@ -1,4 +1,4 @@
-package com.afra55.commontutils.api;
+package com.example.shuai.apimodule.api;
 
 /**
  * Created by yangshuai in the 9:47 of 2016.01.07 .

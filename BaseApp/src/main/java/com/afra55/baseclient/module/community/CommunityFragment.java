@@ -2,6 +2,8 @@ package com.afra55.baseclient.module.community;
 
 
 import android.os.Bundle;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,10 @@ import com.afra55.commontutils.base.BaseFragment;
 public class CommunityFragment extends BaseFragment implements CommunityFragmentUI{
 
     private CommunityFragmentPresenter mCommunityFragmentPresenter;
+
+    private TextInputEditText mTextInputEditText;
+
+    private TextInputLayout mTextInputLayout;
 
     public static CommunityFragment newInstance(String param1, String param2) {
         Bundle args = new Bundle();
@@ -47,10 +53,17 @@ public class CommunityFragment extends BaseFragment implements CommunityFragment
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mCommunityFragmentPresenter = new CommunityFragmentPresenter(this);
+        mTextInputEditText = findView(R.id.commnunity_translate_et);
+        mTextInputLayout = findView(R.id.commnunity_translate_layout);
+        findView(R.id.commnunity_translate_btn).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.commnunity_translate_btn:
 
+                break;
+        }
     }
 }

@@ -1,1 +1,1 @@
-include ':BaseApp', ':CommontUtils'
+include ':BaseApp', ':CommontUtils', ':APIModule'
