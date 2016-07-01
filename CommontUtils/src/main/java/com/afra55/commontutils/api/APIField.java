@@ -1,4 +1,4 @@
-package com.afra55.commontutils.field;
+package com.afra55.commontutils.api;
 
 /**
  * Created by yangshuai in the 9:47 of 2016.01.07 .
@@ -35,10 +35,10 @@ public class APIField {
     }
 
     public interface IAD{
-        public static final String INDEX_AD_XXX = APIField.APP_SERVICE_URL + "广告地址";
+        String INDEX_AD_XXX = APIField.APP_SERVICE_URL + "广告地址";
     }
 
     public interface OtherHttp{
-        public static final String TRANSLATE = "http://api.fanyi.baidu.com/api/trans/vip/translate";
+        String TRANSLATE = "http://api.fanyi.baidu.com/api/trans/vip/translate";
     }
 }
