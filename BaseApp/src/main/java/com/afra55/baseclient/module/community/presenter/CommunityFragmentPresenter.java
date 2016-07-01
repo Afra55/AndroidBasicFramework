@@ -1,5 +1,7 @@
 package com.afra55.baseclient.module.community.presenter;
 
+import android.text.TextUtils;
+
 import com.afra55.baseclient.module.community.ui.CommunityFragmentUI;
 import com.afra55.commontutils.string.MD5;
 import com.example.shuai.apimodule.api.APIField;
@@ -29,6 +31,11 @@ public class CommunityFragmentPresenter {
     }
 
     public void toTranslate(String string) {
+        if (TextUtils.isEmpty(string)) {
+            mCommunityFragmentUI.showToast("请输入文字！！");
+            return;
+        }
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(APIField.OtherHttp.TRANSLATE_HOST)
                 .addConverterFactory(GsonConverterFactory.create())
