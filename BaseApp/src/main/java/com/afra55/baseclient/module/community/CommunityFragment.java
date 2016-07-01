@@ -7,11 +7,13 @@ import android.support.design.widget.TextInputLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.afra55.baseclient.R;
 import com.afra55.baseclient.module.community.presenter.CommunityFragmentPresenter;
 import com.afra55.baseclient.module.community.ui.CommunityFragmentUI;
 import com.afra55.commontutils.base.BaseFragment;
+import com.afra55.commontutils.tip.ToastUtils;
 
 public class CommunityFragment extends BaseFragment implements CommunityFragmentUI{
 
@@ -20,6 +22,8 @@ public class CommunityFragment extends BaseFragment implements CommunityFragment
     private TextInputEditText mTextInputEditText;
 
     private TextInputLayout mTextInputLayout;
+
+    private TextView mTextTranstaleResult;
 
     public static CommunityFragment newInstance(String param1, String param2) {
         Bundle args = new Bundle();
@@ -52,18 +56,38 @@ public class CommunityFragment extends BaseFragment implements CommunityFragment
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        initView();
+    }
+
+    private void initView() {
         mCommunityFragmentPresenter = new CommunityFragmentPresenter(this);
         mTextInputEditText = findView(R.id.commnunity_translate_et);
         mTextInputLayout = findView(R.id.commnunity_translate_layout);
         findView(R.id.commnunity_translate_btn).setOnClickListener(this);
+        mTextTranstaleResult = findView(R.id.commnunity_translate_result);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.commnunity_translate_btn:
-
+                mCommunityFragmentPresenter.toTranslate(mTextInputEditText.getText().toString());
                 break;
         }
+    }
+
+    @Override
+    public void showToast(String s) {
+        ToastUtils.showToast(mActivity, s);
+    }
+
+    @Override
+    public void setTranslateResult(String result) {
+        mTextTranstaleResult.setText(result);
+    }
+
+    @Override
+    public void setTranslateError(String s) {
+        mTextInputLayout.setError(s);
     }
 }

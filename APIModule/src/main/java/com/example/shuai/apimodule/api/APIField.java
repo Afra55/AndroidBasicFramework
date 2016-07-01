@@ -39,6 +39,9 @@ public class APIField {
     }
 
     public interface OtherHttp{
-        String TRANSLATE = "http://api.fanyi.baidu.com/api/trans/vip/translate";
+        String TRANSLATE_HOST = "http://api.fanyi.baidu.com/";
+        String TRANSLATE_API = "api/trans/vip/translate";
+        String APPID = "20160630000024309";
+        String SECRET = "b7x8quIU7LYafJ7bOCPo";
     }
 }
