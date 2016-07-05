@@ -8,7 +8,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.afra55.commontutils.base.BaseActivity;
-import com.afra55.baseclient.util.Log;
+import com.afra55.commontutils.log.LogUtil;
 
 /**
  * Created by yangshuai in the 13:58 of 2016.01.06 .
@@ -31,7 +31,7 @@ public class CusstomWebViewClient extends WebViewClient {
     @Override
     public void onPageStarted(WebView view, String url, Bitmap favicon) {
         super.onPageStarted(view, url, favicon);
-        Log.i("webview", "start load");
+        LogUtil.i("webview", "start load");
         view.getSettings().setBlockNetworkImage(true);
     }
 
@@ -39,7 +39,7 @@ public class CusstomWebViewClient extends WebViewClient {
     public void onPageFinished(WebView view, String url) {
         view.getSettings().setBlockNetworkImage(false);
         super.onPageFinished(view, url);
-        Log.i("webview", "finish load");
+        LogUtil.i("webview", "finish load");
         BaseActivity baseActivity = (BaseActivity) context;
         if (baseActivity != null && !baseActivity.isFinishing()) {
             view.getSettings().setBlockNetworkImage(false);

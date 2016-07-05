@@ -8,7 +8,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
 import com.afra55.baseclient.util.AlertUtils;
-import com.afra55.baseclient.util.Log;
+import com.afra55.commontutils.log.LogUtil;
 
 /**
  * Created by yangshuai in the 14:06 of 2016.01.06 .
@@ -56,7 +56,7 @@ public class CusstomWebChromeClient extends WebChromeClient {
 
     @Override
     public boolean onJsPrompt(WebView view, String url, String message, String defaultValue, JsPromptResult result) {
-        Log.d("CusstomWebChromeClient", "defaultValue = " + defaultValue + " result = " + result + " message = " + message);
+        LogUtil.d("CusstomWebChromeClient", "defaultValue = " + defaultValue + " result = " + result + " message = " + message);
         return super.onJsPrompt(view, url, message, defaultValue, result);
     }
 

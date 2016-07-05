@@ -1,4 +1,4 @@
-package com.afra55.baseclient.util;
+package com.example.shuai.apimodule.helper;
 
 /**
  * Created by Victor Yang on 2016/6/30.
