@@ -7,21 +7,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 
-import com.afra55.baseclient.module.home.presenter.HomeFragmentPresenter;
-import com.afra55.baseclient.module.home.ui.HomeFragmentUI;
-import com.afra55.baseclient.util.BinnerHelper;
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.afra55.baseclient.R;
 import com.afra55.baseclient.adapter.BinnerAdapter;
-import com.afra55.commontutils.base.BaseFragment;
+import com.afra55.baseclient.module.home.presenter.HomeFragmentPresenter;
+import com.afra55.baseclient.module.home.ui.HomeFragmentUI;
 import com.afra55.baseclient.util.DisplayUtil;
-import com.afra55.commontutils.fresco.ImageLoadUtils;
 import com.afra55.baseclient.view.refreshforheader.PtrDefaultHandler;
 import com.afra55.baseclient.view.refreshforheader.PtrFrameLayout;
 import com.afra55.baseclient.view.refreshforheader.PtrHandler;
 import com.afra55.baseclient.view.refreshforheader.header.MaterialHeader;
+import com.afra55.commontutils.base.BaseFragment;
 
 import java.util.ArrayList;
 
@@ -30,7 +26,6 @@ public class HomeFragment extends BaseFragment implements PtrHandler, HomeFragme
     private HomeFragmentPresenter mHomeFragmentPresenter;
 
     private PtrFrameLayout pullToRefresh; // 下拉控件
-    private RelativeLayout homeContainerRly;
     private ViewPager binnerVp; // 广告Binner
     private ArrayList<View> binnerViewArray; // 存储Binner view的容器
     private BinnerAdapter binnerAdapter;
@@ -67,7 +62,6 @@ public class HomeFragment extends BaseFragment implements PtrHandler, HomeFragme
     }
 
     private void findView() {
-        homeContainerRly = findView(R.id.home_container_rly);
         pullToRefresh = findView(R.id.home_pull_to_refresh);
         binnerVp = findView(R.id.vp_banner);
     }

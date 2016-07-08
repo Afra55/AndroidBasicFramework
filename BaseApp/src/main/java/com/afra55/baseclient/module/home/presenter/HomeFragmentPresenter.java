@@ -9,6 +9,7 @@ import android.widget.RadioGroup;
 import com.afra55.baseclient.adapter.BinnerAdapter;
 import com.afra55.baseclient.module.home.ui.HomeFragmentUI;
 import com.afra55.baseclient.util.BinnerHelper;
+import com.facebook.drawee.drawable.ScalingUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ public class HomeFragmentPresenter {
         for (int i = 0; i < 5; i++) {
             SimpleDraweeView draweeView = new SimpleDraweeView(context);
             draweeView.setImageURI(Uri.parse(binnerPath));
+            draweeView.getHierarchy().setActualImageScaleType(ScalingUtils.ScaleType.FOCUS_CROP);
             binnerViewArray.add(draweeView);
             if (i == 0) { // 开始的view
                 SimpleDraweeView start = new SimpleDraweeView(context);
