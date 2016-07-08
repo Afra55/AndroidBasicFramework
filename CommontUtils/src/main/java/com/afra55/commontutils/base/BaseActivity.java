@@ -56,7 +56,6 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityUI, O
         super.onCreate(savedInstanceState);
 
         mBaseActivityPresenter = new BaseActivityPresenter(this);
-        mBaseActivityPresenter.initSomeThing();
 
         LogUtil.ui("activity: " + getClass().getSimpleName() + " onCreate()");
     }

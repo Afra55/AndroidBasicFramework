@@ -1,6 +1,7 @@
 package com.afra55.baseclient.module.home.presenter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.RadioGroup;
@@ -8,7 +9,6 @@ import android.widget.RadioGroup;
 import com.afra55.baseclient.adapter.BinnerAdapter;
 import com.afra55.baseclient.module.home.ui.HomeFragmentUI;
 import com.afra55.baseclient.util.BinnerHelper;
-import com.afra55.commontutils.fresco.ImageLoadUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
@@ -30,15 +30,18 @@ public class HomeFragmentPresenter {
         ArrayList<View> startAndEndView = new ArrayList<>(); // 请务必存储 开始和最后的view
         for (int i = 0; i < 5; i++) {
             SimpleDraweeView draweeView = new SimpleDraweeView(context);
-            ImageLoadUtils.getInstance(context).display(binnerPath, draweeView);
+            draweeView.setImageURI(Uri.parse(binnerPath));
+//            ImageLoadUtils.getInstance(context).display(binnerPath, draweeView);
             binnerViewArray.add(draweeView);
             if (i == 0) { // 开始的view
                 SimpleDraweeView start = new SimpleDraweeView(context);
-                ImageLoadUtils.getInstance(context).display(binnerPath, start);
+                start.setImageURI(Uri.parse(binnerPath));
+//                ImageLoadUtils.getInstance(context).display(binnerPath, start);
                 startAndEndView.add(start);
             } else if (i == 4) { // 结束的view
                 SimpleDraweeView end = new SimpleDraweeView(context);
-                ImageLoadUtils.getInstance(context).display(binnerPath, end);
+                end.setImageURI(Uri.parse(binnerPath));
+//                ImageLoadUtils.getInstance(context).display(binnerPath, end);
                 startAndEndView.add(end);
             }
         }

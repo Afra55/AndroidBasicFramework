@@ -7,10 +7,12 @@ import android.util.Log;
 import com.afra55.baseclient.BuildConfig;
 import com.afra55.commontutils.AppCache;
 import com.afra55.commontutils.crash.AppCrashHandler;
+import com.afra55.commontutils.fresco.ImageLoadUtils;
 import com.afra55.commontutils.log.LogUtil;
 import com.afra55.commontutils.storage.StorageType;
 import com.afra55.commontutils.storage.StorageUtil;
 import com.afra55.commontutils.sys.ScreenUtil;
+import com.facebook.drawee.backends.pipeline.Fresco;
 
 
 /**
@@ -21,6 +23,7 @@ public class CusstomApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
+        Fresco.initialize(this.getApplicationContext(), ImageLoadUtils.CusstomConfig(getApplicationContext()));
         AppCache.setContext(this.getApplicationContext());
 
         // init tools

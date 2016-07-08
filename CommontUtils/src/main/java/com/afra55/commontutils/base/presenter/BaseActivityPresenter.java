@@ -2,21 +2,13 @@ package com.afra55.commontutils.base.presenter;
 
 import android.annotation.TargetApi;
 import android.os.Build;
-import android.os.Handler;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.view.View;
 
-import com.afra55.commontutils.R;
 import com.afra55.commontutils.base.BaseFragment;
 import com.afra55.commontutils.base.ui.BaseActivityUI;
-import com.afra55.commontutils.device.KeyBoardUtils;
 import com.afra55.commontutils.fragment.FragmentUtils;
-import com.afra55.commontutils.fresco.ImageLoadUtils;
 import com.afra55.commontutils.sys.ReflectionUtil;
-import com.facebook.drawee.backends.pipeline.Fresco;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,13 +21,6 @@ public class BaseActivityPresenter {
 
     public BaseActivityPresenter(BaseActivityUI baseUI) {
         mBaseUI = baseUI;
-    }
-
-    /**
-     * 初始化某些事情
-     */
-    public void initSomeThing() {
-        Fresco.initialize(mBaseUI.getContext(), ImageLoadUtils.CusstomConfig(mBaseUI.getContext()));
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
