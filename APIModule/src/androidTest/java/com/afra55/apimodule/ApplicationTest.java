@@ -1,4 +1,4 @@
-package com.example.shuai.apimodule;
+package com.afra55.apimodule;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

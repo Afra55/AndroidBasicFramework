@@ -1,7 +1,7 @@
 package com.afra55.baseclient.base.presenter;
 
+import com.afra55.apimodule.helper.LoginUtils;
 import com.afra55.baseclient.base.ui.WelcomeActivityUI;
-import com.example.shuai.apimodule.helper.LoginUtils;
 
 /**
  * Created by Victor Yang on 2016/6/30.

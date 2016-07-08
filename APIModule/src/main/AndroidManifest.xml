@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.shuai.apimodule">
+    package="com.afra55.apimodule">
 
     <application
         android:allowBackup="true"

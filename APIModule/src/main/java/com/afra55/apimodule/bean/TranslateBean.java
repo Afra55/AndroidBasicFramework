@@ -1,4 +1,4 @@
-package com.example.shuai.apimodule.bean;
+package com.afra55.apimodule.bean;
 
 import java.util.List;
 

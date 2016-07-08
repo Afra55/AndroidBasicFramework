@@ -31,17 +31,14 @@ public class HomeFragmentPresenter {
         for (int i = 0; i < 5; i++) {
             SimpleDraweeView draweeView = new SimpleDraweeView(context);
             draweeView.setImageURI(Uri.parse(binnerPath));
-//            ImageLoadUtils.getInstance(context).display(binnerPath, draweeView);
             binnerViewArray.add(draweeView);
             if (i == 0) { // 开始的view
                 SimpleDraweeView start = new SimpleDraweeView(context);
                 start.setImageURI(Uri.parse(binnerPath));
-//                ImageLoadUtils.getInstance(context).display(binnerPath, start);
                 startAndEndView.add(start);
             } else if (i == 4) { // 结束的view
                 SimpleDraweeView end = new SimpleDraweeView(context);
                 end.setImageURI(Uri.parse(binnerPath));
-//                ImageLoadUtils.getInstance(context).display(binnerPath, end);
                 startAndEndView.add(end);
             }
         }

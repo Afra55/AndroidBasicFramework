@@ -1,8 +1,8 @@
 package com.afra55.baseclient.module.community.presenter;
 
+import com.afra55.apimodule.bean.TranslateBean;
+import com.afra55.apimodule.helper.ToTransltateHelper;
 import com.afra55.baseclient.module.community.ui.CommunityFragmentUI;
-import com.example.shuai.apimodule.bean.TranslateBean;
-import com.example.shuai.apimodule.helper.ToTransltateHelper;
 
 import java.util.List;
 

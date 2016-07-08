@@ -15,8 +15,8 @@
 
 
 # keep 所有的 javabean ==========================需要替换包名========================
--keep class com.example.shuai.apimodule.bean.**
--keep class com.example.shuai.apimodule.bean.**{*;}
+-keep class com.afra55.apimodule.bean.**
+-keep class com.afra55.apimodule.bean.**{*;}
 
 -keepclassmembers class fqcn.of.javascript.interface.for.webview {
    public *;

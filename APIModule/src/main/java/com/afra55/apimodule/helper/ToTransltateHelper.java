@@ -1,11 +1,11 @@
-package com.example.shuai.apimodule.helper;
+package com.afra55.apimodule.helper;
 
 import android.text.TextUtils;
 
+import com.afra55.apimodule.api.APIField;
+import com.afra55.apimodule.api.APIServices;
+import com.afra55.apimodule.bean.TranslateBean;
 import com.afra55.commontutils.string.MD5;
-import com.example.shuai.apimodule.api.APIField;
-import com.example.shuai.apimodule.api.APIServices;
-import com.example.shuai.apimodule.bean.TranslateBean;
 
 import java.util.HashMap;
 import java.util.Map;

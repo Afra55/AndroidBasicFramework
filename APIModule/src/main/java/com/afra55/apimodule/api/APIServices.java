@@ -1,6 +1,6 @@
-package com.example.shuai.apimodule.api;
+package com.afra55.apimodule.api;
 
-import com.example.shuai.apimodule.bean.TranslateBean;
+import com.afra55.apimodule.bean.TranslateBean;
 
 import java.util.Map;
 
