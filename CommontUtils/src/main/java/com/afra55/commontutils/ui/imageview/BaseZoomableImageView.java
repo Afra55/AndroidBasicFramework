@@ -40,7 +40,8 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 
-import com.netease.nim.uikit.common.util.media.SampleSizeUtil;
+import com.afra55.commontutils.media.SampleSizeUtil;
+
 
 public abstract class BaseZoomableImageView extends View {
 	// Statics
@@ -214,7 +215,7 @@ public abstract class BaseZoomableImageView extends View {
 		
 		//版本过低或者长度大于最大纹理限制，不采用硬件加速
 		if (Build.VERSION.SDK_INT >= MIN_SDK_ENABLE_LAYER_TYPE_HARDWARE) {
-			if (bitmap != null && (bitmap.getHeight() > SampleSizeUtil.getTextureSize() 
+			if (bitmap != null && (bitmap.getHeight() > SampleSizeUtil.getTextureSize()
 					|| bitmap.getWidth() > SampleSizeUtil.getTextureSize())) {
 				setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 			} else {
