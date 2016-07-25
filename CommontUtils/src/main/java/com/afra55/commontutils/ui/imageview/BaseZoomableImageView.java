@@ -709,9 +709,9 @@ public abstract class BaseZoomableImageView extends View {
 				}
 			}
 		}
-		catch (IllegalArgumentException e) {
-			Log.v("Vincent", "isScrollOver");
-			e.printStackTrace();  
+		catch (Exception e) {
+			Log.v("MultiTouchZoom", "isScrollOver");
+			Log.e("MultiTouchZoom", e.toString());
 		}  
 
 		return false;
