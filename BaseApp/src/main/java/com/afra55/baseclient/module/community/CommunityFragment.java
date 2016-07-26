@@ -83,6 +83,7 @@ public class CommunityFragment extends BaseFragment implements CommunityFragment
 
     @Override
     public void setTranslateResult(String result) {
+        showKeyboard(false);
         mTextInputLayout.setError(null);
         mTextTranstaleResult.setText(result);
     }
