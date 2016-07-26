@@ -34,6 +34,8 @@ public class ToTransltateHelper {
         return Instance.instance;
     }
 
+    private Subscriber<TranslateBean> subscriber;
+
     public void toTanstale(String string, final ToTranslateResultListener listener) {
 
         if (TextUtils.isEmpty(string.trim())) {
@@ -51,32 +53,52 @@ public class ToTransltateHelper {
         map.put("salt", String.valueOf(salt));
         map.put("sign", MD5.getStringMD5(APIField.OtherHttp.APPID + string + salt + APIField.OtherHttp.SECRET));
 
+        if (subscriber != null && !subscriber.isUnsubscribed()) {
+            subscriber.unsubscribe();
+        }
+        initSubscriber(listener);
         RetrofitHelper.retrofit(APIField.OtherHttp.TRANSLATE_HOST)
                 .create(APIServices.class)
                 .toTranslate(map)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<TranslateBean>() {
-                    @Override
-                    public void onCompleted() {
+                .subscribe(subscriber);
+    }
 
-                    }
+    private void initSubscriber(final ToTranslateResultListener listener) {
+            subscriber = new Subscriber<TranslateBean>() {
 
-                    @Override
-                    public void onError(Throwable e) {
-                        if (listener != null)
-                            listener.onFaile(e.toString());
+                @Override
+                public void onStart() {
+                    if (listener != null) {
+                        listener.showProgressDialog();
                     }
+                    super.onStart();
+                }
 
-                    @Override
-                    public void onNext(TranslateBean translateBean) {
-                        if (listener != null)
-                            listener.onSuccess(translateBean);
-                    }
-                });
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    if (listener != null)
+                        listener.onFaile(e.toString());
+                }
+
+                @Override
+                public void onNext(TranslateBean translateBean) {
+                    if (listener != null)
+                        listener.onSuccess(translateBean);
+                }
+            };
     }
 
     public interface ToTranslateResultListener {
+
+        void showProgressDialog();
+
         void onSuccess(TranslateBean translateBean);
 
         void onFaile(String tip);

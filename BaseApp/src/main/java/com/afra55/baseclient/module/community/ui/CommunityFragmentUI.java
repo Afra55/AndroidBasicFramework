@@ -5,6 +5,8 @@ package com.afra55.baseclient.module.community.ui;
  */
 public interface CommunityFragmentUI {
 
+    void showProgressDialog();
+
     void showToast(String sting);
 
     void setTranslateResult(String result);

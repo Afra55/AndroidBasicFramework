@@ -20,6 +20,11 @@ public class CommunityFragmentPresenter {
     public void toTranslate(String string) {
         ToTransltateHelper.getInstance().toTanstale(string, new ToTransltateHelper.ToTranslateResultListener() {
             @Override
+            public void showProgressDialog() {
+                mCommunityFragmentUI.showProgressDialog();
+            }
+
+            @Override
             public void onSuccess(TranslateBean translateBean) {
                 List<TranslateBean.TransResultBean> list = translateBean.getTrans_result();
                 String result = "";

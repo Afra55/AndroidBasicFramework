@@ -14,8 +14,9 @@ import com.afra55.baseclient.module.community.presenter.CommunityFragmentPresent
 import com.afra55.baseclient.module.community.ui.CommunityFragmentUI;
 import com.afra55.commontutils.base.BaseFragment;
 import com.afra55.commontutils.tip.ToastUtils;
+import com.afra55.commontutils.ui.dialog.DialogMaker;
 
-public class CommunityFragment extends BaseFragment implements CommunityFragmentUI{
+public class CommunityFragment extends BaseFragment implements CommunityFragmentUI {
 
     private CommunityFragmentPresenter mCommunityFragmentPresenter;
 
@@ -77,6 +78,11 @@ public class CommunityFragment extends BaseFragment implements CommunityFragment
     }
 
     @Override
+    public void showProgressDialog() {
+        DialogMaker.showProgressDialog(mActivity, "Loading");
+    }
+
+    @Override
     public void showToast(String s) {
         ToastUtils.showToast(mActivity, s);
     }
@@ -84,6 +90,7 @@ public class CommunityFragment extends BaseFragment implements CommunityFragment
     @Override
     public void setTranslateResult(String result) {
         showKeyboard(false);
+        DialogMaker.dismissProgressDialog();
         mTextInputLayout.setError(null);
         mTextTranstaleResult.setText(result);
     }
@@ -91,5 +98,7 @@ public class CommunityFragment extends BaseFragment implements CommunityFragment
     @Override
     public void setTranslateError(String s) {
         mTextInputLayout.setError(s);
+        showKeyboard(false);
+        DialogMaker.dismissProgressDialog();
     }
 }

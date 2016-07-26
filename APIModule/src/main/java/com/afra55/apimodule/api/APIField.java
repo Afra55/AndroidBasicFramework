@@ -1,5 +1,7 @@
 package com.afra55.apimodule.api;
 
+import com.afra55.apimodule.BuildConfig;
+
 /**
  * Created by yangshuai in the 9:47 of 2016.01.07 .
  */
@@ -41,7 +43,7 @@ public class APIField {
     public interface OtherHttp{
         String TRANSLATE_HOST = "http://api.fanyi.baidu.com/";
         String TRANSLATE_API = "api/trans/vip/translate";
-        String APPID = "20160630000024309";
-        String SECRET = "b7x8quIU7LYafJ7bOCPo";
+        String APPID = BuildConfig.BAIDU_APP_ID;
+        String SECRET = BuildConfig.BAIDU_APP_SECRET;
     }
 }

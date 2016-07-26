@@ -9,6 +9,9 @@ android {
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
+
+        buildConfigField("String", "BAIDU_APP_ID", "\"20160630000024309\"")
+        buildConfigField("String", "BAIDU_APP_SECRET", "\"b7x8quIU7LYafJ7bOCPo\"")
     }
     buildTypes {
         release {
@@ -21,6 +24,5 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:24.0.0'
     compile project(':CommontUtils')
 }
