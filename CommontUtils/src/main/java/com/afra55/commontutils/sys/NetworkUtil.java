@@ -1,6 +1,7 @@
 package com.afra55.commontutils.sys;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -70,6 +71,20 @@ public class NetworkUtil {
 	private static final Uri PREFERRED_APN_URI = Uri.parse("content://telephony/carriers/preferapn");
 
 	public static byte curNetworkType = CURRENT_NETWORK_TYPE_NONE;
+
+	/**
+	 * 打开网络设置界面
+	 * <p>3.0以下打开设置界面</p>
+	 *
+	 * @param context 上下文
+	 */
+	public static void openWirelessSettings(Context context) {
+		if (android.os.Build.VERSION.SDK_INT > 10) {
+			context.startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS));
+		} else {
+			context.startActivity(new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS));
+		}
+	}
 
 	/*
 	 * 
@@ -208,21 +223,17 @@ public class NetworkUtil {
 		}
 	}
 
-	/**
-	 * 此判断不可靠
-	 * 
-	 * @param context
-	 * @return
-	 */
-	public static boolean isNetworkConnected(Context context) {
-		NetworkInfo networkInfo = getActiveNetworkInfo(context);
-		if (networkInfo != null) {
-			boolean a = networkInfo.isConnected();
-			return a;
-		} else {
-			return false;
-		}
-	}
+    /**
+     * 判断网络是否连接
+     * <p>需添加权限 android.permission.ACCESS_NETWORK_STATE</p>
+     *
+     * @param context 上下文
+     * @return true: 是<br>false: 否
+     */
+    public static boolean isConnected(Context context) {
+        NetworkInfo info = getActiveNetworkInfo(context);
+        return info != null && info.isConnected();
+    }
 
 	/**
 	 * 获取可用的网络信息
@@ -238,6 +249,18 @@ public class NetworkUtil {
 			return null;
 		}
 	}
+
+    /**
+     * 判断网络是否是4G
+     * <p>需添加权限 android.permission.ACCESS_NETWORK_STATE</p>
+     *
+     * @param context 上下文
+     * @return true: 是<br>false: 不是
+     */
+    public static boolean is4G(Context context) {
+        NetworkInfo info = getActiveNetworkInfo(context);
+        return info != null && info.isAvailable() && info.getSubtype() == TelephonyManager.NETWORK_TYPE_LTE;
+    }
 
 	public static boolean isWifiOr3G(Context context) {
 		if (isWifi(context)) {
@@ -699,6 +722,12 @@ public class NetworkUtil {
 		return NETWORK_CLASS_UNKNOWN;
 	}
 
+    /**
+     * 获取移动网络类型
+     *
+     * @param context 上下文
+     * @return GPRS， LTE， CDMA,etc.
+     */
 	public static String getNetworkTypeName(Context context) {
 		String networkName = "UNKNOWN";
 		ConnectivityManager connectivityManager = (ConnectivityManager) context
@@ -714,6 +743,19 @@ public class NetworkUtil {
 		}
 		return networkName;
 	}
+
+    /**
+     * 获取移动网络运营商名称
+     * <p>如中国联通、中国移动、中国电信</p>
+     *
+     * @param context 上下文
+     * @return 移动网络运营商名称
+     */
+    public static String getNetworkOperatorName(Context context) {
+        TelephonyManager tm = (TelephonyManager) context
+                .getSystemService(Context.TELEPHONY_SERVICE);
+        return tm != null ? tm.getNetworkOperatorName() : null;
+    }
 
 	private static String getNetworkTypeNameInMobile(int type) {
 		switch (type) {
@@ -814,6 +856,26 @@ public class NetworkUtil {
 		return null;
 	}
 
+    /**
+     * 获取移动终端类型
+     *
+     * @param context 上下文
+     * @return 手机制式
+     * <ul>
+     * <li>PHONE_TYPE_NONE  : 0 手机制式未知</li>
+     * <li>PHONE_TYPE_GSM   : 1 手机制式为GSM，移动和联通</li>
+     * <li>PHONE_TYPE_CDMA  : 2 手机制式为CDMA，电信</li>
+     * <li>PHONE_TYPE_SIP   : 3</li>
+     * </ul>
+     */
+    public static int getPhoneType(Context context) {
+        TelephonyManager tm = (TelephonyManager) context
+                .getSystemService(Context.TELEPHONY_SERVICE);
+        return tm != null ? tm.getPhoneType() : -1;
+    }
+
+
+
 
     public interface LinkNetWorkType {
         public static final int UNKNOWN = 0;
@@ -852,7 +914,14 @@ public class NetworkUtil {
                         case 13: // TelephonyManager.NETWORK_TYPE_LTE:
                             return LinkNetWorkType._4G;
                         default:
-                            return LinkNetWorkType._2G;
+                            String subtypeName = ni.getSubtypeName();
+                            if (subtypeName.equalsIgnoreCase("TD-SCDMA")
+                                    || subtypeName.equalsIgnoreCase("WCDMA")
+                                    || subtypeName.equalsIgnoreCase("CDMA2000")) {
+                                return LinkNetWorkType._3G;
+                            } else {
+                                return LinkNetWorkType._2G;
+                            }
                         }
                     }
                 }
