@@ -34,18 +34,6 @@ public class InstallUtil {
 		}
 	}
 
-	/**
-	 * 打开app
-	 * 
-	 * @param packageName
-	 * @param context
-	 */
-	public static void openApp(Context context, String packageName) {
-		PackageManager packageManager = context.getPackageManager();
-		Intent intent = packageManager.getLaunchIntentForPackage(packageName);
-		if (intent != null)
-			context.startActivity(intent);
-	}
 
 	/**
 	 * 某个app的版本号，未安装时返回null
@@ -111,4 +99,19 @@ public class InstallUtil {
 		intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
 		return intent;
 	}
+
+	/**
+	 * 卸载指定包名的App
+	 *
+	 * @param context     上下文
+	 * @param packageName 包名
+	 */
+	public void uninstallApp(Context context, String packageName) {
+		Intent intent = new Intent(Intent.ACTION_DELETE);
+		intent.setData(Uri.parse("package:" + packageName));
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		context.startActivity(intent);
+	}
+
+
 }

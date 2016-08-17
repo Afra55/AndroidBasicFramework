@@ -2,12 +2,18 @@ package com.afra55.commontutils.sys;
 
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningTaskInfo;
+import android.content.ComponentName;
 import android.content.Context;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.PowerManager;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.LineNumberReader;
 import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.List;
@@ -47,6 +53,27 @@ public class SysInfoUtil {
 		return ret;
 	}
 
+	/**
+	 * 判断当前App处于前台还是后台
+	 * <p>需添加权限 android.permission.GET_TASKS</p>
+	 * <p>并且必须是系统应用该方法才有效</p>
+	 *
+	 * @param context 上下文
+	 * @return true: 后台<br>false: 前台
+	 */
+	public static boolean isAppBackground(Context context) {
+		ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+		@SuppressWarnings("deprecation")
+		List<ActivityManager.RunningTaskInfo> tasks = am.getRunningTasks(1);
+		if (!tasks.isEmpty()) {
+			ComponentName topActivity = tasks.get(0).topActivity;
+			if (!topActivity.getPackageName().equals(context.getPackageName())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public static final boolean isScreenOn(Context context) {
 		PowerManager powerManager = (PowerManager) context
 				.getSystemService(Context.POWER_SERVICE);
@@ -68,7 +95,12 @@ public class SysInfoUtil {
 		
 		return false;
 	}
-	
+
+    /**
+     * 判断是否运行在模拟器上
+     * @param context
+     * @return
+     */
 	public static final boolean mayOnEmulator(Context context) {
 		if (mayOnEmulatorViaBuild()) {
 			return true;
@@ -160,4 +192,70 @@ public class SysInfoUtil {
 	public static boolean isCompatible(int sdk_int) {
 		return Build.VERSION.SDK_INT >= sdk_int;
 	}
+
+
+    /**
+     * 获取设备MAC地址
+     * <p>需添加权限 android.permission.ACCESS_WIFI_STATE</p>
+     *
+     * @param context 上下文
+     * @return MAC地址
+     */
+    public static String getMacAddress(Context context) {
+        WifiManager wifi = (WifiManager) context
+                .getSystemService(Context.WIFI_SERVICE);
+        WifiInfo info = wifi.getConnectionInfo();
+        String macAddress = info.getMacAddress().replace(":", "");
+        return macAddress == null ? "" : macAddress;
+    }
+
+    /**
+     * 获取设备MAC地址
+     * <p>需添加权限 android.permission.ACCESS_WIFI_STATE</p>
+     *
+     * @return MAC地址
+     */
+    public static String getMacAddress() {
+        String macAddress = null;
+        LineNumberReader reader = null;
+        try {
+            Process pp = Runtime.getRuntime().exec("cat /sys/class/net/wlan0/address");
+            InputStreamReader ir = new InputStreamReader(pp.getInputStream());
+            reader = new LineNumberReader(ir);
+            macAddress = reader.readLine().replace(":", "");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (reader != null) reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return macAddress == null ? "" : macAddress;
+    }
+
+    /**
+     * 获取设备厂商，如Xiaomi
+     *
+     * @return 设备厂商
+     */
+    public static String getManufacturer() {
+        return Build.MANUFACTURER;
+    }
+
+    /**
+     * 获取设备型号，如MI2SC
+     *
+     * @return 设备型号
+     */
+    public static String getModel() {
+        String model = Build.MODEL;
+        if (model != null) {
+            model = model.trim().replaceAll("\\s*", "");
+        } else {
+            model = "";
+        }
+        return model;
+    }
 }

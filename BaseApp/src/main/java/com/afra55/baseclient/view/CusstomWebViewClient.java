@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.http.SslError;
 import android.webkit.SslErrorHandler;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -23,9 +24,8 @@ public class CusstomWebViewClient extends WebViewClient {
 
     /* url 拦截, 在shouldoverrideurlloading中只对要拦截处理的url返回true，否则一定要返回false ，这样就能避免重定向问题。 */
     @Override
-    public boolean shouldOverrideUrlLoading(WebView view, String url) {
-
-        return super.shouldOverrideUrlLoading(view, url);
+    public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+        return super.shouldOverrideUrlLoading(view, request);
     }
 
     @Override
