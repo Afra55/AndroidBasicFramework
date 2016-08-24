@@ -104,6 +104,11 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityUI, O
     }
 
     @Override
+    public <T> T showToast(T t) {
+        return ToastUtils.showToast(this, t);
+    }
+
+    @Override
     public void showKeyboard(boolean isShow) {
         KeyBoardUtils.showKeyboard(getActivity(), isShow);
     }
