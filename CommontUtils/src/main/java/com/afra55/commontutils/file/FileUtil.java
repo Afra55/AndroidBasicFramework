@@ -12,6 +12,19 @@ import java.util.Locale;
 public class FileUtil {
     private static final String TAG = "FileUtil";
 
+    public static long getFileLength(String srcPath) {
+        if (TextUtils.isEmpty(srcPath)) {
+            return -1;
+        }
+
+        File srcFile = new File(srcPath);
+        if (!srcFile.exists()) {
+            return -1;
+        }
+
+        return srcFile.length();
+    }
+
     public static boolean hasExtentsion(String filename) {
         int dot = filename.lastIndexOf('.');
         if ((dot > -1) && (dot < (filename.length() - 1))) {
