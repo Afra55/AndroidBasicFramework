@@ -30,6 +30,8 @@ public interface BaseActivityUI {
 
     void showToast(String message);
 
+    <T> T showToast(T t);
+
     /**
      * 显示隐藏 keyboard
      * @param isShow

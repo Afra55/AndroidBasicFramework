@@ -14,6 +14,11 @@ import android.text.TextUtils;
 
 import com.afra55.commontutils.log.LogUtil;
 
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.Enumeration;
+
 
 public class NetworkUtil {
 
@@ -931,4 +936,55 @@ public class NetworkUtil {
         }
         return LinkNetWorkType.UNKNOWN;
     }
+
+	/**
+	 * 获取 wifi ip
+	 * @param context
+	 * @return
+     */
+	public static String getMobileIP(Context context) {
+		//获取wifi服务
+		WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+		//判断wifi是否开启
+		if (!wifiManager.isWifiEnabled()) {
+			return null;
+		}
+		WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+		int ipAddress = wifiInfo.getIpAddress();
+		return intToIp(ipAddress);
+	}
+
+	private static String intToIp(int i) {
+
+		return (i & 0xFF) + "." +
+				((i >> 8) & 0xFF) + "." +
+				((i >> 16) & 0xFF) + "." +
+				(i >> 24 & 0xFF);
+	}
+
+	public static String getLocalIpAddress() {
+		String IP;
+		StringBuilder IPStringBuilder = new StringBuilder();
+		try {
+			Enumeration<NetworkInterface> networkInterfaceEnumeration = NetworkInterface.getNetworkInterfaces();
+			while (networkInterfaceEnumeration.hasMoreElements()) {
+				NetworkInterface networkInterface = networkInterfaceEnumeration.nextElement();
+				Enumeration<InetAddress> inetAddressEnumeration = networkInterface.getInetAddresses();
+				while (inetAddressEnumeration.hasMoreElements()) {
+					InetAddress inetAddress = inetAddressEnumeration.nextElement();
+					if (!inetAddress.isLoopbackAddress() &&
+							!inetAddress.isLinkLocalAddress() &&
+							inetAddress.isSiteLocalAddress()) {
+						IPStringBuilder.append(inetAddress.getHostAddress());
+					}
+				}
+			}
+		} catch (SocketException ex) {
+
+		}
+
+		IP = IPStringBuilder.toString();
+		return IP;
+
+	}
 }

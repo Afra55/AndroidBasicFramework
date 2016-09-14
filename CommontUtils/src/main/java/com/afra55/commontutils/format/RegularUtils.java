@@ -2,6 +2,7 @@ package com.afra55.commontutils.format;
 
 import android.text.TextUtils;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -112,5 +113,27 @@ public class RegularUtils {
      */
     public static boolean isMatch(String regex, String string) {
         return !TextUtils.isEmpty(string) && Pattern.matches(regex, string);
+    }
+
+    /**
+     * 使用正则替换匹配到的字符串
+     * @param srcStr 原字符串
+     * @param insteadStr 代替的字符串
+     * @param regex 匹配规则
+     * @return 替换后的字符串
+     */
+    public static String replaceMatcherStr(String srcStr, String insteadStr, String regex) {
+        try {
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(srcStr);
+            StringBuffer sbr = new StringBuffer();
+            while (matcher.find()) {
+                matcher.appendReplacement(sbr, insteadStr);
+            }
+            matcher.appendTail(sbr);
+            return sbr.toString();
+        } catch (Exception e) {
+            return srcStr;
+        }
     }
 }

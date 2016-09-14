@@ -2,10 +2,46 @@ package com.afra55.commontutils.string;
 
 import android.text.TextUtils;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.UUID;
 
 public class StringUtil {
+
+	/**
+	 * 封装链接上的键值对并保存到hashmap
+	 *
+	 * @param url
+	 * @return HashMap<key,value>
+	 */
+	public static HashMap<String, String> handleUrlParams(String url) {
+		HashMap<String, String> hm = new HashMap<String, String>();
+		if (url.contains("?") && url.indexOf("?") != url.length() - 1) {
+			String params = url.substring(url.indexOf("?") + 1);
+			if (params.contains("&")) {
+				String[] paramArr = params.split("&");
+				for (int i = 0; i < paramArr.length; i++) {
+					String str = paramArr[i];
+					if ((str.split("=")).length > 1) {
+						try {
+							hm.put(str.split("=")[0], URLDecoder.decode(str.split("=")[1], "UTF-8"));
+						} catch (UnsupportedEncodingException e) {
+						}
+					}
+				}
+			} else {
+				if (params.contains("=")) {
+					try {
+						hm.put(params.split("=")[0], URLDecoder.decode(params.split("=")[1], "UTF-8"));
+					} catch (UnsupportedEncodingException e) {
+					}
+				}
+			}
+		}
+		return hm;
+	}
 	
 	public static String getPercentString(float percent) {
 		return String.format(Locale.US, "%d%%", (int) (percent * 100));

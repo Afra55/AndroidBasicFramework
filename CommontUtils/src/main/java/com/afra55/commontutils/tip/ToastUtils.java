@@ -3,11 +3,15 @@ package com.afra55.commontutils.tip;
 import android.widget.Toast;
 
 import com.afra55.commontutils.base.BaseActivity;
+import com.afra55.commontutils.log.LogUtil;
 
 /**
  * Created by Victor Yang on 2016/6/28.
  */
 public class ToastUtils {
+
+    private static final String TAG = ToastUtils.class.getSimpleName();
+
     //Toast公共方法
     private static Toast toast = null;
 
@@ -21,6 +25,15 @@ public class ToastUtils {
             toast.setText(message);
         }
         toast.show();
+    }
+
+    public static <T> T showToast(BaseActivity context, T what){
+        try {
+            showToast(context, String.valueOf(what));
+        } catch (Exception e) {
+            LogUtil.e(TAG, e.toString());
+        }
+        return what;
     }
 
     public static void showToast(BaseActivity context, String message, int showLength) {

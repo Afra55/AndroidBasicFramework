@@ -11,8 +11,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
+import java.nio.channels.UnresolvedAddressException;
 
 /**
  * 用于把附件保存到文件系统中
@@ -64,19 +67,6 @@ public class AttachmentStore {
     	return -1;
     }
 	
-    public static long getFileLength(String srcPath) {
-    	if (TextUtils.isEmpty(srcPath)) {
-			return -1;
-		}
-
-    	File srcFile = new File(srcPath);
-    	if (!srcFile.exists()) {
-			return -1;
-		}
-    	
-    	return srcFile.length();
-	}
-
     public static long save(String path, String content) {
         return save(content.getBytes(), path);
     }
@@ -340,5 +330,70 @@ public class AttachmentStore {
                 bitmap.recycle();
             }
         }
+    }
+
+    /**
+     * 将 Object 序列化到本地
+     * @param path 文件路径
+     * @param object Object
+     */
+    public static void saveObject(String path, Object object) {
+        FileOutputStream fos = null;
+        ObjectOutputStream oos = null;
+        File f = new File(path);
+        try {
+            fos = new FileOutputStream(f);
+            oos = new ObjectOutputStream(fos);
+            oos.writeObject(object);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (oos != null) {
+                    oos.close();
+                }
+                if (fos != null) {
+                    fos.close();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * 从文件中读取 Object
+     * @param path 路径
+     * @return Object
+     */
+    public static Object readObject(String path) {
+        FileInputStream fis = null;
+        ObjectInputStream ois = null;
+        Object object = null;
+        File f = new File(path);
+        if (!f.exists()) {
+            return null;
+        }
+        try {
+            fis = new FileInputStream(f);
+            ois = new ObjectInputStream(fis);
+            object = ois.readObject();
+            return object;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (fis != null) {
+                    fis.close();
+                }
+                if (ois != null) {
+                    ois.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 }

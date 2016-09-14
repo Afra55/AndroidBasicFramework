@@ -12,7 +12,7 @@ import com.afra55.baseclient.R;
 import com.afra55.baseclient.adapter.BinnerAdapter;
 import com.afra55.baseclient.module.home.presenter.HomeFragmentPresenter;
 import com.afra55.baseclient.module.home.ui.HomeFragmentUI;
-import com.afra55.baseclient.util.DisplayUtil;
+import com.afra55.commontutils.device.DisplayUtil;
 import com.afra55.baseclient.view.refreshforheader.PtrDefaultHandler;
 import com.afra55.baseclient.view.refreshforheader.PtrFrameLayout;
 import com.afra55.baseclient.view.refreshforheader.PtrHandler;

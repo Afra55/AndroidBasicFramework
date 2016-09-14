@@ -1,4 +1,4 @@
-package com.afra55.baseclient.util;
+package com.afra55.commontutils.device;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

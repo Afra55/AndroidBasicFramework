@@ -268,4 +268,22 @@ public class BitmapDecoder {
         }
         return false;
     }
+
+    /**
+     * Bitmap 的每个像素点所占字节大小
+     * @param config {@link Bitmap.Config}
+     * @return 字节大小
+     */
+    public static int getBytesPerPixel(Bitmap.Config config) {
+        if (config == Bitmap.Config.ARGB_8888) {
+            return 4;
+        } else if (config == Bitmap.Config.RGB_565) {
+            return 2;
+        } else if (config == Bitmap.Config.ARGB_4444) {
+            return 2;
+        } else if (config == Bitmap.Config.ALPHA_8) {
+            return 1;
+        }
+        return 1;
+    }
 }
