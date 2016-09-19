@@ -42,6 +42,8 @@
     public void * (android.webkit.WebView, java.lang.String);
 }
 
+# 对于反射，例如 Class.forName("XXXX"), 一定要确保 XXXX类名不被混淆, 以及要反射的方法和属性
+
 # 混淆泛型
 -keepattributes Signature
 
@@ -107,7 +109,7 @@
     void *(**On*Event);
 }
 
-# 保留自定义控件不被混淆
+# 保留自定义控件不被混淆, 凡是在 XML 中配置的 自定义 View 都要保持名字不被混淆， 这个要自行添加
 -keep public class * extends android.view.View {
     *** get*();
     void set*(***);
@@ -115,6 +117,13 @@
     public <init>(android.content.Context, android.util.AttributeSet);
     public <init>(android.content.Context, android.util.AttributeSet, int);
 }
+
+# V4 包示例
+-dontwarn android.support.v4.**
+-keep class android.support.v4.** {*;}
+-keep interface android.support.v4.app.** {*;}
+-keep public class * extends android.support.v4.**
+-keep public class * extends android.app.Fragment
 
 # OKHTTP
 -dontwarn com.squareup.okhttp.**
