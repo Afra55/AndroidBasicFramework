@@ -2,18 +2,15 @@ package com.afra55.commontutils.media.photograph;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.PixelFormat;
-import android.graphics.Rect;
-import android.hardware.Camera;
-import android.os.Build;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.constraint.ConstraintLayout;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.animation.ScaleAnimation;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.afra55.commontutils.R;
@@ -23,13 +20,9 @@ import com.afra55.commontutils.media.photograph.helper.CameraHelper;
 import com.afra55.commontutils.media.photograph.presenter.PhotographPresenter;
 import com.afra55.commontutils.media.photograph.ui.PhotographUI;
 import com.afra55.commontutils.sys.ScreenUtil;
+import com.afra55.commontutils.ui.dialog.DialogMaker;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
+import java.io.File;
 
 public class PhotographActivity extends BaseActivity implements PhotographUI{
 
@@ -40,6 +33,7 @@ public class PhotographActivity extends BaseActivity implements PhotographUI{
 
     private CameraHelper mCameraHelper;
     private SurfaceView mSurfaceView;
+    private Button mTakePhotoBtn;
     private ImageView mFlashImg;
     private ImageView mFlipCamaraImg;
     private View mFocusIndex;
@@ -67,6 +61,7 @@ public class PhotographActivity extends BaseActivity implements PhotographUI{
         mFlashImg = findView(R.id.photograph_flash_img);
         mFlipCamaraImg = findView(R.id.photograph_flip_camara_img);
         mFocusIndex = findView(R.id.photograph_focus_index);
+        mTakePhotoBtn = findView(R.id.photograph_take_picture_btn);
         mCameraHelper = new CameraHelper(this);
         mPhotographPresenter.initSurfaceView();
 
@@ -74,6 +69,12 @@ public class PhotographActivity extends BaseActivity implements PhotographUI{
     }
 
     private void initEvent() {
+        mTakePhotoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPhotographPresenter.takePicture();
+            }
+        });
         mSurfaceView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -143,6 +144,25 @@ public class PhotographActivity extends BaseActivity implements PhotographUI{
                 mFocusIndex.setVisibility(View.GONE);
             }
         }, 800);
+    }
+
+    @Override
+    public void showLoading(String tip) {
+        DialogMaker.showProgressDialog(this, tip);
+    }
+
+    @Override
+    public void dismissLoading() {
+        DialogMaker.dismissProgressDialog();
+    }
+
+    @Override
+    public void handleObtainedImage(String imagePath) {
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        Uri contentUri = Uri.fromFile(new File(imagePath));
+        mediaScanIntent.setData(contentUri);
+        sendBroadcast(mediaScanIntent);
+        showToast(imagePath);
     }
 
     @Override

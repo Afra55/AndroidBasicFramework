@@ -280,4 +280,8 @@ public class StorageUtil {
 		File file = new File(filePath + "/" + fileName);
 		return !(!file.exists() || file.isDirectory()) && file.delete();
 	}
+
+	public static String getSystemPhotoPath() {
+		return Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/Camera";
+	}
 }

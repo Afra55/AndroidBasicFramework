@@ -1,10 +1,21 @@
 package com.afra55.commontutils.media;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.BitmapRegionDecoder;
+import android.graphics.Matrix;
+import android.graphics.Rect;
 import android.hardware.Camera;
 
+import com.afra55.commontutils.file.AttachmentStore;
 import com.afra55.commontutils.log.LogUtil;
+import com.afra55.commontutils.storage.StorageUtil;
 import com.afra55.commontutils.sys.ScreenUtil;
 
+import java.io.ByteArrayInputStream;
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,6 +46,7 @@ public class CameraUtils {
 
     /**
      * 获取最好的图片分辨率
+     *
      * @param cameraInst Camera
      * @return Camera.Size
      */
@@ -114,7 +126,7 @@ public class CameraUtils {
         return findBestPreviewResolution(cameraInst, MIN_PREVIEW_PIXELS, MAX_ASPECT_DISTORTION);
     }
 
-    public static Camera.Size findBestPreviewResolution(Camera cameraInst, double minPreviewPixels,  double maxAspectDistortion) {
+    public static Camera.Size findBestPreviewResolution(Camera cameraInst, double minPreviewPixels, double maxAspectDistortion) {
         Camera.Parameters cameraParameters = cameraInst.getParameters();
         Camera.Size defaultPreviewResolution = cameraParameters.getPreviewSize();
 
@@ -208,5 +220,70 @@ public class CameraUtils {
         } catch (Exception e) {
             LogUtil.e(TAG, "setDisplayOrientation", e);
         }
+    }
+
+    /**
+     * 将拍下来的照片存放在SD卡中
+     *
+     * @param data             byte[]
+     * @param mCurrentCameraId 摄像头id， 1是前置 0是后置
+     * @throws IOException
+     */
+    public static String saveToSDCard(byte[] data, int mCurrentCameraId) throws IOException {
+        Bitmap croppedImage;
+
+        //获得图片大小
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeByteArray(data, 0, data.length, options);
+
+        int width = options.outWidth;
+        int height = options.outHeight;
+        options.inJustDecodeBounds = false;
+        Rect r = new Rect(0, 0, width, height);
+        try {
+            croppedImage = decodeRegionCrop(data, r, mCurrentCameraId, width, height);
+        } catch (Exception e) {
+            return null;
+        }
+        String filePath =
+                StorageUtil.getSystemPhotoPath() + "/" + System.currentTimeMillis() + ".jpg";
+        AttachmentStore.saveBitmap(croppedImage, filePath, true);
+        croppedImage.recycle();
+        return filePath;
+    }
+
+    private static Bitmap decodeRegionCrop(byte[] data, Rect rect, int mCurrentCameraId,  int width, int height) {
+
+        InputStream is = null;
+        System.gc();
+        Bitmap croppedImage = null;
+        try {
+            is = new ByteArrayInputStream(data);
+            BitmapRegionDecoder decoder = BitmapRegionDecoder.newInstance(is, false);
+
+            try {
+                croppedImage = decoder.decodeRegion(rect, new BitmapFactory.Options());
+            } catch (IllegalArgumentException e) {
+            }
+        } catch (Throwable e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (is != null)
+                    is.close();
+            } catch (Exception e) {
+
+            }
+        }
+        Matrix m = new Matrix();
+        m.setRotate(90, width, height);
+        if (mCurrentCameraId == 1) {
+            m.postScale(1, -1);
+        }
+        Bitmap rotatedImage = Bitmap.createBitmap(croppedImage, 0, 0, width, height, m, true);
+        if (rotatedImage != croppedImage)
+            croppedImage.recycle();
+        return rotatedImage;
     }
 }

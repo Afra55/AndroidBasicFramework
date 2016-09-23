@@ -12,4 +12,12 @@ public interface PhotographUI {
     SurfaceView getSurfaceView();
 
     void showFocusIndex(int pointX, int pointY);
+
+    void showToast(String tip);
+
+    void showLoading(String tip);
+
+    void dismissLoading();
+
+    void handleObtainedImage(String imagePath);
 }
