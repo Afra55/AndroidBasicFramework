@@ -20,6 +20,13 @@ import com.afra55.commontutils.sys.ScreenUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import rx.Observable;
+import rx.Observer;
+import rx.Scheduler;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
 import static android.content.ComponentCallbacks2.TRIM_MEMORY_BACKGROUND;
 import static com.afra55.commontutils.media.CameraUtils.setDisplayOrientation;
 
@@ -264,46 +271,52 @@ public class PhotographPresenter {
     private final class MyPictureCallback implements Camera.PictureCallback {
 
         @Override
-        public void onPictureTaken(byte[] data, Camera camera) {
+        public void onPictureTaken(final byte[] data, Camera camera) {
             Bundle bundle = new Bundle();
             bundle.putByteArray("bytes", data); //将图片字节数据保存在bundle当中，实现数据交换
-            new SavePicTask(data).execute();
+            Observable.create(new Observable.OnSubscribe<String>() {
+                @Override
+                public void call(Subscriber<? super String> subscriber) {
+                    String imagePath;
+                    try {
+                        imagePath = CameraUtils.saveToSDCard(data, mCurrentCameraId);
+                        subscriber.onNext(imagePath);
+                    } catch (Exception e) {
+                        subscriber.onError(e);
+                    }
+                    subscriber.onCompleted();
+                }
+            }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<String>() {
+
+                        @Override
+                        public void onStart() {
+                            mPhotographUI.showLoading("处理中");
+                        }
+
+                        @Override
+                        public void onCompleted() {
+                            mPhotographUI.dismissLoading();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            mPhotographUI.dismissLoading();
+                            LogUtil.e(TAG, "onPictureTaken", e);
+                        }
+
+                        @Override
+                        public void onNext(String imagePath) {
+
+                            if (!TextUtils.isEmpty(imagePath)) {
+                                mPhotographUI.dismissLoading();
+                                mPhotographUI.handleObtainedImage(imagePath);
+                            } else {
+                                mPhotographUI.showToast("拍照失败，请稍后重试！");
+                            }
+                        }
+                    });
             camera.startPreview(); // 拍完照后，重新开始预览
         }
     }
-
-    private class SavePicTask extends AsyncTask<Void, Void, String> {
-        private byte[] data;
-
-        protected void onPreExecute() {
-            mPhotographUI.showLoading("处理中");
-        }
-
-        SavePicTask(byte[] data) {
-            this.data = data;
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-            try {
-                return CameraUtils.saveToSDCard(data, mCurrentCameraId);
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-
-            if (!TextUtils.isEmpty(result)) {
-                mPhotographUI.dismissLoading();
-                mPhotographUI.handleObtainedImage(result);
-            } else {
-                mPhotographUI.showToast("拍照失败，请稍后重试！");
-            }
-        }
-    }
-
 }
