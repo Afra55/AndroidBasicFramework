@@ -69,6 +69,21 @@ public class PhotographActivity extends BaseActivity implements PhotographUI{
     }
 
     private void initEvent() {
+
+        mFlashImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPhotographPresenter.turnLightState();
+            }
+        });
+
+        mFlipCamaraImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPhotographPresenter.switchCamera();
+            }
+        });
+
         mTakePhotoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -163,6 +178,21 @@ public class PhotographActivity extends BaseActivity implements PhotographUI{
         mediaScanIntent.setData(contentUri);
         sendBroadcast(mediaScanIntent);
         showToast(imagePath);
+    }
+
+    @Override
+    public void flashOn() {
+        mFlashImg.setImageResource(R.drawable.camera_flash_on);
+    }
+
+    @Override
+    public void flashAuto() {
+        mFlashImg.setImageResource(R.drawable.camera_flash_auto);
+    }
+
+    @Override
+    public void flashOff() {
+        mFlashImg.setImageResource(R.drawable.camera_flash_off);
     }
 
     @Override

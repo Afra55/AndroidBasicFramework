@@ -14,6 +14,7 @@ import android.view.SurfaceView;
 
 import com.afra55.commontutils.log.LogUtil;
 import com.afra55.commontutils.media.CameraUtils;
+import com.afra55.commontutils.media.photograph.helper.CameraHelper;
 import com.afra55.commontutils.media.photograph.ui.PhotographUI;
 import com.afra55.commontutils.sys.ScreenUtil;
 
@@ -40,6 +41,7 @@ public class PhotographPresenter {
 
     private PhotographUI mPhotographUI;
 
+    private CameraHelper mCameraHelper;
     private Camera cameraInst;
     private Camera.Parameters parameters;
     private Camera.Size adapterSize;
@@ -51,6 +53,7 @@ public class PhotographPresenter {
 
     public PhotographPresenter(PhotographUI photographUI) {
         this.mPhotographUI = photographUI;
+        mCameraHelper = new CameraHelper(mPhotographUI.getContext());
     }
 
     public void initSurfaceView() {
@@ -318,5 +321,83 @@ public class PhotographPresenter {
                     });
             camera.startPreview(); // 拍完照后，重新开始预览
         }
+    }
+
+
+    /**
+     * 闪光灯开关   开->关->自动
+     */
+    public void turnLightState() {
+        if (cameraInst == null || cameraInst.getParameters() == null
+                || cameraInst.getParameters().getSupportedFlashModes() == null) {
+            return;
+        }
+        Camera.Parameters parameters = cameraInst.getParameters();
+        String flashMode = cameraInst.getParameters().getFlashMode();
+        List<String> supportedModes = cameraInst.getParameters().getSupportedFlashModes();
+        if (Camera.Parameters.FLASH_MODE_OFF.equals(flashMode)
+                && supportedModes.contains(Camera.Parameters.FLASH_MODE_ON)) {//关闭状态
+            parameters.setFlashMode(Camera.Parameters.FLASH_MODE_ON);
+            cameraInst.setParameters(parameters);
+            mPhotographUI.flashOn();
+        } else if (Camera.Parameters.FLASH_MODE_ON.equals(flashMode)) {//开启状态
+            if (supportedModes.contains(Camera.Parameters.FLASH_MODE_AUTO)) {
+                parameters.setFlashMode(Camera.Parameters.FLASH_MODE_AUTO);
+                mPhotographUI.flashAuto();
+                cameraInst.setParameters(parameters);
+            } else if (supportedModes.contains(Camera.Parameters.FLASH_MODE_OFF)) {
+                parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+                mPhotographUI.flashAuto();
+                cameraInst.setParameters(parameters);
+            }
+        } else if (Camera.Parameters.FLASH_MODE_AUTO.equals(flashMode)
+                && supportedModes.contains(Camera.Parameters.FLASH_MODE_OFF)) {
+            parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+            cameraInst.setParameters(parameters);
+            mPhotographUI.flashOff();
+        }
+    }
+
+    //切换前后置摄像头
+    public void switchCamera() {
+        mCurrentCameraId = (mCurrentCameraId + 1) % mCameraHelper.getNumberOfCameras();
+        releaseCamera();
+        Log.d("DDDD", "DDDD----mCurrentCameraId" + mCurrentCameraId);
+        setUpCamera(mCurrentCameraId);
+    }
+
+    private void releaseCamera() {
+        if (cameraInst != null) {
+            cameraInst.setPreviewCallback(null);
+            cameraInst.release();
+            cameraInst = null;
+        }
+        adapterSize = null;
+        previewSize = null;
+    }
+
+    private void setUpCamera(int mCurrentCameraId2) {
+        cameraInst = getCameraInstance(mCurrentCameraId2);
+        if (cameraInst != null) {
+            try {
+                cameraInst.setPreviewDisplay(mPhotographUI.getSurfaceView().getHolder());
+                initCamera();
+                cameraInst.startPreview();
+            } catch (Exception e) {
+               LogUtil.e(TAG, "setUpCamera", e);
+            }
+        } else {
+            mPhotographUI.showToast("切换失败，请重试！");
+        }
+    }
+
+    private Camera getCameraInstance(final int id) {
+        Camera c = null;
+        try {
+            c = mCameraHelper.openCamera(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return c;
     }
 }

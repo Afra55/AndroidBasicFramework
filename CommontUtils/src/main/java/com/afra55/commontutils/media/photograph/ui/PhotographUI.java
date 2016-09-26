@@ -1,5 +1,6 @@
 package com.afra55.commontutils.media.photograph.ui;
 
+import android.content.Context;
 import android.view.SurfaceView;
 import android.view.View;
 
@@ -20,4 +21,12 @@ public interface PhotographUI {
     void dismissLoading();
 
     void handleObtainedImage(String imagePath);
+
+    void flashOn();
+
+    void flashAuto();
+
+    void flashOff();
+
+    Context getContext();
 }
