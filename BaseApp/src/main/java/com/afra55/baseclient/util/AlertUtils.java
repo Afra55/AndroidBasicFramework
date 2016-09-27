@@ -6,41 +6,45 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.widget.Toast;
 
-import com.afra55.baseclient.view.CusstomDialog;
+import com.afra55.baseclient.view.CustomDialog;
 
 
 public class AlertUtils {
 
-	private static CusstomDialog dialog = null;
+	public interface OnDialogClickListener{
+		void onConfirm(DialogInterface dialog, int which);
+
+		void onCancel(DialogInterface dialog, int which);
+	}
+
+	private static CustomDialog dialog = null;
 	/**
 	 * 弹出框
-	 * @param context
-	 * @param title
-	 * @param content
-	 * @param ok
-	 * @param cancel
-	 * @param lOk
-	 * @param lCancel
+	 * @param context context
+	 * @param title title
+	 * @param content content
+	 * @param ok ok show text
+	 * @param cancel cancel show text
+	 * @param clickListener  OnDialogClickListener
 	 * @return
 	 */
-	public static CusstomDialog.Builder showAlert(final Context context,
-			final String title, String content, final String ok,
-			final String cancel, final OnClickListener lOk,
-			final OnClickListener lCancel) {
+	public static CustomDialog.Builder showAlert(final Context context,
+                                                 final String title, String content, final String ok,
+                                                 final String cancel, final OnDialogClickListener clickListener) {
 		if (context instanceof Activity && ((Activity) context).isFinishing() || (dialog!=null && dialog.isShowing())) {
 			Toast.makeText(context, "null"+ (dialog!=null && dialog.isShowing()), Toast.LENGTH_SHORT).show();
 			return null;
 		}
-		CusstomDialog.Builder builder = new CusstomDialog.Builder(context);
+		CustomDialog.Builder builder = new CustomDialog.Builder(context);
 		builder.setTitle(title);
 		builder.setMessage(content);
 		builder.setNegativeButton(cancel, new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.dismiss();
-				if(lCancel!=null){
+				if(clickListener!=null){
 
-					lCancel.onClick(dialog, which);
+					clickListener.onCancel(dialog, which);
 				}
 			}
 		});
@@ -48,8 +52,9 @@ public class AlertUtils {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.dismiss();
-				
-				lOk.onClick(dialog, which);
+				if (clickListener != null) {
+					clickListener.onConfirm(dialog, which);
+				}
 			}
 		});
 		dialog = builder.create();
@@ -57,12 +62,12 @@ public class AlertUtils {
 		return builder;
 	}
 
-	public static CusstomDialog.Builder showConfirmAlert(final Context context,
-			final String title, String content) {
+	public static CustomDialog.Builder showConfirmAlert(final Context context,
+                                                        final String title, String content) {
 		if (context instanceof Activity && ((Activity) context).isFinishing() || (dialog!=null && dialog.isShowing())) {
 			return null;
 		}
-		CusstomDialog.Builder builder = new CusstomDialog.Builder(context);
+		CustomDialog.Builder builder = new CustomDialog.Builder(context);
 		builder.setTitle(title);
 		builder.setMessage(content);
 		builder.setPositiveButton("确定", new OnClickListener() {
@@ -77,12 +82,12 @@ public class AlertUtils {
 		return builder;
 	}
 
-	public static CusstomDialog.Builder showConfirmAlert(final Context context,
-			final String title, final String confirm, String content) {
+	public static CustomDialog.Builder showConfirmAlert(final Context context,
+                                                        final String title, final String confirm, String content) {
 		if (context instanceof Activity && ((Activity) context).isFinishing()  || (dialog!=null && dialog.isShowing())) {
 			return null;
 		}
-		CusstomDialog.Builder builder = new CusstomDialog.Builder(context);
+		CustomDialog.Builder builder = new CustomDialog.Builder(context);
 		builder.setTitle(title);
 		builder.setMessage(content);
 		builder.setPositiveButton(confirm, new OnClickListener() {
@@ -97,12 +102,12 @@ public class AlertUtils {
 		return builder;
 	}
 
-	public static CusstomDialog.Builder showConfirmAlert(final Context context,
-			final String title, String content, final OnClickListener lOk) {
+	public static CustomDialog.Builder showConfirmAlert(final Context context,
+                                                        final String title, String content, final OnClickListener lOk) {
 		if (context instanceof Activity && ((Activity) context).isFinishing()  || (dialog!=null && dialog.isShowing())) {
 			return null;
 		}
-		CusstomDialog.Builder builder = new CusstomDialog.Builder(context);
+		CustomDialog.Builder builder = new CustomDialog.Builder(context);
 		builder.setTitle(title);
 		builder.setMessage(content);
 		builder.setPositiveButton("确定", new OnClickListener() {
