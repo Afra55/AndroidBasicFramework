@@ -14,13 +14,35 @@
 # class:
 
 
+# 混淆后会生成映射文件，包含类名和混淆后类名的映射关系， 使用 printmapping 可以指定映射的名称
+-verbose
+-printmapping proguardMapping.txt
+
+# * 不忽略非公共的库的类的成员
+-dontskipnonpubliclibraryclassmembers
+
+# * 抛出异常时保留代码行号
+-keepattributes SourceFile, LineNumberTable
+
 # keep 所有的 javabean ==========================需要替换包名========================
 -keep class com.afra55.apimodule.bean.**
 -keep class com.afra55.apimodule.bean.**{*;}
 
+# 最好不要有内嵌类，非要有 用示例 MainActivity$*{*;} 来避免混淆这个类的内嵌类, $ 是用来分割内嵌类的标志
+
+# WebView 相关, 还有要确保 js 调用的原生android 方法不被混淆 <methods>;
 -keepclassmembers class fqcn.of.javascript.interface.for.webview {
    public *;
 }
+-keepclassmembernames class * extends android.webkit.WebViewClient {
+    public void * (android.webkit.WebView, java.lang.String, android.graphics.Bitmap);
+    public boolean * (android.webkit.WebView, java.lang.String);
+}
+-keepclassmembernames class * extends android.webkit.WebViewClient {
+    public void * (android.webkit.WebView, java.lang.String);
+}
+
+# 对于反射，例如 Class.forName("XXXX"), 一定要确保 XXXX类名不被混淆, 以及要反射的方法和属性
 
 # 混淆泛型
 -keepattributes Signature
@@ -67,6 +89,7 @@
   public static final android.os.Parcelable$Creator *;
 }
 
+# 保留 Serializable 序列化的类不被混淆
 -keepclassmembers class * implements java.io.Serializable {
     static final long serialVersionUID;
     private static final java.io.ObjectStreamField[] serialPersistentFields;
@@ -76,9 +99,31 @@
     java.lang.Object readResolve();
 }
 
+# 不混淆 R 资源下的所有类及方法
 -keep class **.R$* {
  *;
 }
+
+# 对带有回调函数 onXXEvent， 不混淆该方法
+-keepclassmembers class * {
+    void *(**On*Event);
+}
+
+# 保留自定义控件不被混淆, 凡是在 XML 中配置的 自定义 View 都要保持名字不被混淆， 这个要自行添加
+-keep public class * extends android.view.View {
+    *** get*();
+    void set*(***);
+    public <init>(android.content.Context);
+    public <init>(android.content.Context, android.util.AttributeSet);
+    public <init>(android.content.Context, android.util.AttributeSet, int);
+}
+
+# V4 包示例
+-dontwarn android.support.v4.**
+-keep class android.support.v4.** {*;}
+-keep interface android.support.v4.app.** {*;}
+-keep public class * extends android.support.v4.**
+-keep public class * extends android.app.Fragment
 
 # OKHTTP
 -dontwarn com.squareup.okhttp.**

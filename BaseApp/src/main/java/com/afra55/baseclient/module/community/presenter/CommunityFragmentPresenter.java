@@ -1,5 +1,6 @@
 package com.afra55.baseclient.module.community.presenter;
 
+import com.afra55.apimodule.bean.TransResultBean;
 import com.afra55.apimodule.bean.TranslateBean;
 import com.afra55.apimodule.helper.ToTransltateHelper;
 import com.afra55.baseclient.module.community.ui.CommunityFragmentUI;
@@ -26,9 +27,9 @@ public class CommunityFragmentPresenter {
 
             @Override
             public void onSuccess(TranslateBean translateBean) {
-                List<TranslateBean.TransResultBean> list = translateBean.getTrans_result();
+                List<TransResultBean> list = translateBean.getTrans_result();
                 String result = "";
-                for (TranslateBean.TransResultBean resultBean : list) {
+                for (TransResultBean resultBean : list) {
                     result += resultBean.getDst() + " ";
                 }
                 mCommunityFragmentUI.setTranslateResult(result);

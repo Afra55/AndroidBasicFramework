@@ -26,13 +26,13 @@ import com.afra55.baseclient.R;
  * @author antoine vianey
  *
  */
-public class CusstomDialog extends Dialog {
+public class CustomDialog extends Dialog {
 
-	public CusstomDialog(Context context, int theme) {
+	public CustomDialog(Context context, int theme) {
 		super(context, theme);
 	}
 
-	public CusstomDialog(Context context) {
+	public CustomDialog(Context context) {
 		super(context);
 	}
 
@@ -166,11 +166,11 @@ public class CusstomDialog extends Dialog {
 		/**
 		 * Create the custom dialog
 		 */
-		public CusstomDialog create() {
+		public CustomDialog create() {
 			LayoutInflater inflater = (LayoutInflater) context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			// instantiate the dialog with the custom Theme
-			final CusstomDialog dialog = new CusstomDialog(context, R.style.dialog);
+			final CustomDialog dialog = new CustomDialog(context, R.style.dialog);
 			dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 			dialog.setCancelable(true);
 			View layout = inflater.inflate(R.layout.alert, null);

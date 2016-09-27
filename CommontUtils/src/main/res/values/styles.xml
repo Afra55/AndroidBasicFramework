@@ -14,4 +14,49 @@
         <item name="android:backgroundDimEnabled">true</item>
         <!-- 后面的activity变暗 -->
     </style>
+
+    <style name="dialog_title_text_style">
+        <item name="android:textSize">@dimen/big_text_size</item>
+        <item name="android:textColor">#f7389fff</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:paddingLeft">@dimen/dialog_text_margin_horizontal</item>
+        <item name="android:paddingRight">@dimen/dialog_text_margin_horizontal</item>
+        <item name="android:paddingTop">@dimen/dialog_padding_vertical</item>
+        <item name="android:paddingBottom">@dimen/dialog_padding_vertical</item>
+    </style>
+
+    <style name="dialog_message_text_style">
+        <item name="android:textSize">@dimen/normal_text_size</item>
+        <item name="android:textColor">#333333</item>
+        <item name="android:paddingLeft">@dimen/dialog_text_margin_horizontal</item>
+        <item name="android:paddingRight">@dimen/dialog_text_margin_horizontal</item>
+        <item name="android:paddingTop">@dimen/dialog_padding_vertical</item>
+        <item name="android:paddingBottom">@dimen/dialog_padding_vertical</item>
+    </style>
+
+    <!-- 右下角有输入字符长度限制 用于对话框 -->
+    <style name="easy_dialog_edit_text_style" parent="@android:style/Widget.EditText">
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:background">@drawable/easy_edit_text_dialog_bg</item>
+        <item name="android:paddingLeft">6dp</item>
+        <item name="android:paddingRight">30dp</item>
+        <item name="android:paddingBottom">6dp</item>
+    </style>
+
+    <style name="dialog_button_text_style">
+        <item name="android:textSize">@dimen/big_text_size</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:background">@android:color/white</item>
+        <item name="android:paddingTop">@dimen/custom_dialog_padding_vertical</item>
+        <item name="android:paddingBottom">@dimen/custom_dialog_padding_vertical</item>
+    </style>
+
+    <style name="comment_dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
 </resources>
