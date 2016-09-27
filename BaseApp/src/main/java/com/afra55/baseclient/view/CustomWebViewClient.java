@@ -15,11 +15,11 @@ import com.afra55.commontutils.log.LogUtil;
 /**
  * Created by yangshuai in the 13:58 of 2016.01.06 .
  */
-public class CusstomWebViewClient extends WebViewClient {
+public class CustomWebViewClient extends WebViewClient {
 
     private final Context context;
 
-    public CusstomWebViewClient(Context context) {
+    public CustomWebViewClient(Context context) {
         this.context = context;
     }
 

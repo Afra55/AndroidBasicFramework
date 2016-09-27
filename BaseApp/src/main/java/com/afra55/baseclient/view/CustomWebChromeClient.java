@@ -13,11 +13,11 @@ import com.afra55.commontutils.log.LogUtil;
 /**
  * Created by yangshuai in the 14:06 of 2016.01.06 .
  */
-public class CusstomWebChromeClient extends WebChromeClient {
+public class CustomWebChromeClient extends WebChromeClient {
 
     private Context context;
 
-    public CusstomWebChromeClient(Context context) {
+    public CustomWebChromeClient(Context context) {
         this.context = context;
     }
 
@@ -56,7 +56,7 @@ public class CusstomWebChromeClient extends WebChromeClient {
 
     @Override
     public boolean onJsPrompt(WebView view, String url, String message, String defaultValue, JsPromptResult result) {
-        LogUtil.d("CusstomWebChromeClient", "defaultValue = " + defaultValue + " result = " + result + " message = " + message);
+        LogUtil.d("CustomWebChromeClient", "defaultValue = " + defaultValue + " result = " + result + " message = " + message);
         return super.onJsPrompt(view, url, message, defaultValue, result);
     }
 

@@ -9,19 +9,19 @@ import android.webkit.WebView;
 /**
  * Created by yangshuai in the 13:51 of 2016.01.06 .
  */
-public class CusstomWebView extends WebView {
+public class CustomWebView extends WebView {
 
-    public CusstomWebView(Context context) {
+    public CustomWebView(Context context) {
         super(context);
         init(context);
     }
 
-    public CusstomWebView(Context context, AttributeSet attrs) {
+    public CustomWebView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public CusstomWebView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public CustomWebView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
     }
@@ -50,8 +50,8 @@ public class CusstomWebView extends WebView {
             getSettings().setUseWideViewPort(true);
             getSettings().setLoadWithOverviewMode(true);// 设置网页能适配手机屏幕
 
-            setWebChromeClient(new CusstomWebChromeClient(context));
-            setWebViewClient(new CusstomWebViewClient(context));
+            setWebChromeClient(new CustomWebChromeClient(context));
+            setWebViewClient(new CustomWebViewClient(context));
         }
     }
 }
