@@ -27,6 +27,8 @@
 # keep 所有的 javabean ==========================需要替换包名========================
 -keep class com.afra55.apimodule.bean.**
 -keep class com.afra55.apimodule.bean.**{*;}
+-keep class com.afra55.commontutils.bean.**
+-keep class com.afra55.commontutils.bean.**{*;}
 
 # 最好不要有内嵌类，非要有 用示例 MainActivity$*{*;} 来避免混淆这个类的内嵌类, $ 是用来分割内嵌类的标志
 
