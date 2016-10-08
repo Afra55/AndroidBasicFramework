@@ -39,8 +39,8 @@ public class PluginUtils {
             ApplicationInfo appInfo = pkgInfo.applicationInfo;
             pluginInfoBean.setVersionName(pkgInfo.versionName);//版本号
             pluginInfoBean.setIcon(pm.getApplicationIcon(appInfo));//图标
-            pluginInfoBean.setAppName(pm.getApplicationLabel(appInfo).toString());//app名称
-            pluginInfoBean.setPackageName(appInfo.packageName);//包名
+            pluginInfoBean.setPluginName(pm.getApplicationLabel(appInfo).toString());//app名称
+            pluginInfoBean.setPluginPackageName(appInfo.packageName);//包名
         }
         return pluginInfoBean;
     }
@@ -82,13 +82,13 @@ public class PluginUtils {
         }
         //参数：1、包含dex的apk文件或jar文件的路径，2、apk、jar解压缩生成dex存储的目录，3、本地library库目录，一般为null，4、父ClassLoader
         DexClassLoader dexClassLoader = new DexClassLoader(
-                StorageUtil.getPluginDir()
+                StorageUtil.getPluginDir() + pluginInfoBean.getPluginName()
                 , dexOutputDir.getPath()
                 , null
                 , ClassLoader.getSystemClassLoader());
 
         //通过使用apk自己的类加载器，反射出R类中相应的内部类进而获取我们需要的资源id
-        Class<?> clazz = dexClassLoader.loadClass(pluginInfoBean.getPackageName() + ".R$mipmap");
+        Class<?> clazz = dexClassLoader.loadClass(pluginInfoBean.getPluginPackageName() + ".R$mipmap");
 
         //得到名为 resourceName 字段
         Field field = clazz.getDeclaredField(resourceName);
