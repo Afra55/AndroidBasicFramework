@@ -1,13 +1,9 @@
 package com.afra55.commontutils.storage;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.Environment;
 import android.os.StatFs;
 import android.text.TextUtils;
-
-import com.afra55.commontutils.AppCache;
-import com.afra55.commontutils.R;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -114,15 +110,9 @@ public class StorageUtil {
 		return ExternalStorage.getInstance().getDirectoryByDirType(fileType);
 	}
 
-    public static String getSystemImagePath() {
-        if (Build.VERSION.SDK_INT > 7) {
-            String picturePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath();
-			return picturePath + "/" + AppCache.getContext().getResources().getString(R.string.app_name) + "/";
-		} else {
-            String picturePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath();
-            return picturePath + "/" + AppCache.getContext().getResources().getString(R.string.app_name) + "/";
-        }
-    }
+	public static String getCacheDir() {
+		return getDirectoryByDirType(StorageType.TYPE_TEMP);
+	}
 
 	public static boolean isInvalidVideoFile(String filePath) {
 		return filePath.toLowerCase().endsWith(".3gp")

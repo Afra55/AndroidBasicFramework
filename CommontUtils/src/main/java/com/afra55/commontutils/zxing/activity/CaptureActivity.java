@@ -239,7 +239,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
     private void displayFrameworkBugMessageAndExit() {
         // camera error
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(getString(R.string.app_name));
+        builder.setTitle(getApplicationInfo().loadLabel(getPackageManager()));
         builder.setMessage("Camera error");
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 
