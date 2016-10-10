@@ -16,8 +16,11 @@ public class PluginInfoBean implements Serializable{
     private Drawable icon;
 
     //插件名称
-    String pluginName;
-    String pluginPackageName;
+    private String pluginName;
+    private String pluginPackageName;
+
+    // 插件的主程序
+    private String pluginMainClassName;
 
     public String getVersionName() {
         return versionName;
@@ -49,5 +52,13 @@ public class PluginInfoBean implements Serializable{
 
     public void setPluginPackageName(String pluginPackageName) {
         this.pluginPackageName = pluginPackageName;
+    }
+
+    public String getPluginMainClassName() {
+        return pluginMainClassName;
+    }
+
+    public void setPluginMainClassName(String pluginMainClassName) {
+        this.pluginMainClassName = pluginMainClassName;
     }
 }
