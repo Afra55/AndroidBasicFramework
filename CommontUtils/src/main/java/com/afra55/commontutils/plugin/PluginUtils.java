@@ -112,9 +112,6 @@ public class PluginUtils {
         try {
             AssetManager assetManager = getPluginAssetManager(context, dexName);
             Resources superRes = context.getResources();
-            if (assetManager == context.getAssets()) {
-                return superRes;
-            }
             Resources resources = new Resources(assetManager, superRes.getDisplayMetrics(),
                     superRes.getConfiguration());
             mPluginResourcesCache.put(dexName, resources);
@@ -136,9 +133,6 @@ public class PluginUtils {
         }
         try {
             Resources resources = getPluginResources(context, apkName);
-            if (resources == context.getResources()) {
-                return context.getTheme();
-            }
             Resources.Theme mTheme = resources.newTheme();
             mTheme.setTo(context.getTheme());
             mPluginThemeCache.put(apkName, mTheme);
