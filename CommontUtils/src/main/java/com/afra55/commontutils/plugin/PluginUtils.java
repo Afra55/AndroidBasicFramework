@@ -11,6 +11,7 @@ import android.os.Bundle;
 
 import com.afra55.commontutils.R;
 import com.afra55.commontutils.bean.PluginInfoBean;
+import com.afra55.commontutils.file.AttachmentStore;
 import com.afra55.commontutils.log.LogUtil;
 import com.afra55.commontutils.storage.StorageUtil;
 
@@ -157,6 +158,20 @@ public class PluginUtils {
             onCreate.invoke(instance, new Object[]{bundle});
         } catch (Exception e) {
             LogUtil.e(TAG, "launchTargetActivity", e);
+        }
+    }
+
+    /**
+     * 加载 SD 卡上的 .so 库文件
+     * @param context Context
+     * @param soLibraryPath .so 库文件 路径
+     * @param soLibraryName .so 库文件 名字
+     */
+    public static void loadSdcardSOLibrary(Context context, String soLibraryPath, String soLibraryName) {
+        File dir = context.getDir("jniLibs", Activity.MODE_PRIVATE);
+        File distFile = new File(dir.getAbsolutePath() + File.separator + soLibraryName);
+        if (AttachmentStore.copy(soLibraryPath, distFile.getAbsolutePath()) != -1) {
+            System.loadLibrary(distFile.getAbsolutePath());
         }
     }
 }
