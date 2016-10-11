@@ -38,6 +38,15 @@ public class PluginUtils {
     private static Map<String, Resources.Theme> mPluginThemeCache = new HashMap<>();
 
     /**
+     * 清楚插件缓存
+     */
+    public static void clearPluginCache() {
+        mPluginAssetManagerCache.clear();
+        mPluginResourcesCache.clear();
+        mPluginThemeCache.clear();
+    }
+
+    /**
      * 获取未安装apk的信息
      *
      * @param context         context
