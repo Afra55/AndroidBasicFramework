@@ -168,7 +168,7 @@ public class PluginUtils {
     /**
      * 启动 插件的 Activity.
      * @param context Context
-     * @param archiveFilePath 插件路径
+     * @param pluginName 插件名字
      * @param className 需要启动的 Activity 名字（例: com.afra55.baseclient.base.MainActivity）
      * @param bundle Bundle
      * @param needAgencyTargetActivity 是否代理目标 Activity ，
@@ -177,7 +177,7 @@ public class PluginUtils {
      */
     public static void launchTargetActivity(
             Context context
-            , String archiveFilePath
+            , String pluginName
             , final String className
             , Bundle bundle
             , boolean needAgencyTargetActivity) {
@@ -185,7 +185,10 @@ public class PluginUtils {
 
         ClassLoader localClassLoader = ClassLoader.getSystemClassLoader();
         DexClassLoader dexClassLoader =
-                ClassLoaderHelper.getClassLoader(context, archiveFilePath, localClassLoader);
+                ClassLoaderHelper.getClassLoader(
+                        context
+                        , StorageUtil.getPluginDir() + pluginName
+                        , localClassLoader);
         try {
             Class<?> localClass = dexClassLoader.loadClass(className);
             Constructor<?> localConstructor = localClass
