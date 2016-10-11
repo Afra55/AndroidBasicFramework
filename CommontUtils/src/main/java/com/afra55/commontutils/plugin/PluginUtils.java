@@ -87,16 +87,12 @@ public class PluginUtils {
      * @throws Exception
      */
     private int dynamicLoadApk(Context context, PluginInfoBean pluginInfoBean, String resourceName) throws Exception {
-        File dexOutputDir = context.getDir("dex", 0);
-        if (dexOutputDir == null && !dexOutputDir.mkdir()) {
-            throw new Resources.NotFoundException("dex dir not found");
-        }
-        //参数：1、包含dex的apk文件或jar文件的路径，2、apk、jar解压缩生成dex存储的目录，3、本地library库目录，一般为null，4、父ClassLoader
-        DexClassLoader dexClassLoader = new DexClassLoader(
-                StorageUtil.getPluginDir() + pluginInfoBean.getPluginName()
-                , dexOutputDir.getPath()
-                , null
-                , ClassLoader.getSystemClassLoader());
+
+        DexClassLoader dexClassLoader =
+                ClassLoaderHelper.getClassLoader(
+                        context
+                        , StorageUtil.getPluginDir() + pluginInfoBean.getPluginName()
+                        , ClassLoader.getSystemClassLoader());
 
         //通过使用apk自己的类加载器，反射出R类中相应的内部类进而获取我们需要的资源id
         Class<?> clazz = dexClassLoader.loadClass(pluginInfoBean.getPluginPackageName() + ".R$mipmap");
@@ -123,14 +119,10 @@ public class PluginUtils {
             , Bundle bundle
             , boolean needAgencyTargetActivity) {
         LogUtil.d(TAG, "start launchTargetActivity, className=" + className);
-        File dexOutputDir = context.getDir("dex", 0);
-        final String dexOutputPath = dexOutputDir.getAbsolutePath();
+
         ClassLoader localClassLoader = ClassLoader.getSystemClassLoader();
-        DexClassLoader dexClassLoader = new DexClassLoader(
-                archiveFilePath
-                , dexOutputPath
-                , null
-                , localClassLoader);
+        DexClassLoader dexClassLoader =
+                ClassLoaderHelper.getClassLoader(context, archiveFilePath, localClassLoader);
         try {
             Class<?> localClass = dexClassLoader.loadClass(className);
             Constructor<?> localConstructor = localClass
