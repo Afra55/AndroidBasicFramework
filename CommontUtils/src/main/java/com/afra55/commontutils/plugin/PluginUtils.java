@@ -19,6 +19,8 @@ import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 
 import dalvik.system.DexClassLoader;
 
@@ -30,6 +32,10 @@ import dalvik.system.DexClassLoader;
 public class PluginUtils {
 
     private static final String TAG = PluginUtils.class.getSimpleName();
+
+    private static Map<String, AssetManager> mPluginAssetManagerCache = new HashMap<>();
+    private static Map<String, Resources> mPluginResourcesCache = new HashMap<>();
+    private static Map<String, Resources.Theme> mPluginThemeCache = new HashMap<>();
 
     /**
      * 获取未安装apk的信息
@@ -57,26 +63,80 @@ public class PluginUtils {
     }
 
     /**
-     * @param apkName
-     * @return 得到对应插件的Resource对象
+     * 获取插件的 AssetManager.
+     * @param context Context.
+     * @param dexName 插件的名字.
+     * @return 插件的 AssetManager.
      */
-    private Resources getPluginResources(Context context, String apkName) {
+    public static AssetManager getPluginAssetManager(Context context, String dexName) {
+        if (mPluginAssetManagerCache.containsKey(dexName) && mPluginAssetManagerCache.get(dexName) != null) {
+            return mPluginAssetManagerCache.get(dexName);
+        }
         try {
             AssetManager assetManager = AssetManager.class.newInstance();
 
             //反射调用方法addAssetPath(String path)
             Method addAssetPath = assetManager.getClass().getMethod("addAssetPath", String.class);
 
-            // 第二个参数是apk的路径：Environment.getExternalStorageDirectory().getPath()+File.separator+"plugin"+File.separator+"apkplugin.apk"
+            // 第二个参数是apk的路径：
+            // Environment.getExternalStorageDirectory().getPath()+File.separator+"plugin"+File.separator+"apkplugin.apk"
             // 将未安装的Apk文件的添加进AssetManager中，第二个参数为apk文件的路径带apk名
-            addAssetPath.invoke(assetManager, StorageUtil.getPluginDir() + apkName);
-            Resources superRes = context.getResources();
-            return new Resources(assetManager, superRes.getDisplayMetrics(),
-                    superRes.getConfiguration());
+            addAssetPath.invoke(assetManager, StorageUtil.getPluginDir() + dexName);
+
+            mPluginAssetManagerCache.put(dexName, assetManager);
+            return assetManager;
         } catch (Exception e) {
-            e.printStackTrace();
+            return context.getAssets();
         }
-        return null;
+    }
+
+    /**
+     * 获取插件的 Resources
+     * @param context Context
+     * @param dexName 插件名字
+     * @return 插件的 Resources
+     */
+    public static Resources getPluginResources(Context context, String dexName) {
+        if (mPluginResourcesCache.containsKey(dexName) && mPluginResourcesCache.get(dexName) != null) {
+            return mPluginResourcesCache.get(dexName);
+        }
+        try {
+            AssetManager assetManager = getPluginAssetManager(context, dexName);
+            Resources superRes = context.getResources();
+            if (assetManager == context.getAssets()) {
+                return superRes;
+            }
+            Resources resources = new Resources(assetManager, superRes.getDisplayMetrics(),
+                    superRes.getConfiguration());
+            mPluginResourcesCache.put(dexName, resources);
+            return resources;
+        } catch (Exception e) {
+            return context.getResources();
+        }
+    }
+
+    /**
+     * 获取插件的主题
+     * @param context Context
+     * @param apkName 插件名字
+     * @return 插件的主题
+     */
+    public static Resources.Theme getPluginTheme(Context context, String apkName) {
+        if (mPluginThemeCache.containsKey(apkName) && mPluginThemeCache.get(apkName) != null) {
+            return mPluginThemeCache.get(apkName);
+        }
+        try {
+            Resources resources = getPluginResources(context, apkName);
+            if (resources == context.getResources()) {
+                return context.getTheme();
+            }
+            Resources.Theme mTheme = resources.newTheme();
+            mTheme.setTo(context.getTheme());
+            mPluginThemeCache.put(apkName, mTheme);
+            return mTheme;
+        } catch (Exception e) {
+            return context.getTheme();
+        }
     }
 
     /**
