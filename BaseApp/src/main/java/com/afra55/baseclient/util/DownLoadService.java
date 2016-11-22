@@ -16,6 +16,7 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.widget.Toast;
 
 import com.afra55.baseclient.R;
+import com.afra55.commontutils.storage.StorageUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -154,7 +155,7 @@ public class DownLoadService {
                 .setAutoCancel(false)
                 .setColor(mContext.getResources().getColor(R.color.blue))
                 .setContentText(describeText)
-                .setContentTitle(mContext.getResources().getString(R.string.app_name));
+                .setContentTitle(mContext.getApplicationInfo().loadLabel(mContext.getPackageManager()));
 
         PendingIntent contentIntent = PendingIntent.getActivity(mContext, 0, new Intent(), 0);
         mNotify.setContentIntent(contentIntent);
@@ -272,22 +273,7 @@ public class DownLoadService {
      * @return
      */
     public static String cachePath(Context context) {
-        String path;
-        if (hasSDcard()) {
-            path = sdcardPath + File.separator + context.getResources().getString(R.string.app_name);
-            File file = new File(path);
-            if (!file.isDirectory()) {
-                file.delete();
-            }
-            if (file == null || !file.exists()) {
-                file.mkdirs();
-            }
-            path += File.separator;
-
-        } else {
-            path = context.getCacheDir().getAbsolutePath();
-        }
-        return path;
+        return StorageUtil.getCacheDir();
     }
 
 }

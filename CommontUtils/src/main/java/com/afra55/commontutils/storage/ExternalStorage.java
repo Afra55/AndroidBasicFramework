@@ -51,7 +51,7 @@ class ExternalStorage {
 
     private void loadStorageState(Context context) {
         String externalPath = Environment.getExternalStorageDirectory().getPath();
-        this.sdkStorageRoot = externalPath + "/" + context.getPackageName() + "/";
+        this.sdkStorageRoot = externalPath + "/" + context.getApplicationInfo().loadLabel(context.getPackageManager()) + "/";
     }
 
 	private void createSubFolders() {
