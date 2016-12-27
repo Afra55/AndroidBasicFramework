@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$/APIModule" />
             <option value="$PROJECT_DIR$/BaseApp" />
             <option value="$PROJECT_DIR$/CommontUtils" />
+            <option value="$PROJECT_DIR$/ModuleLibrary" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

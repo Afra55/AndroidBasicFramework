@@ -30,9 +30,9 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile project(':APIModule')
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha8'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
+    compile project(':ModuleLibrary')
 }
