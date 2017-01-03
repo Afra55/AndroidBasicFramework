@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 
 import com.afra55.baseclient.R;
+import com.afra55.baseclient.ui.activity.MainActivity;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;

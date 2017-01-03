@@ -5,6 +5,7 @@ import android.os.StrictMode;
 import android.util.Log;
 
 import com.afra55.baseclient.BuildConfig;
+import com.afra55.baseclient.ui.activity.MainActivity;
 import com.afra55.commontutils.AppCache;
 import com.afra55.commontutils.crash.AppCrashHandler;
 import com.afra55.commontutils.log.LogUtil;
@@ -17,7 +18,7 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 /**
  * Created by yangshuai in the 10:37 of 2016.01.05 .
  */
-public class CusstomApplication extends Application {
+public class CustomApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();

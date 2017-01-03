@@ -1,4 +1,4 @@
-package com.afra55.baseclient.base;
+package com.afra55.baseclient.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
