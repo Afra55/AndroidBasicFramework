@@ -7,24 +7,43 @@ android {
         applicationId "com.afra55.baseclient"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode = Integer.valueOf("" + appVersionCode).intValue()
+        versionName "${appVersionName}"
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+        multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
+    }
+    signingConfigs {
+        debug {
+            storeFile file("../BaseApp/debug.keystore")
+            storePassword "android"
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+        }
+        // Notice the production keystore and password are not checked in. Signing resources for
+        // release builds are typically stored somewhere more secure than the source repo.
+        // This typically also means that release builds are signed manually rather than by
+        // Gradle.
     }
     buildTypes {
         release {
+            debuggable false
             minifyEnabled true
             zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
+            debuggable true
             minifyEnabled false
             zipAlignEnabled false
+            signingConfig signingConfigs.debug
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     productFlavors {
     }
+
+
 }
 
 dependencies {
