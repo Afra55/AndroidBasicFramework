@@ -1,7 +1,9 @@
 package com.afra55.baseclient.base;
 
 import android.app.Application;
+import android.content.Context;
 import android.os.StrictMode;
+import android.support.multidex.MultiDex;
 import android.util.Log;
 
 import com.afra55.baseclient.BuildConfig;
@@ -53,5 +55,11 @@ public class CustomApplication extends Application {
                     .build());
         }
 
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 }
