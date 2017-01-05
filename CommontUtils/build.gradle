@@ -9,6 +9,8 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -27,6 +29,18 @@ android {
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/LICENSE-FIREBASE.txt'
         exclude 'META-INF/NOTICE'
+    }
+
+    // Test Android jar comes with unimplemented methods that throw exceptions by default. This
+    // option forces the methods to return default values instead. Required for static methods,
+    // such as TextUtils, as those cannot be mocked with Mockito.
+    // Refer http://tools.android.com/tech-docs/unit-testing-support#TOC-Method-...-not-mocked.-
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
+    aaptOptions {
+        cruncherEnabled false
     }
 }
 
