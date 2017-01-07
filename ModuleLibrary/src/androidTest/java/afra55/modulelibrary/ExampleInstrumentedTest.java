@@ -1,4 +1,4 @@
-package next.modulelibrary;
+package afra55.modulelibrary;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

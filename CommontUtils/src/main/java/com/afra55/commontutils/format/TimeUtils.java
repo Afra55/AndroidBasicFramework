@@ -825,5 +825,14 @@ public class TimeUtils {
         return sb.toString();
     }
 
+    public static boolean isSameDayDisplay(long time1, long time2, Context context) {
+        TimeZone displayTimeZone = TimeZone.getDefault();
+        Calendar cal1 = Calendar.getInstance(displayTimeZone);
+        Calendar cal2 = Calendar.getInstance(displayTimeZone);
+        cal1.setTimeInMillis(time1);
+        cal2.setTimeInMillis(time2);
+        return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR)
+                && cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
+    }
 }
 

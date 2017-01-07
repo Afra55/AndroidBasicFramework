@@ -1,4 +1,4 @@
-package next.modulelibrary;
+package afra55.modulelibrary;
 
 import org.junit.Test;
 

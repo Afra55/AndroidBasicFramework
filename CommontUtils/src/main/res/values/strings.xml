@@ -2,6 +2,6 @@
     <string name="app_name">App</string>
     <string name="app_breakdown">程序出现异常,即将重启应用</string>
     <color name="contact_letter_idx_bg">#33000000</color>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
 </resources>
