@@ -2,6 +2,7 @@ package com.afra55.commontutils.ui.dialog;
 
 import android.content.Context;
 import android.content.DialogInterface.OnCancelListener;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.afra55.commontutils.log.LogUtils;
@@ -10,16 +11,16 @@ import com.afra55.commontutils.log.LogUtils;
 public class DialogMaker {
 	private static EasyProgressDialog progressDialog;
 
-    public static EasyProgressDialog showProgressDialog(Context context, String message) {
+    public static EasyProgressDialog showProgressDialog(@NonNull Context context, String message) {
         return showProgressDialog(context, null, message, true, null);
     }
 
-	public static EasyProgressDialog showProgressDialog(Context context, String message, boolean cancelable) {
+	public static EasyProgressDialog showProgressDialog(@NonNull Context context, String message, boolean cancelable) {
 		return showProgressDialog(context, null, message, cancelable, null);
 	}
 	
 	@Deprecated
-	public static EasyProgressDialog showProgressDialog(Context context,
+	public static EasyProgressDialog showProgressDialog(@NonNull Context context,
 			String title, String message, boolean canCancelable, OnCancelListener listener) {
 
 		if (progressDialog == null) {

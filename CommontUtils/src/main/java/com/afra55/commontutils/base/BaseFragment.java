@@ -1,5 +1,6 @@
 package com.afra55.commontutils.base;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,6 +15,8 @@ import com.afra55.commontutils.log.LogUtils;
 
 public abstract class BaseFragment extends Fragment
         implements View.OnClickListener, BaseFragmentUI {
+
+    private static final String TAG = LogUtils.makeLogTag(BaseFragment.class);
 
     private BaseFragmentPresenter mBaseFragmentPresenter;
 
@@ -85,9 +88,20 @@ public abstract class BaseFragment extends Fragment
     }
 
     @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        LogUtils.d(TAG, "Attaching to activity");
+        if (activity instanceof BaseActivity) {
+
+            mActivity = (BaseActivity) activity;
+        }
+    }
+
+    @Override
     public void onDetach() {
         super.onDetach();
         mInteractionListener = null;
+        mActivity = null;
     }
 
     @Override
