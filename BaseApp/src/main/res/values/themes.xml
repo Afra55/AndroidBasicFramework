@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="BaseTheme" parent="Theme.AppCompat.Light">
+    <style name="BaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowNoTitle">true</item>
+
+        <item name="imageItemBackground">?android:selectableItemBackground</item>
+        <item name="android:borderlessButtonStyle">@style/Widget.AppCompat.Button.Borderless</item>
     </style>
 
     <style name="AppTheme" parent="BaseTheme">
