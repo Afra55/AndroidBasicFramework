@@ -34,6 +34,7 @@ import java.util.regex.Pattern;
 
 /**
  * Created by yangshuai on 2017/1/7.
+ *
  */
 
 public class UIUtils {

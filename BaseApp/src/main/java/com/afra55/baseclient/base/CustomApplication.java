@@ -10,6 +10,7 @@ import com.afra55.baseclient.BuildConfig;
 import com.afra55.baseclient.ui.activity.MainActivity;
 import com.afra55.commontutils.AppCache;
 import com.afra55.commontutils.crash.AppCrashHandler;
+import com.afra55.commontutils.format.TimeUtils;
 import com.afra55.commontutils.log.LogUtils;
 import com.afra55.commontutils.storage.StorageType;
 import com.afra55.commontutils.storage.StorageUtil;
@@ -24,6 +25,8 @@ public class CustomApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        TimeUtils.setAppStartTime(getApplicationContext(), System.currentTimeMillis());
 
         Fresco.initialize(this.getApplicationContext());
         AppCache.setContext(this.getApplicationContext());

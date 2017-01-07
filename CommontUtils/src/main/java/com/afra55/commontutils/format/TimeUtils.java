@@ -3,6 +3,10 @@ package com.afra55.commontutils.format;
 import android.content.Context;
 import android.text.format.DateUtils;
 
+import com.afra55.commontutils.BuildConfig;
+import com.afra55.commontutils.log.LogUtils;
+import com.afra55.commontutils.storage.SharedPreferencesUtils;
+
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,6 +21,8 @@ import java.util.TimeZone;
  * 时间相关的工具类
  */
 public class TimeUtils {
+
+    private final static String TAG = LogUtils.makeLogTag(TimeUtils.class);
 
     /**
      * Flags used with {@link DateUtils#formatDateRange}.
@@ -604,7 +610,7 @@ public class TimeUtils {
 
         GregorianCalendar gregorianCalendar = new GregorianCalendar();
         gregorianCalendar.setTimeZone(timezone);
-        String prefix = gregorianCalendar.get(Calendar.AM_PM) == Calendar.AM ? "上午" : "下午";
+        String prefix = (gregorianCalendar.get(Calendar.AM_PM) == Calendar.AM) ? "上午" : "下午";
 
         return prefix + formatter.format(date);
     }
@@ -834,5 +840,56 @@ public class TimeUtils {
         return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR)
                 && cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
     }
+
+    /**
+     * Retrieve the app start time,set when the application was created. This is used to calculate
+     * the current time, in debug mode only.
+     */
+    private static long getAppStartTime(final Context context) {
+        return context.getSharedPreferences(SharedPreferencesUtils.MOCK_DATA_PREFERENCES, Context.MODE_PRIVATE)
+                .getLong(SharedPreferencesUtils.PREFS_MOCK_APP_START_TIME, System.currentTimeMillis());
+    }
+
+    /**
+     * Set the app start time only when the current build is a debug build.
+     */
+    public static void setAppStartTime(Context context, long newTime) {
+        if (BuildConfig.DEBUG) {
+            java.util.Date previousAppStartTime = new java.util.Date(TimeUtils.getAppStartTime(
+                    context));
+            LogUtils.w(TAG, "Setting app startTime from " + previousAppStartTime + " to " + newTime);
+            context.getSharedPreferences(SharedPreferencesUtils.MOCK_DATA_PREFERENCES, Context.MODE_PRIVATE).edit()
+                    .putLong(SharedPreferencesUtils.PREFS_MOCK_APP_START_TIME, newTime).apply();
+        }
+    }
+
+    /**
+     * Retrieve the current time. If the current build is a debug build, the mock time is returned
+     * when set, taking into account the passage of time by adding the difference between the
+     * current system time and the system time when the application was created.
+     */
+    public static long getCurrentTime(final Context context) {
+        if (BuildConfig.DEBUG) {
+            return context.getSharedPreferences(SharedPreferencesUtils.MOCK_DATA_PREFERENCES, Context.MODE_PRIVATE)
+                    .getLong(SharedPreferencesUtils.PREFS_MOCK_CURRENT_TIME, System.currentTimeMillis())
+                    + System.currentTimeMillis() - getAppStartTime(context);
+        } else {
+            return System.currentTimeMillis();
+        }
+    }
+
+    /**
+     * Set the current time only when the current build is a debug build.
+     */
+    private static void setCurrentTime(Context context, long newTime) {
+        if (BuildConfig.DEBUG) {
+            java.util.Date currentTime = new java.util.Date(TimeUtils.getCurrentTime(context));
+            LogUtils.w(TAG, "Setting time from " + currentTime + " to " + newTime);
+            context.getSharedPreferences(SharedPreferencesUtils.MOCK_DATA_PREFERENCES, Context.MODE_PRIVATE).edit()
+                    .putLong(SharedPreferencesUtils.PREFS_MOCK_CURRENT_TIME, newTime).apply();
+        }
+    }
+
+
 }
 
