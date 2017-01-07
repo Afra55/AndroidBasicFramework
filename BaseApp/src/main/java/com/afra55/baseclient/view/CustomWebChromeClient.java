@@ -10,7 +10,7 @@ import android.webkit.WebView;
 
 import com.afra55.baseclient.R;
 import com.afra55.baseclient.util.AlertUtils;
-import com.afra55.commontutils.log.LogUtil;
+import com.afra55.commontutils.log.LogUtils;
 import com.afra55.commontutils.ui.dialog.EasyEditDialog;
 
 /**
@@ -76,7 +76,7 @@ public class CustomWebChromeClient extends WebChromeClient {
 
     @Override
     public boolean onJsPrompt(WebView view, String url, String message, String defaultValue, JsPromptResult result) {
-        LogUtil.d("CustomWebChromeClient", "defaultValue = " + defaultValue + " result = " + result + " message = " + message);
+        LogUtils.d("CustomWebChromeClient", "defaultValue = " + defaultValue + " result = " + result + " message = " + message);
         promptAlert(context, "Tip", message, result);
         return super.onJsPrompt(view, url, message, defaultValue, result);
     }

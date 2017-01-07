@@ -9,7 +9,7 @@ import android.view.View;
 import com.afra55.commontutils.base.presenter.BaseFragmentPresenter;
 import com.afra55.commontutils.base.ui.BaseFragmentUI;
 import com.afra55.commontutils.device.KeyBoardUtils;
-import com.afra55.commontutils.log.LogUtil;
+import com.afra55.commontutils.log.LogUtils;
 
 
 public abstract class BaseFragment extends Fragment
@@ -63,7 +63,7 @@ public abstract class BaseFragment extends Fragment
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        LogUtil.ui("fragment: " + getClass().getSimpleName() + " onActivityCreated()");
+        LogUtils.ui("fragment: " + getClass().getSimpleName() + " onActivityCreated()");
         destroyed = false;
     }
 
@@ -93,7 +93,7 @@ public abstract class BaseFragment extends Fragment
     @Override
     public void onDestroy() {
         super.onDestroy();
-        LogUtil.ui("fragment: " + getClass().getSimpleName() + " onDestroy()");
+        LogUtils.ui("fragment: " + getClass().getSimpleName() + " onDestroy()");
         destroyed = true;
     }
 

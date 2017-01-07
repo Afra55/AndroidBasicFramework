@@ -12,7 +12,7 @@ import android.os.Bundle;
 import com.afra55.commontutils.R;
 import com.afra55.commontutils.bean.PluginInfoBean;
 import com.afra55.commontutils.file.AttachmentStore;
-import com.afra55.commontutils.log.LogUtil;
+import com.afra55.commontutils.log.LogUtils;
 import com.afra55.commontutils.storage.StorageUtil;
 
 import java.io.File;
@@ -181,7 +181,7 @@ public class PluginUtils {
             , final String className
             , Bundle bundle
             , boolean needAgencyTargetActivity) {
-        LogUtil.d(TAG, "start launchTargetActivity, className=" + className);
+        LogUtils.d(TAG, "start launchTargetActivity, className=" + className);
 
         ClassLoader localClassLoader = ClassLoader.getSystemClassLoader();
         DexClassLoader dexClassLoader =
@@ -194,7 +194,7 @@ public class PluginUtils {
             Constructor<?> localConstructor = localClass
                     .getConstructor(new Class[]{});
             Object instance = localConstructor.newInstance(new Object[]{});
-            LogUtil.d(TAG, "instance = " + instance);
+            LogUtils.d(TAG, "instance = " + instance);
 
             if (needAgencyTargetActivity) {
                 // 需要实现 setProxy(Activity proxyActivity) 方法
@@ -215,7 +215,7 @@ public class PluginUtils {
             }
             onCreate.invoke(instance, new Object[]{bundle});
         } catch (Exception e) {
-            LogUtil.e(TAG, "launchTargetActivity", e);
+            LogUtils.e(TAG, "launchTargetActivity", e);
         }
     }
 

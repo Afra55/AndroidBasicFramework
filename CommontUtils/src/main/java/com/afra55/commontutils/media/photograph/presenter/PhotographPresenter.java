@@ -3,7 +3,6 @@ package com.afra55.commontutils.media.photograph.presenter;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.hardware.Camera;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -12,7 +11,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.afra55.commontutils.log.LogUtil;
+import com.afra55.commontutils.log.LogUtils;
 import com.afra55.commontutils.media.CameraUtils;
 import com.afra55.commontutils.media.photograph.helper.CameraHelper;
 import com.afra55.commontutils.media.photograph.ui.PhotographUI;
@@ -22,8 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import rx.Observable;
-import rx.Observer;
-import rx.Scheduler;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -137,7 +134,7 @@ public class PhotographPresenter {
                 cameraInst.startSmoothZoom(curZoomValue);
             }
         } catch (Exception e) {
-            LogUtil.e(TAG, "addZoomIn", e);
+            LogUtils.e(TAG, "addZoomIn", e);
         }
     }
 
@@ -165,7 +162,7 @@ public class PhotographPresenter {
                     initCamera();
                     cameraInst.startPreview();
                 } catch (Exception e) {
-                    LogUtil.e(TAG, "surfaceCreated", e);
+                    LogUtils.e(TAG, "surfaceCreated", e);
                 }
             }
         }
@@ -199,7 +196,7 @@ public class PhotographPresenter {
         try {
             cameraInst.setParameters(parameters);
         } catch (Exception e) {
-            LogUtil.e(TAG, "cameraInst.setParameters", e);
+            LogUtils.e(TAG, "cameraInst.setParameters", e);
         }
         cameraInst.startPreview();
         cameraInst.cancelAutoFocus();// 2如果要实现连续的自动对焦，这一句必须加上
@@ -262,7 +259,7 @@ public class PhotographPresenter {
         try {
             cameraInst.takePicture(null, null, new MyPictureCallback());
         } catch (Exception t) {
-            LogUtil.e(TAG, "takePicture", t);
+            LogUtils.e(TAG, "takePicture", t);
             mPhotographUI.showToast("拍照失败，请重试！");
             try {
                 cameraInst.startPreview();
@@ -305,7 +302,7 @@ public class PhotographPresenter {
                         @Override
                         public void onError(Throwable e) {
                             mPhotographUI.dismissLoading();
-                            LogUtil.e(TAG, "onPictureTaken", e);
+                            LogUtils.e(TAG, "onPictureTaken", e);
                         }
 
                         @Override
@@ -384,7 +381,7 @@ public class PhotographPresenter {
                 initCamera();
                 cameraInst.startPreview();
             } catch (Exception e) {
-               LogUtil.e(TAG, "setUpCamera", e);
+               LogUtils.e(TAG, "setUpCamera", e);
             }
         } else {
             mPhotographUI.showToast("切换失败，请重试！");

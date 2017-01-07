@@ -1,6 +1,10 @@
 package com.afra55.commontutils.log;
 
-public class LogUtil {
+public class LogUtils {
+
+    private static final String LOG_PREFIX = "afra55_";
+    private static final int LOG_PREFIX_LENGTH = LOG_PREFIX.length();
+
     public static final void init(String logFile, int level) {
         LogImpl.init(logFile, level);
     }

@@ -8,7 +8,7 @@ import com.afra55.baseclient.R;
 import com.afra55.baseclient.base.presenter.WelcomeActivityPresenter;
 import com.afra55.baseclient.base.ui.WelcomeActivityUI;
 import com.afra55.commontutils.base.BaseActivity;
-import com.afra55.commontutils.log.LogUtil;
+import com.afra55.commontutils.log.LogUtils;
 
 public class WelcomeActivity extends BaseActivity implements WelcomeActivityUI{
 
@@ -83,7 +83,7 @@ public class WelcomeActivity extends BaseActivity implements WelcomeActivityUI{
     // 处理收到的Intent
     @Override
     public void onIntent() {
-        LogUtil.i(TAG, "onIntent...");
+        LogUtils.i(TAG, "onIntent...");
         showMainActivity();
     }
 
@@ -102,7 +102,7 @@ public class WelcomeActivity extends BaseActivity implements WelcomeActivityUI{
 
     @Override
     public void showMainActivity(Intent intent) {
-        LogUtil.i(TAG, "show main activity");
+        LogUtils.i(TAG, "show main activity");
         if (isDestroyedCompatible()) {
             return;
         }

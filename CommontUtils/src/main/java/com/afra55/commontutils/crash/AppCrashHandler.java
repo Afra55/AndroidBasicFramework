@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import com.afra55.commontutils.BuildConfig;
 import com.afra55.commontutils.R;
-import com.afra55.commontutils.log.LogUtil;
 
 import java.lang.Thread.UncaughtExceptionHandler;
 

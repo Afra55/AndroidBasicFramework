@@ -3,7 +3,7 @@ package com.afra55.commontutils.sys;
 import android.text.TextUtils;
 
 
-import com.afra55.commontutils.log.LogUtil;
+import com.afra55.commontutils.log.LogUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -39,7 +39,7 @@ public class ReflectionUtil {
             method.setAccessible(true);
             return method.invoke(obj, params);
         } catch (NoSuchMethodException e) {
-            LogUtil.i("reflect", "method " + methodName + " not found in " + obj.getClass().getName());
+            LogUtils.i("reflect", "method " + methodName + " not found in " + obj.getClass().getName());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -61,7 +61,7 @@ public class ReflectionUtil {
             }
             clazz = clazz.getSuperclass();
         }
-        LogUtil.e("reflect", "get field " + fieldName + " not found in " + obj.getClass().getName());
+        LogUtils.e("reflect", "get field " + fieldName + " not found in " + obj.getClass().getName());
         return null;
     }
 
@@ -81,6 +81,6 @@ public class ReflectionUtil {
             }
             clazz = clazz.getSuperclass();
         }
-        LogUtil.e("reflect", "set field " + fieldName + " not found in " + obj.getClass().getName());
+        LogUtils.e("reflect", "set field " + fieldName + " not found in " + obj.getClass().getName());
     }
 }

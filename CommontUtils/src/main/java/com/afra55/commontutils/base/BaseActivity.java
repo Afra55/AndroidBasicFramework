@@ -17,7 +17,7 @@ import android.view.View;
 import com.afra55.commontutils.base.presenter.BaseActivityPresenter;
 import com.afra55.commontutils.base.ui.BaseActivityUI;
 import com.afra55.commontutils.device.KeyBoardUtils;
-import com.afra55.commontutils.log.LogUtil;
+import com.afra55.commontutils.log.LogUtils;
 import com.afra55.commontutils.tip.ToastUtils;
 
 import java.util.List;
@@ -57,12 +57,12 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityUI, O
 
         mBaseActivityPresenter = new BaseActivityPresenter(this);
 
-        LogUtil.ui("activity: " + getClass().getSimpleName() + " onCreate()");
+        LogUtils.ui("activity: " + getClass().getSimpleName() + " onCreate()");
     }
 
     @Override
     protected void onDestroy() {
-        LogUtil.ui("activity: " + getClass().getSimpleName() + " onDestroy()");
+        LogUtils.ui("activity: " + getClass().getSimpleName() + " onDestroy()");
         destroyed = true;
         super.onDestroy();
     }

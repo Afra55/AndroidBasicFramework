@@ -15,7 +15,7 @@ import android.widget.ImageView;
 
 import com.afra55.commontutils.R;
 import com.afra55.commontutils.base.BaseActivity;
-import com.afra55.commontutils.log.LogUtil;
+import com.afra55.commontutils.log.LogUtils;
 import com.afra55.commontutils.media.photograph.helper.CameraHelper;
 import com.afra55.commontutils.media.photograph.presenter.PhotographPresenter;
 import com.afra55.commontutils.media.photograph.ui.PhotographUI;
@@ -137,7 +137,7 @@ public class PhotographActivity extends BaseActivity implements PhotographUI{
                 try {
                     mPhotographPresenter.pointFocus((int) pointX, (int) pointY);
                 } catch (Exception e) {
-                    LogUtil.e(TAG, "pointFocus", e);
+                    LogUtils.e(TAG, "pointFocus", e);
                 }
             }
         });

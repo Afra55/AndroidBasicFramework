@@ -3,7 +3,7 @@ package com.afra55.commontutils.tip;
 import android.widget.Toast;
 
 import com.afra55.commontutils.base.BaseActivity;
-import com.afra55.commontutils.log.LogUtil;
+import com.afra55.commontutils.log.LogUtils;
 
 /**
  * Created by Victor Yang on 2016/6/28.
@@ -31,7 +31,7 @@ public class ToastUtils {
         try {
             showToast(context, String.valueOf(what));
         } catch (Exception e) {
-            LogUtil.e(TAG, e.toString());
+            LogUtils.e(TAG, e.toString());
         }
         return what;
     }

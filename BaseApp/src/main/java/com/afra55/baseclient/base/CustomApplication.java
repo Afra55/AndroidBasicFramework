@@ -10,7 +10,7 @@ import com.afra55.baseclient.BuildConfig;
 import com.afra55.baseclient.ui.activity.MainActivity;
 import com.afra55.commontutils.AppCache;
 import com.afra55.commontutils.crash.AppCrashHandler;
-import com.afra55.commontutils.log.LogUtil;
+import com.afra55.commontutils.log.LogUtils;
 import com.afra55.commontutils.storage.StorageType;
 import com.afra55.commontutils.storage.StorageUtil;
 import com.afra55.commontutils.sys.ScreenUtil;
@@ -34,7 +34,7 @@ public class CustomApplication extends Application {
 
         // init log
         String path = StorageUtil.getDirectoryByDirType(StorageType.TYPE_LOG);
-        LogUtil.init(path, Log.DEBUG);
+        LogUtils.init(path, Log.DEBUG);
 
         /* 异常捕获(debug 时不捕获异常) */
         if (!BuildConfig.DEBUG) {

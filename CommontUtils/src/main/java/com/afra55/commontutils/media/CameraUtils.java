@@ -8,12 +8,11 @@ import android.graphics.Rect;
 import android.hardware.Camera;
 
 import com.afra55.commontutils.file.AttachmentStore;
-import com.afra55.commontutils.log.LogUtil;
+import com.afra55.commontutils.log.LogUtils;
 import com.afra55.commontutils.storage.StorageUtil;
 import com.afra55.commontutils.sys.ScreenUtil;
 
 import java.io.ByteArrayInputStream;
-import java.io.Externalizable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Method;
@@ -63,10 +62,10 @@ public class CameraUtils {
             picResolutionSb.append(supportedPicResolution.width).append('x')
                     .append(supportedPicResolution.height).append(" ");
         }
-        LogUtil.d(TAG, "Supported picture resolutions: " + picResolutionSb);
+        LogUtils.d(TAG, "Supported picture resolutions: " + picResolutionSb);
 
         Camera.Size defaultPictureResolution = cameraParameters.getPictureSize();
-        LogUtil.d(TAG, "default picture resolution " + defaultPictureResolution.width + "x"
+        LogUtils.d(TAG, "default picture resolution " + defaultPictureResolution.width + "x"
                 + defaultPictureResolution.height);
 
         // 排序
@@ -157,7 +156,7 @@ public class CameraUtils {
             previewResolutionSb.append(supportedPreviewResolution.width).append('x').append(supportedPreviewResolution.height)
                     .append(' ');
         }
-        LogUtil.v(TAG, "Supported preview resolutions: " + previewResolutionSb);
+        LogUtils.v(TAG, "Supported preview resolutions: " + previewResolutionSb);
 
 
         // 移除不符合条件的分辨率
@@ -218,7 +217,7 @@ public class CameraUtils {
                 downPolymorphic.invoke(camera, new Object[]{i});
             }
         } catch (Exception e) {
-            LogUtil.e(TAG, "setDisplayOrientation", e);
+            LogUtils.e(TAG, "setDisplayOrientation", e);
         }
     }
 

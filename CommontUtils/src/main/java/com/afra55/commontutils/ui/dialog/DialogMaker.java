@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface.OnCancelListener;
 import android.text.TextUtils;
 
-import com.afra55.commontutils.log.LogUtil;
+import com.afra55.commontutils.log.LogUtils;
 
 
 public class DialogMaker {
@@ -27,7 +27,7 @@ public class DialogMaker {
 		} else if (progressDialog.getContext() != context) {
 			// maybe existing dialog is running in a destroyed activity cotext
 			// we should recreate one
-			LogUtil.e("dialog", "there is a leaked window here,orign context: "
+			LogUtils.e("dialog", "there is a leaked window here,orign context: "
 					+ progressDialog.getContext() + " now: " + context);
 			dismissProgressDialog();
 			progressDialog = new EasyProgressDialog(context, message);
