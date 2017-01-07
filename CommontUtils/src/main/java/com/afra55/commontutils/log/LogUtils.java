@@ -6,8 +6,8 @@ import com.afra55.commontutils.BuildConfig;
 
 public class LogUtils {
 
-    private static final String LOG_PREFIX = "afra55_";
-    private static final int LOG_PREFIX_LENGTH = LOG_PREFIX.length();
+    private static String LOG_PREFIX = "afra55_";
+    private static int LOG_PREFIX_LENGTH = LOG_PREFIX.length();
     private static final int MAX_LOG_TAG_LENGTH = 23;
 
     public static boolean LOGGING_ENABLED = !BuildConfig.BUILD_TYPE.equalsIgnoreCase("release");
@@ -27,120 +27,120 @@ public class LogUtils {
         return makeLogTag(cls.getSimpleName());
     }
 
-    public static final void init(String logFile, int level) {
+    public static void init(String logFile, int level) {
         LogImpl.init(logFile, level);
     }
 
-	public static final void v(String tag, String msg) {
+    public static void v(String tag, String msg) {
         if (LOGGING_ENABLED && Log.isLoggable(tag, Log.DEBUG)) {
             LogImpl.v(tag, buildMessage(msg));
         }
-	}
+    }
 
-	public static final void v(String tag, String msg, Throwable thr) {
+    public static void v(String tag, String msg, Throwable thr) {
         if (LOGGING_ENABLED && Log.isLoggable(tag, Log.DEBUG))
             LogImpl.v(tag, buildMessage(msg), thr);
-	}
+    }
 
-	public static final void d(String tag, String msg) {
+    public static void d(String tag, String msg) {
         if (LOGGING_ENABLED && Log.isLoggable(tag, Log.DEBUG))
             LogImpl.d(tag, buildMessage(msg));
-	}
+    }
 
-	public static final void d(String tag, String msg, Throwable thr) {
+    public static void d(String tag, String msg, Throwable thr) {
         if (LOGGING_ENABLED && Log.isLoggable(tag, Log.DEBUG))
             LogImpl.d(tag, buildMessage(msg), thr);
-	}
+    }
 
-	public static final void i(String tag, String msg) {
+    public static void i(String tag, String msg) {
         if (LOGGING_ENABLED && Log.isLoggable(tag, Log.DEBUG))
             LogImpl.i(tag, buildMessage(msg));
-	}
+    }
 
-	public static final void i(String tag, String msg, Throwable thr) {
+    public static void i(String tag, String msg, Throwable thr) {
         if (LOGGING_ENABLED && Log.isLoggable(tag, Log.DEBUG))
             LogImpl.i(tag, buildMessage(msg), thr);
-	}
+    }
 
-	public static final void w(String tag, String msg) {
-            LogImpl.w(tag, buildMessage(msg));
-	}
+    public static void w(String tag, String msg) {
+        LogImpl.w(tag, buildMessage(msg));
+    }
 
-	public static final void w(String tag, String msg, Throwable thr) {
-            LogImpl.w(tag, buildMessage(msg), thr);
-	}
+    public static void w(String tag, String msg, Throwable thr) {
+        LogImpl.w(tag, buildMessage(msg), thr);
+    }
 
-	public static final void w(String tag, Throwable thr) {
-            LogImpl.w(tag, buildMessage(""), thr);
-	}
+    public static void w(String tag, Throwable thr) {
+        LogImpl.w(tag, buildMessage(""), thr);
+    }
 
-	public static final void e(String tag, String msg) {
-            LogImpl.e(tag, buildMessage(msg));
-	}
+    public static void e(String tag, String msg) {
+        LogImpl.e(tag, buildMessage(msg));
+    }
 
-	public static final void e(String tag, String msg, Throwable thr) {
-            LogImpl.e(tag, buildMessage(msg), thr);
-	}
-	
-	public static final void ui(String msg) {
+    public static void e(String tag, String msg, Throwable thr) {
+        LogImpl.e(tag, buildMessage(msg), thr);
+    }
+
+    public static void ui(String msg) {
         String tag = "ui";
         if (LOGGING_ENABLED && Log.isLoggable(tag, Log.DEBUG))
             LogImpl.i(tag, buildMessage(msg));
-	}
+    }
 
-	public static final void core(String msg) {
+    public static void core(String msg) {
         String tag = "core";
         if (LOGGING_ENABLED && Log.isLoggable(tag, Log.DEBUG))
             LogImpl.i(tag, buildMessage(msg));
-	}
-	
-	public static final void coreDebug(String msg) {
+    }
+
+    public static void coreDebug(String msg) {
         String tag = "core";
         if (LOGGING_ENABLED && Log.isLoggable(tag, Log.DEBUG))
             LogImpl.d(tag, buildMessage(msg));
-	}
+    }
 
-	public static final void res(String msg) {
+    public static void res(String msg) {
         String tag = "RES";
         if (LOGGING_ENABLED && Log.isLoggable(tag, Log.DEBUG))
             LogImpl.i(tag, buildMessage(msg));
-	}
-	
-	public static final void resDebug(String msg) {
+    }
+
+    public static void resDebug(String msg) {
         String tag = "RES";
         if (LOGGING_ENABLED && Log.isLoggable(tag, Log.DEBUG))
             LogImpl.d(tag, buildMessage(msg));
-	}
+    }
 
-	public static final void audio(String msg) {
+    public static void audio(String msg) {
         String tag = "AudioRecorder";
         if (LOGGING_ENABLED && Log.isLoggable(tag, Log.DEBUG))
             LogImpl.i(tag, buildMessage(msg));
-	}
-	
-	public static void vincent(String msg) {
+    }
+
+    public static void vincent(String msg) {
         String tag = "Vincent";
         if (LOGGING_ENABLED && Log.isLoggable(tag, Log.DEBUG))
             LogImpl.v(tag, buildMessage(msg));
-	}
-	
-	public static void pipeline(String prefix, String msg) {
+    }
+
+    public static void pipeline(String prefix, String msg) {
         String tag = "Pipeline";
         if (LOGGING_ENABLED && Log.isLoggable(tag, Log.DEBUG))
             LogImpl.i(tag, prefix + " " + buildMessage(msg));
-	}
+    }
 
     public static void pipelineDebug(String prefix, String msg) {
         String tag = "Pipeline";
         if (LOGGING_ENABLED && Log.isLoggable(tag, Log.DEBUG))
             LogImpl.d(tag, prefix + " " + buildMessage(msg));
     }
-	
-	public static String getLogFileName(String cat) {
-		return LogImpl.getLogFileName(cat);
-	}
 
-	private static String buildMessage(String msg) {
-		return msg;
-	}
+    public static String getLogFileName(String cat) {
+        return LogImpl.getLogFileName(cat);
+    }
+
+    private static String buildMessage(String msg) {
+        return msg;
+    }
 }
