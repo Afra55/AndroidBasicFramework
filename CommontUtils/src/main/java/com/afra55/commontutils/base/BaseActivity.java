@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.view.LayoutInflaterCompat;
@@ -64,6 +65,13 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityUI, O
         mBaseActivityPresenter = new BaseActivityPresenter(this);
 
         LogUtils.ui("activity: " + getClass().getSimpleName() + " onCreate()");
+    }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // 在这里配置 action bar  和 侧边栏
+
     }
 
     @Override
