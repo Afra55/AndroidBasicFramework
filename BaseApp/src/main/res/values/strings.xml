@@ -15,4 +15,6 @@
     <string name="input_something">Input something!</string>
     <string name="to_translate">To Translate</string>
     <string name="result">Result</string>
+    <string name="title_activity_template">TemplateActivity</string>
+    <string name="action_settings">Settings</string>
 </resources>
