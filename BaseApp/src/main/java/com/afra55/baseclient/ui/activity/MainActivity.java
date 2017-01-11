@@ -12,8 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afra55.baseclient.R;
-import com.afra55.baseclient.base.presenter.MainActivityPresenter;
-import com.afra55.baseclient.base.ui.MainActivityUI;
 import com.afra55.baseclient.module.community.CommunityFragment;
 import com.afra55.baseclient.module.home.HomeFragment;
 import com.afra55.baseclient.module.me.MeFragment;
@@ -24,9 +22,7 @@ import com.afra55.commontutils.base.OnFragmentInteractionListener;
 
 
 public class MainActivity extends BaseActivity
-        implements View.OnClickListener, OnFragmentInteractionListener, MainActivityUI {
-
-    private MainActivityPresenter mMainActivityPresenter;
+        implements View.OnClickListener, OnFragmentInteractionListener {
 
     private static final int INIT_TAB_ID = -1;
     private static final String KEY_BUNDLE_ID = "key_bundle_id";
@@ -58,8 +54,6 @@ public class MainActivity extends BaseActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mMainActivityPresenter = new MainActivityPresenter(this);
 
         View mainLayout = LayoutInflater.from(this).inflate(R.layout.activity_main, null);
         setContentView(mainLayout);
@@ -125,7 +119,6 @@ public class MainActivity extends BaseActivity
     }
 
     /* 首页 */
-    @Override
     public void showHomeFragment() {
         homeImg.setBackgroundResource(R.drawable.icon_home_selected);
         homeText.setTextColor(getResources().getColor(R.color.red));
@@ -140,7 +133,6 @@ public class MainActivity extends BaseActivity
     }
 
     /* 社区 */
-    @Override
     public void showCommunityFragment() {
         communityImg.setBackgroundResource(R.drawable.icon_community_selected);
         communityText.setTextColor(getResources().getColor(R.color.red));
@@ -155,7 +147,6 @@ public class MainActivity extends BaseActivity
     }
 
     /* 购物 */
-    @Override
     public void showShopFragment() {
         shopImg.setBackgroundResource(R.drawable.icon_shop_selected);
         shopText.setTextColor(getResources().getColor(R.color.red));
@@ -170,7 +161,6 @@ public class MainActivity extends BaseActivity
     }
 
     /* 我 */
-    @Override
     public void showMeFragment() {
         meImg.setBackgroundResource(R.drawable.icon_me_selected);
         meText.setTextColor(getResources().getColor(R.color.red));
@@ -219,10 +209,6 @@ public class MainActivity extends BaseActivity
 
     }
 
-    @Override
-    public void onFragmentInteraction(String message) {
-
-    }
     /* 与 fragment 交互 end */
 
     //双击退出

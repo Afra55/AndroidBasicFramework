@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.view.LayoutInflaterCompat;
@@ -25,9 +26,8 @@ import android.view.WindowManager;
 import android.widget.ImageButton;
 
 import com.afra55.commontutils.R;
-import com.afra55.commontutils.base.presenter.BaseActivityPresenter;
-import com.afra55.commontutils.base.ui.BaseActivityUI;
 import com.afra55.commontutils.device.KeyBoardUtils;
+import com.afra55.commontutils.fragment.FragmentUtils;
 import com.afra55.commontutils.log.LogUtils;
 import com.afra55.commontutils.sys.ReflectionUtil;
 import com.afra55.commontutils.tip.ToastUtils;
@@ -39,18 +39,16 @@ import java.util.List;
  * Model 业务逻辑和实体模型
  * Presenter 负责完成View于Model间的交互
  */
-public abstract class BaseActivity extends AppCompatActivity implements BaseActivityUI, OnFragmentInteractionListener {
+public abstract class BaseActivity extends AppCompatActivity implements OnFragmentInteractionListener {
 
     private static Handler handler;
-
-    private BaseActivityPresenter mBaseActivityPresenter;
 
     private boolean destroyed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        LayoutInflaterCompat.setFactory(LayoutInflater.from(getContext()), new LayoutInflaterFactory() {
+        LayoutInflaterCompat.setFactory(LayoutInflater.from(this), new LayoutInflaterFactory() {
             @Override
             public View onCreateView(View parent, String name, Context context, AttributeSet attrs) {
 
@@ -66,8 +64,6 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
         });
 
         super.onCreate(savedInstanceState);
-
-        mBaseActivityPresenter = new BaseActivityPresenter(this);
 
         LogUtils.ui("activity: " + getClass().getSimpleName() + " onCreate()");
     }
@@ -88,6 +84,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
     /**
      * 初始化 actionBar，需要满足一个条件, 在布局中 include 默认的 actionBar 或者 自定义 actionBar：
      * {@code <include layout="@layout/default_appbar_layout" />}
+     *
      * @param title getScreenTitle()
      */
     private void initSupportActionBar(String title) {
@@ -137,7 +134,6 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
         super.onDestroy();
     }
 
-    @Override
     public final Handler getHandler() {
         if (handler == null) {
             handler = new Handler(getMainLooper());
@@ -148,7 +144,6 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
     /**
      * 判断页面是否已经被销毁（异步回调时使用）
      */
-    @Override
     public boolean isDestroyedCompatible() {
         if (Build.VERSION.SDK_INT >= 17) {
             return isDestroyedCompatible17();
@@ -164,23 +159,20 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
 
     @Override
     public void onBackPressed() {
-        mBaseActivityPresenter.invokeFragmentManagerNoteStateNotSaved(getSupportFragmentManager());
+        invokeFragmentManagerNoteStateNotSaved(getSupportFragmentManager());
         super.onBackPressed();
     }
 
-    @Override
     public void showToast(String message) {
         ToastUtils.showToast(this, message);
     }
 
-    @Override
     public <T> T showToast(T t) {
         return ToastUtils.showToast(this, t);
     }
 
-    @Override
     public void showKeyboard(boolean isShow) {
-        KeyBoardUtils.showKeyboard(getActivity(), isShow);
+        KeyBoardUtils.showKeyboard(this, isShow);
     }
 
     /**
@@ -188,7 +180,6 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
      *
      * @param focus ：键盘的焦点项
      */
-    @Override
     public void showKeyboardDelayed(View focus) {
         final View viewToFocus = focus;
         if (focus != null) {
@@ -212,11 +203,11 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
     // fragment 相关
     public BaseFragment addFragment(BaseFragment fragment) {
 
-        return mBaseActivityPresenter.addFragment(getSupportFragmentManager(), fragment);
+        return addFragment(getSupportFragmentManager(), fragment);
     }
 
     public List<BaseFragment> addFragments(List<BaseFragment> fragments) {
-        return mBaseActivityPresenter.addFragments(getSupportFragmentManager(), fragments);
+        return addFragments(getSupportFragmentManager(), fragments);
     }
 
     /**
@@ -226,11 +217,11 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
      * @return
      */
     public BaseFragment replaceFragmentContent(BaseFragment fragment) {
-        return mBaseActivityPresenter.replaceFragmentContent(getSupportFragmentManager(), fragment);
+        return replaceFragmentContent(getSupportFragmentManager(), fragment);
     }
 
     public BaseFragment replaceFragmentContent(BaseFragment fragment, boolean needAddToBackStack) {
-        return mBaseActivityPresenter.replaceFragmentContent(getSupportFragmentManager(), fragment, needAddToBackStack);
+        return replaceFragmentContent(getSupportFragmentManager(), fragment, needAddToBackStack);
     }
 
     /**
@@ -240,26 +231,52 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
      * @param to
      */
     public void switchFragment(BaseFragment from, BaseFragment to) {
-        mBaseActivityPresenter.switchFragment(getSupportFragmentManager(), from, to);
+        switchFragment(getSupportFragmentManager(), from, to);
     }
 
-    @Override
-    public Context getContext() {
-        return this;
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    public void invokeFragmentManagerNoteStateNotSaved(FragmentManager fragmentManager) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            ReflectionUtil.invokeMethod(fragmentManager, "noteStateNotSaved", null);
+        }
     }
 
-    @Override
-    public BaseActivity getActivity() {
-        return this;
+    public BaseFragment addFragment(FragmentManager fragmentManager, BaseFragment fragment) {
+        return FragmentUtils.addFragment(fragmentManager, fragment);
+    }
+
+    public List<BaseFragment> addFragments(FragmentManager fragmentManager, List<BaseFragment> fragments) {
+        return FragmentUtils.addFragments(fragmentManager, fragments);
+    }
+
+    /**
+     * fragment 只使用一次就被替换掉，使用 replace
+     *
+     * @param fragment
+     * @return
+     */
+    public BaseFragment replaceFragmentContent(FragmentManager fragmentManager, BaseFragment fragment) {
+        return FragmentUtils.replaceFragmentContent(fragmentManager, fragment, false);
+    }
+
+    public BaseFragment replaceFragmentContent(FragmentManager fragmentManager, BaseFragment fragment
+            , boolean needAddToBackStack) {
+        return FragmentUtils.replaceFragmentContent(fragmentManager, fragment, needAddToBackStack);
+    }
+
+    /**
+     * 如果使用 fragment 切换动画或常驻界面的话，最好使用 hide 和 show。
+     *
+     * @param from
+     * @param to
+     */
+    public void switchFragment(FragmentManager fragmentManager, BaseFragment from, BaseFragment to) {
+        FragmentUtils.switchFragment(fragmentManager, from, to);
     }
 
     @Override
     public void onFragmentInteraction(Uri uri) {
-
-    }
-
-    @Override
-    public void onFragmentInteraction(String message) {
 
     }
 

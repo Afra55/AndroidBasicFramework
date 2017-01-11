@@ -4,17 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.afra55.apimodule.helper.LoginUtils;
 import com.afra55.baseclient.R;
-import com.afra55.baseclient.base.presenter.WelcomeActivityPresenter;
-import com.afra55.baseclient.base.ui.WelcomeActivityUI;
 import com.afra55.commontutils.base.BaseActivity;
 import com.afra55.commontutils.log.LogUtils;
 
-public class WelcomeActivity extends BaseActivity implements WelcomeActivityUI{
+public class WelcomeActivity extends BaseActivity{
 
     private static final String TAG = "WelcomeActivity";
-
-    private WelcomeActivityPresenter mWelcomeActivityPresenter;
 
     private boolean customSplash = false;
 
@@ -24,8 +21,6 @@ public class WelcomeActivity extends BaseActivity implements WelcomeActivityUI{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
-
-        mWelcomeActivityPresenter = new WelcomeActivityPresenter(this);
 
         if (savedInstanceState != null) {
             setIntent(new Intent()); // 从堆栈恢复，不再重复解析之前的intent
@@ -51,7 +46,7 @@ public class WelcomeActivity extends BaseActivity implements WelcomeActivityUI{
             Runnable runnable = new Runnable() {
                 @Override
                 public void run() {
-                    mWelcomeActivityPresenter.handleFirstEnter();
+                    handleFirstEnter();
                 }
             };
             if (customSplash) {
@@ -59,6 +54,18 @@ public class WelcomeActivity extends BaseActivity implements WelcomeActivityUI{
             } else {
                 runnable.run();
             }
+        }
+    }
+
+    public void handleFirstEnter() {
+        if (isDestroyedCompatible()) {
+            return;
+        }
+        if (LoginUtils.getInstance().canAutoLogin()) {
+            onIntent();
+        } else {
+            // 到登陆界面, 本工程没有登陆界面，需自行更换
+            showMainActivity();
         }
     }
 
@@ -86,7 +93,6 @@ public class WelcomeActivity extends BaseActivity implements WelcomeActivityUI{
     }
 
     // 处理收到的Intent
-    @Override
     public void onIntent() {
         LogUtils.i(TAG, "onIntent...");
         showMainActivity();
@@ -100,12 +106,10 @@ public class WelcomeActivity extends BaseActivity implements WelcomeActivityUI{
         customSplash = true;
     }
 
-    @Override
     public void showMainActivity() {
         showMainActivity(null);
     }
 
-    @Override
     public void showMainActivity(Intent intent) {
         LogUtils.i(TAG, "show main activity");
         if (isDestroyedCompatible()) {
