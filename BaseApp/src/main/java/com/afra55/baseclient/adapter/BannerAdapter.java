@@ -10,12 +10,12 @@ import java.util.ArrayList;
 /**
  * Created by yangshuai in the 13:37 of 2016.01.06 .
  */
-public class BinnerAdapter extends PagerAdapter {
+public class BannerAdapter extends PagerAdapter {
 
 
     private final ArrayList<View> contentArray;
 
-    public BinnerAdapter(ArrayList<View> arr) {
+    public BannerAdapter(ArrayList<View> arr) {
         this.contentArray = arr;
     }
 

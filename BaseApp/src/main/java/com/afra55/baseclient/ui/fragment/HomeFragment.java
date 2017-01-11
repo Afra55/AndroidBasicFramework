@@ -1,6 +1,8 @@
-package com.afra55.baseclient.module.home;
+package com.afra55.baseclient.ui.fragment;
 
 
+import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -9,26 +11,25 @@ import android.view.ViewGroup;
 import android.widget.RadioGroup;
 
 import com.afra55.baseclient.R;
-import com.afra55.baseclient.adapter.BinnerAdapter;
-import com.afra55.baseclient.module.home.presenter.HomeFragmentPresenter;
-import com.afra55.baseclient.module.home.ui.HomeFragmentUI;
-import com.afra55.commontutils.device.DisplayUtil;
+import com.afra55.baseclient.adapter.BannerAdapter;
+import com.afra55.baseclient.util.BinnerHelper;
 import com.afra55.baseclient.view.refreshforheader.PtrDefaultHandler;
 import com.afra55.baseclient.view.refreshforheader.PtrFrameLayout;
 import com.afra55.baseclient.view.refreshforheader.PtrHandler;
 import com.afra55.baseclient.view.refreshforheader.header.MaterialHeader;
 import com.afra55.commontutils.base.BaseFragment;
+import com.afra55.commontutils.device.DisplayUtil;
+import com.facebook.drawee.drawable.ScalingUtils;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
 
-public class HomeFragment extends BaseFragment implements PtrHandler, HomeFragmentUI {
-
-    private HomeFragmentPresenter mHomeFragmentPresenter;
+public class HomeFragment extends BaseFragment implements PtrHandler {
 
     private PtrFrameLayout pullToRefresh; // 下拉控件
-    private ViewPager binnerVp; // 广告Binner
+    private ViewPager bannerVp; // 广告Binner
     private ArrayList<View> binnerViewArray; // 存储Binner view的容器
-    private BinnerAdapter binnerAdapter;
+    private BannerAdapter bannerAdapter;
 
     public static HomeFragment newInstance(String param1, String param2) {
         Bundle args = new Bundle();
@@ -52,8 +53,6 @@ public class HomeFragment extends BaseFragment implements PtrHandler, HomeFragme
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mHomeFragmentPresenter = new HomeFragmentPresenter(this);
-
         findView();
 
         initPullToRefresh();
@@ -63,7 +62,7 @@ public class HomeFragment extends BaseFragment implements PtrHandler, HomeFragme
 
     private void findView() {
         pullToRefresh = findView(R.id.home_pull_to_refresh);
-        binnerVp = findView(R.id.vp_banner);
+        bannerVp = findView(R.id.vp_banner);
     }
 
     /* 初始化下拉控件 */
@@ -96,7 +95,33 @@ public class HomeFragment extends BaseFragment implements PtrHandler, HomeFragme
 
     /* 初始化Binner */
     private void initBanner(RadioGroup binnerIndicatorRg) {
-        mHomeFragmentPresenter.initBinner(getContext(), binnerVp, binnerIndicatorRg);
+        initBanner(getContext(), bannerVp, binnerIndicatorRg);
+    }
+
+    public void initBanner(Context context, ViewPager binnerVp, RadioGroup binnerIndicatorRg) {
+        ArrayList<View> binnerViewArray = new ArrayList<>();
+        String binnerPath = "http://ossweb-img.qq.com/images/lol/web201310/skin/big143000.jpg";
+        ArrayList<View> startAndEndView = new ArrayList<>(); // 请务必存储 开始和最后的view
+        for (int i = 0; i < 5; i++) {
+            SimpleDraweeView draweeView = new SimpleDraweeView(context);
+            draweeView.setImageURI(Uri.parse(binnerPath));
+            draweeView.getHierarchy().setActualImageScaleType(ScalingUtils.ScaleType.FOCUS_CROP);
+            binnerViewArray.add(draweeView);
+            if (i == 0) { // 开始的view
+                SimpleDraweeView start = new SimpleDraweeView(context);
+                start.setImageURI(Uri.parse(binnerPath));
+                startAndEndView.add(start);
+            } else if (i == 4) { // 结束的view
+                SimpleDraweeView end = new SimpleDraweeView(context);
+                end.setImageURI(Uri.parse(binnerPath));
+                startAndEndView.add(end);
+            }
+        }
+
+        BinnerHelper.initViewList(binnerViewArray, startAndEndView);
+        BannerAdapter bannerAdapter = new BannerAdapter(binnerViewArray);
+        binnerVp.setAdapter(bannerAdapter);
+        BinnerHelper.getInstance().start(context, binnerVp, binnerViewArray, binnerIndicatorRg);
     }
 
     @Override

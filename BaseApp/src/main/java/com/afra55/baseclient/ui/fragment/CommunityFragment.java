@@ -1,4 +1,4 @@
-package com.afra55.baseclient.module.community;
+package com.afra55.baseclient.ui.fragment;
 
 
 import android.os.Bundle;
@@ -9,16 +9,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.afra55.apimodule.bean.TransResultBean;
+import com.afra55.apimodule.bean.TranslateBean;
+import com.afra55.apimodule.helper.ToTransltateHelper;
 import com.afra55.baseclient.R;
-import com.afra55.baseclient.module.community.presenter.CommunityFragmentPresenter;
-import com.afra55.baseclient.module.community.ui.CommunityFragmentUI;
 import com.afra55.commontutils.base.BaseFragment;
 import com.afra55.commontutils.tip.ToastUtils;
 import com.afra55.commontutils.ui.dialog.DialogMaker;
 
-public class CommunityFragment extends BaseFragment implements CommunityFragmentUI {
+import java.util.List;
 
-    private CommunityFragmentPresenter mCommunityFragmentPresenter;
+public class CommunityFragment extends BaseFragment {
 
     private TextInputEditText mTextInputEditText;
 
@@ -61,7 +62,6 @@ public class CommunityFragment extends BaseFragment implements CommunityFragment
     }
 
     private void initView() {
-        mCommunityFragmentPresenter = new CommunityFragmentPresenter(this);
         mTextInputEditText = findView(R.id.commnunity_translate_et);
         mTextInputLayout = findView(R.id.commnunity_translate_layout);
         findView(R.id.commnunity_translate_btn).setOnClickListener(this);
@@ -72,22 +72,19 @@ public class CommunityFragment extends BaseFragment implements CommunityFragment
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.commnunity_translate_btn:
-                mCommunityFragmentPresenter.toTranslate(mTextInputEditText.getText().toString());
+                toTranslate(mTextInputEditText.getText().toString());
                 break;
         }
     }
 
-    @Override
     public void showProgressDialog() {
         DialogMaker.showProgressDialog(mActivity, "Loading");
     }
 
-    @Override
     public void showToast(String s) {
         ToastUtils.showToast(mActivity, s);
     }
 
-    @Override
     public void setTranslateResult(String result) {
         showKeyboard(false);
         DialogMaker.dismissProgressDialog();
@@ -95,10 +92,34 @@ public class CommunityFragment extends BaseFragment implements CommunityFragment
         mTextTranstaleResult.setText(result);
     }
 
-    @Override
     public void setTranslateError(String s) {
         mTextInputLayout.setError(s);
         showKeyboard(false);
         DialogMaker.dismissProgressDialog();
+    }
+
+    public void toTranslate(String string) {
+        ToTransltateHelper.getInstance().toTanstale(string, new ToTransltateHelper.ToTranslateResultListener() {
+            @Override
+            public void showProgressDialog() {
+                showProgressDialog();
+            }
+
+            @Override
+            public void onSuccess(TranslateBean translateBean) {
+                List<TransResultBean> list = translateBean.getTrans_result();
+                String result = "";
+                for (TransResultBean resultBean : list) {
+                    result += resultBean.getDst() + " ";
+                }
+                setTranslateResult(result);
+            }
+
+            @Override
+            public void onFaile(String tip) {
+                showToast(tip);
+                setTranslateError(tip);
+            }
+        });
     }
 }

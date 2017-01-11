@@ -12,10 +12,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afra55.baseclient.R;
-import com.afra55.baseclient.module.community.CommunityFragment;
-import com.afra55.baseclient.module.home.HomeFragment;
-import com.afra55.baseclient.module.me.MeFragment;
-import com.afra55.baseclient.module.shop.ShopFragment;
+import com.afra55.baseclient.ui.fragment.CommunityFragment;
+import com.afra55.baseclient.ui.fragment.HomeFragment;
+import com.afra55.baseclient.ui.fragment.MeFragment;
+import com.afra55.baseclient.ui.fragment.ShopFragment;
 import com.afra55.commontutils.base.BaseActivity;
 import com.afra55.commontutils.base.BaseFragment;
 import com.afra55.commontutils.base.OnFragmentInteractionListener;

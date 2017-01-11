@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".module.community.CommunityFragment">
+    tools:context=".ui.fragment.CommunityFragment">
 
     <LinearLayout
         android:layout_width="match_parent"

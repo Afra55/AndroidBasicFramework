@@ -1,4 +1,4 @@
-package com.afra55.baseclient.module.me;
+package com.afra55.baseclient.ui.fragment;
 
 
 import android.os.Bundle;
@@ -7,13 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.afra55.baseclient.R;
-import com.afra55.baseclient.module.me.presenter.MeFragmentPresenter;
-import com.afra55.baseclient.module.me.ui.MeFragmentUI;
 import com.afra55.commontutils.base.BaseFragment;
 
-public class MeFragment extends BaseFragment implements MeFragmentUI{
+public class MeFragment extends BaseFragment {
 
-    private MeFragmentPresenter mMeFragmentPresenter;
 
     public static MeFragment newInstance(String param1, String param2) {
         Bundle args = new Bundle();
@@ -46,7 +43,6 @@ public class MeFragment extends BaseFragment implements MeFragmentUI{
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mMeFragmentPresenter = new MeFragmentPresenter(this);
     }
 
     @Override

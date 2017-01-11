@@ -7,18 +7,14 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
-import com.afra55.commontutils.base.presenter.BaseFragmentPresenter;
-import com.afra55.commontutils.base.ui.BaseFragmentUI;
 import com.afra55.commontutils.device.KeyBoardUtils;
 import com.afra55.commontutils.log.LogUtils;
 
 
 public abstract class BaseFragment extends Fragment
-        implements View.OnClickListener, BaseFragmentUI {
+        implements View.OnClickListener {
 
     private static final String TAG = LogUtils.makeLogTag(BaseFragment.class);
-
-    private BaseFragmentPresenter mBaseFragmentPresenter;
 
     private boolean destroyed;
 
@@ -34,24 +30,18 @@ public abstract class BaseFragment extends Fragment
 
     private static final Handler handler = new Handler();
 
-    @Override
     public boolean isDestroyed() {
         return destroyed;
     }
 
     private int containerId;
 
-    @Override
     public int getContainerId() {
         return containerId;
     }
 
     public void setContainerId(int containerId) {
         this.containerId = containerId;
-    }
-
-    public BaseFragment() {
-        mBaseFragmentPresenter = new BaseFragmentPresenter(this);
     }
 
     @Override
@@ -111,12 +101,10 @@ public abstract class BaseFragment extends Fragment
         destroyed = true;
     }
 
-    @Override
     public final Handler getHandler() {
         return handler;
     }
 
-    @Override
     public final void postRunnable(final Runnable runnable) {
         handler.post(new Runnable() {
             @Override
@@ -133,7 +121,6 @@ public abstract class BaseFragment extends Fragment
         });
     }
 
-    @Override
     public final void postDelayed(final Runnable runnable, long delay) {
         handler.postDelayed(new Runnable() {
             @Override
@@ -155,7 +142,6 @@ public abstract class BaseFragment extends Fragment
     /**
      * 当Fragment选中时, 手动调用
      */
-    @Override
     public void setFragmentSeleted(boolean selected) {
         if (!selected) {
             onFragmentUnSelected();
@@ -177,33 +163,24 @@ public abstract class BaseFragment extends Fragment
      * @param <T>
      * @return
      */
-    @Override
     public <T extends View> T findView(int resId) {
         return (T) (getView().findViewById(resId));
     }
 
-    @Override
     public void showKeyboard(boolean isShow) {
         KeyBoardUtils.showKeyboard(mActivity, isShow);
     }
 
-    @Override
     public void hideKeyboard(View view) {
         KeyBoardUtils.hideKeyboard(mActivity, view);
     }
 
-    @Override
     public String getInitParam1() {
         return mInitParam1;
     }
 
-    @Override
     public String getInitParam2() {
         return mInitParam2;
     }
 
-    @Override
-    public BaseFragment getFragment() {
-        return this;
-    }
 }

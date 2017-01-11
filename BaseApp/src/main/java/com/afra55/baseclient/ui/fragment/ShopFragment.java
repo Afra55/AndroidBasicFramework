@@ -1,4 +1,4 @@
-package com.afra55.baseclient.module.shop;
+package com.afra55.baseclient.ui.fragment;
 
 
 import android.os.Bundle;
@@ -8,16 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.afra55.baseclient.R;
-import com.afra55.baseclient.module.shop.presenter.ShopFragmentPresenter;
-import com.afra55.baseclient.module.shop.ui.ShopFragmentUI;
 import com.afra55.commontutils.base.BaseFragment;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShopFragment extends BaseFragment implements ShopFragmentUI {
+public class ShopFragment extends BaseFragment  {
 
-    private ShopFragmentPresenter mShopFragmentPresenter;
 
     public static ShopFragment newInstance(String param1, String param2) {
         Bundle args = new Bundle();
@@ -50,7 +47,6 @@ public class ShopFragment extends BaseFragment implements ShopFragmentUI {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mShopFragmentPresenter = new ShopFragmentPresenter(this);
     }
 
     @Override
