@@ -16,15 +16,19 @@ import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v4.view.LayoutInflaterFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 
+import com.afra55.commontutils.R;
 import com.afra55.commontutils.base.presenter.BaseActivityPresenter;
 import com.afra55.commontutils.base.ui.BaseActivityUI;
 import com.afra55.commontutils.device.KeyBoardUtils;
 import com.afra55.commontutils.log.LogUtils;
+import com.afra55.commontutils.sys.ReflectionUtil;
 import com.afra55.commontutils.tip.ToastUtils;
 
 import java.util.List;
@@ -34,7 +38,7 @@ import java.util.List;
  * Model 业务逻辑和实体模型
  * Presenter 负责完成View于Model间的交互
  */
-public class BaseActivity extends AppCompatActivity implements BaseActivityUI, OnFragmentInteractionListener {
+public abstract class BaseActivity extends AppCompatActivity implements BaseActivityUI, OnFragmentInteractionListener {
 
     private static Handler handler;
 
@@ -72,6 +76,48 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityUI, O
         super.onPostCreate(savedInstanceState);
         // 在这里配置 action bar  和 侧边栏
 
+    }
+
+    protected void showActionBar(String title) {
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (toolbar == null) {
+            return;
+        }
+        toolbar.setTitle("");
+
+        if (displayHomeAsUpEnabled()) {
+            toolbar.setNavigationIcon(R.drawable.ic_back_black);
+            ImageButton mNavButtonView = (ImageButton) ReflectionUtil.getFieldValue(toolbar, "mNavButtonView");
+            Toolbar.LayoutParams navigationLayoutParams = (Toolbar.LayoutParams) mNavButtonView.getLayoutParams();
+            navigationLayoutParams.width = getResources().getDimensionPixelSize(R.dimen.actionbar_navigation_size);
+            navigationLayoutParams.height = getResources().getDimensionPixelSize(R.dimen.actionbar_navigation_size);
+            mNavButtonView.setAdjustViewBounds(true);
+            mNavButtonView.setLayoutParams(navigationLayoutParams);
+        }
+
+        toolbar.setTitle(title);
+
+        setSupportActionBar(toolbar);
+
+        View.OnClickListener navigationOnClickListener = navigationOnClickListener();
+        if (navigationOnClickListener != null) {
+            toolbar.setNavigationOnClickListener(navigationOnClickListener);
+        }
+    }
+
+    protected View.OnClickListener navigationOnClickListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        };
+    }
+
+    protected abstract String getScreenTitle();
+
+    protected boolean displayHomeAsUpEnabled() {
+        return true;
     }
 
     @Override

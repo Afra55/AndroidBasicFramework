@@ -1,5 +1,14 @@
 <resources>
 
+    <!-- 引导页theme -->
+    <style name="SplashTheme" parent="BaseTheme">
+        <!-- app启动画面 -->
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowBackground">@drawable/splash_bg</item>
+    </style>
+
+    <style name="MainTheme" parent="AppTheme"/>
+
     <style name="activty_fade_in_fade_out">
         <item name="@android:activityOpenEnterAnimation">@animator/activity_in</item>
         <item name="@android:activityOpenExitAnimation">@animator/activity_out</item>
