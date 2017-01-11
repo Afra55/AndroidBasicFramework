@@ -1,4 +1,4 @@
-package com.afra55.baseclient.util;
+package com.afra55.baseclient.common;
 
 import android.app.Activity;
 import android.content.Context;

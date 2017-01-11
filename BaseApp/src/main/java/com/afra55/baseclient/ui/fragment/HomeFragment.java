@@ -12,7 +12,7 @@ import android.widget.RadioGroup;
 
 import com.afra55.baseclient.R;
 import com.afra55.baseclient.adapter.BannerAdapter;
-import com.afra55.baseclient.util.BinnerHelper;
+import com.afra55.baseclient.common.BinnerHelper;
 import com.afra55.baseclient.view.refreshforheader.PtrDefaultHandler;
 import com.afra55.baseclient.view.refreshforheader.PtrFrameLayout;
 import com.afra55.baseclient.view.refreshforheader.PtrHandler;

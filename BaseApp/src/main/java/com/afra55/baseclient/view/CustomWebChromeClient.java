@@ -9,7 +9,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
 import com.afra55.baseclient.R;
-import com.afra55.baseclient.util.AlertUtils;
+import com.afra55.baseclient.common.AlertUtils;
 import com.afra55.commontutils.log.LogUtils;
 import com.afra55.commontutils.ui.dialog.EasyEditDialog;
 
