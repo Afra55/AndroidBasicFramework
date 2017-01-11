@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
@@ -78,12 +79,23 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
 
     }
 
-    protected void showActionBar(String title) {
+    @Override
+    public void setContentView(@LayoutRes int layoutResID) {
+        super.setContentView(layoutResID);
+        initSupportActionBar(getScreenTitle());
+    }
+
+    /**
+     * 初始化 actionBar，需要满足一个条件, 在布局中 include 默认的 actionBar 或者 自定义 actionBar：
+     * {@code <include layout="@layout/default_appbar_layout" />}
+     * @param title getScreenTitle()
+     */
+    private void initSupportActionBar(String title) {
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar == null) {
             return;
         }
-        toolbar.setTitle("");
+        toolbar.setTitle(title);
 
         if (displayHomeAsUpEnabled()) {
             toolbar.setNavigationIcon(R.drawable.ic_back_black);
@@ -94,8 +106,6 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
             mNavButtonView.setAdjustViewBounds(true);
             mNavButtonView.setLayoutParams(navigationLayoutParams);
         }
-
-        toolbar.setTitle(title);
 
         setSupportActionBar(toolbar);
 

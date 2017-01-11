@@ -56,6 +56,11 @@ public class PhotographActivity extends BaseActivity implements PhotographUI{
         initView();
     }
 
+    @Override
+    protected String getScreenTitle() {
+        return null;
+    }
+
     private void initView() {
         mSurfaceView = findView(R.id.photograph_surface_view);
         mFlashImg = findView(R.id.photograph_flash_img);

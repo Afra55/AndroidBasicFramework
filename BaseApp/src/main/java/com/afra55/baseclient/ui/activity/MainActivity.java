@@ -70,6 +70,11 @@ public class MainActivity extends BaseActivity
         setCurrentBottomMenuView(currentFragmentId);
     }
 
+    @Override
+    protected String getScreenTitle() {
+        return null;
+    }
+
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {

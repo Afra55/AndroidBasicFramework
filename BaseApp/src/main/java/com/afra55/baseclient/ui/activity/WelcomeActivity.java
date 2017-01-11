@@ -38,6 +38,11 @@ public class WelcomeActivity extends BaseActivity implements WelcomeActivityUI{
     }
 
     @Override
+    protected String getScreenTitle() {
+        return null;
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
 
