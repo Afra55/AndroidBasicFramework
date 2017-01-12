@@ -11,8 +11,7 @@ import com.afra55.commontutils.device.KeyBoardUtils;
 import com.afra55.commontutils.log.LogUtils;
 
 
-public abstract class BaseFragment extends Fragment
-        implements View.OnClickListener {
+public abstract class BaseFragment extends Fragment {
 
     private static final String TAG = LogUtils.makeLogTag(BaseFragment.class);
 
