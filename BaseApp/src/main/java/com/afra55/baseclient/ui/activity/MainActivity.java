@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -55,9 +54,8 @@ public class MainActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        View mainLayout = LayoutInflater.from(this).inflate(R.layout.activity_main, null);
-        setContentView(mainLayout);
-        initBottomMenu(mainLayout);
+        setContentView(R.layout.activity_main);
+        initBottomMenu();
 
         if (savedInstanceState != null)
             currentFragmentId = savedInstanceState.getInt(KEY_BUNDLE_ID, currentFragmentId);
@@ -80,20 +78,20 @@ public class MainActivity extends BaseActivity
     }
 
     /* 初始化底部菜单 */
-    private void initBottomMenu(View view) {
-        view.findViewById(R.id.main_bottom_menu_home).setOnClickListener(this);
-        view.findViewById(R.id.main_bottom_menu_community).setOnClickListener(this);
-        view.findViewById(R.id.main_bottom_menu_shop).setOnClickListener(this);
-        view.findViewById(R.id.main_bottom_menu_me).setOnClickListener(this);
+    private void initBottomMenu() {
+        findViewById(R.id.main_bottom_menu_home).setOnClickListener(this);
+        findViewById(R.id.main_bottom_menu_community).setOnClickListener(this);
+        findViewById(R.id.main_bottom_menu_shop).setOnClickListener(this);
+        findViewById(R.id.main_bottom_menu_me).setOnClickListener(this);
 
         homeImg = findView(R.id.main_bottom_menu_home_img);
-        homeText = (TextView) view.findViewById(R.id.main_bottom_menu_home_text);
-        communityImg = (ImageView) view.findViewById(R.id.main_bottom_menu_community_img);
-        communityText = (TextView) view.findViewById(R.id.main_bottom_menu_community_text);
-        shopImg = (ImageView) view.findViewById(R.id.main_bottom_menu_shop_img);
-        shopText = (TextView) view.findViewById(R.id.main_bottom_menu_shop_text);
-        meImg = (ImageView) view.findViewById(R.id.main_bottom_menu_me_img);
-        meText = (TextView) view.findViewById(R.id.main_bottom_menu_me_text);
+        homeText = (TextView) findViewById(R.id.main_bottom_menu_home_text);
+        communityImg = (ImageView) findViewById(R.id.main_bottom_menu_community_img);
+        communityText = (TextView) findViewById(R.id.main_bottom_menu_community_text);
+        shopImg = (ImageView) findViewById(R.id.main_bottom_menu_shop_img);
+        shopText = (TextView) findViewById(R.id.main_bottom_menu_shop_text);
+        meImg = (ImageView) findViewById(R.id.main_bottom_menu_me_img);
+        meText = (TextView) findViewById(R.id.main_bottom_menu_me_text);
     }
 
     /* 设置当前选中的fragment */
@@ -165,7 +163,7 @@ public class MainActivity extends BaseActivity
         meImg.setBackgroundResource(R.drawable.icon_me_selected);
         meText.setTextColor(getResources().getColor(R.color.red));
         if (meFragment == null && !isDestroyedCompatible()) {
-            meFragment = MeFragment.newInstance("main", "shop");
+            meFragment = MeFragment.newInstance("main", "me");
         }
         switchFragment(
                 selectedFragment,
