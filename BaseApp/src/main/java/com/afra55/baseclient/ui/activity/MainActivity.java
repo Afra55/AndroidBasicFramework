@@ -15,6 +15,7 @@ import com.afra55.baseclient.ui.fragment.CommunityFragment;
 import com.afra55.baseclient.ui.fragment.HomeFragment;
 import com.afra55.baseclient.ui.fragment.MeFragment;
 import com.afra55.baseclient.ui.fragment.ShopFragment;
+import com.afra55.commontutils.activity.ActivityUtils;
 import com.afra55.commontutils.base.BaseActivity;
 import com.afra55.commontutils.base.BaseFragment;
 import com.afra55.commontutils.base.OnFragmentInteractionListener;
@@ -123,7 +124,7 @@ public class MainActivity extends BaseActivity
         if (homeFragment == null && !isDestroyedCompatible()) {
             homeFragment = HomeFragment.newInstance("main", "home");
         }
-        switchFragment(
+        ActivityUtils.switchFragment(getSupportFragmentManager(),
                 selectedFragment,
                 homeFragment);
 
@@ -137,8 +138,8 @@ public class MainActivity extends BaseActivity
         if (communityFragment == null && !isDestroyedCompatible()) {
             communityFragment = CommunityFragment.newInstance("main", "community");
         }
-        switchFragment(
-                selectedFragment,
+        ActivityUtils.switchFragment(getSupportFragmentManager()
+                , selectedFragment,
                 communityFragment);
 
         selectedFragment = communityFragment;
@@ -148,10 +149,10 @@ public class MainActivity extends BaseActivity
     public void showShopFragment() {
         shopImg.setBackgroundResource(R.drawable.icon_shop_selected);
         shopText.setTextColor(getResources().getColor(R.color.red));
-        if (shopFragment == null && !isDestroyedCompatible() ) {
+        if (shopFragment == null && !isDestroyedCompatible()) {
             shopFragment = ShopFragment.newInstance("main", "shop");
         }
-        switchFragment(
+        ActivityUtils.switchFragment(getSupportFragmentManager(),
                 selectedFragment,
                 shopFragment);
 
@@ -165,7 +166,7 @@ public class MainActivity extends BaseActivity
         if (meFragment == null && !isDestroyedCompatible()) {
             meFragment = MeFragment.newInstance("main", "me");
         }
-        switchFragment(
+        ActivityUtils.switchFragment(getSupportFragmentManager(),
                 selectedFragment,
                 meFragment);
 

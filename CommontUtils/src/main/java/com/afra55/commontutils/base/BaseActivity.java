@@ -27,12 +27,9 @@ import android.widget.ImageButton;
 
 import com.afra55.commontutils.R;
 import com.afra55.commontutils.device.KeyBoardUtils;
-import com.afra55.commontutils.fragment.FragmentUtils;
 import com.afra55.commontutils.log.LogUtils;
 import com.afra55.commontutils.sys.ReflectionUtil;
 import com.afra55.commontutils.tip.ToastUtils;
-
-import java.util.List;
 
 /**
  * View 对应于Activity，负责View的绘制以及与用户交互
@@ -200,41 +197,6 @@ public abstract class BaseActivity extends AppCompatActivity implements OnFragme
         return (T) (findViewById(resId));
     }
 
-    // fragment 相关
-    public BaseFragment addFragment(BaseFragment fragment) {
-
-        return addFragment(getSupportFragmentManager(), fragment);
-    }
-
-    public List<BaseFragment> addFragments(List<BaseFragment> fragments) {
-        return addFragments(getSupportFragmentManager(), fragments);
-    }
-
-    /**
-     * fragment 只使用一次就被替换掉，使用 replace
-     *
-     * @param fragment
-     * @return
-     */
-    public BaseFragment replaceFragmentContent(BaseFragment fragment) {
-        return replaceFragmentContent(getSupportFragmentManager(), fragment);
-    }
-
-    public BaseFragment replaceFragmentContent(BaseFragment fragment, boolean needAddToBackStack) {
-        return replaceFragmentContent(getSupportFragmentManager(), fragment, needAddToBackStack);
-    }
-
-    /**
-     * 如果使用 fragment 切换动画或常驻界面的话，最好使用 hide 和 show。
-     *
-     * @param from
-     * @param to
-     */
-    public void switchFragment(BaseFragment from, BaseFragment to) {
-        switchFragment(getSupportFragmentManager(), from, to);
-    }
-
-
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void invokeFragmentManagerNoteStateNotSaved(FragmentManager fragmentManager) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -242,38 +204,6 @@ public abstract class BaseActivity extends AppCompatActivity implements OnFragme
         }
     }
 
-    public BaseFragment addFragment(FragmentManager fragmentManager, BaseFragment fragment) {
-        return FragmentUtils.addFragment(fragmentManager, fragment);
-    }
-
-    public List<BaseFragment> addFragments(FragmentManager fragmentManager, List<BaseFragment> fragments) {
-        return FragmentUtils.addFragments(fragmentManager, fragments);
-    }
-
-    /**
-     * fragment 只使用一次就被替换掉，使用 replace
-     *
-     * @param fragment
-     * @return
-     */
-    public BaseFragment replaceFragmentContent(FragmentManager fragmentManager, BaseFragment fragment) {
-        return FragmentUtils.replaceFragmentContent(fragmentManager, fragment, false);
-    }
-
-    public BaseFragment replaceFragmentContent(FragmentManager fragmentManager, BaseFragment fragment
-            , boolean needAddToBackStack) {
-        return FragmentUtils.replaceFragmentContent(fragmentManager, fragment, needAddToBackStack);
-    }
-
-    /**
-     * 如果使用 fragment 切换动画或常驻界面的话，最好使用 hide 和 show。
-     *
-     * @param from
-     * @param to
-     */
-    public void switchFragment(FragmentManager fragmentManager, BaseFragment from, BaseFragment to) {
-        FragmentUtils.switchFragment(fragmentManager, from, to);
-    }
 
     @Override
     public void onFragmentInteraction(Uri uri) {
