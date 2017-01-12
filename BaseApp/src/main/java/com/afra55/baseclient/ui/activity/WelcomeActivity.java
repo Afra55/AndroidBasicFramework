@@ -1,5 +1,6 @@
 package com.afra55.baseclient.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,6 +17,11 @@ public class WelcomeActivity extends BaseActivity{
     private boolean customSplash = false;
 
     private static boolean firstEnter = true; // 是否首次进入
+
+    public static void start(Context context) {
+        Intent intent = new Intent(context, WelcomeActivity.class);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
