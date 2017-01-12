@@ -49,8 +49,4 @@ public class ShopFragment extends BaseFragment  {
         super.onActivityCreated(savedInstanceState);
     }
 
-    @Override
-    public void onClick(View v) {
-
-    }
 }

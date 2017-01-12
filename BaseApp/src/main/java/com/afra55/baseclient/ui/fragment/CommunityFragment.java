@@ -64,17 +64,13 @@ public class CommunityFragment extends BaseFragment {
     private void initView() {
         mTextInputEditText = findView(R.id.commnunity_translate_et);
         mTextInputLayout = findView(R.id.commnunity_translate_layout);
-        findView(R.id.commnunity_translate_btn).setOnClickListener(this);
-        mTextTranstaleResult = findView(R.id.commnunity_translate_result);
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.commnunity_translate_btn:
+        findView(R.id.commnunity_translate_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 toTranslate(mTextInputEditText.getText().toString());
-                break;
-        }
+            }
+        });
+        mTextTranstaleResult = findView(R.id.commnunity_translate_result);
     }
 
     public void showProgressDialog() {
