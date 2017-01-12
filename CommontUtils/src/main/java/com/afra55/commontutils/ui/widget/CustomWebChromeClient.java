@@ -8,9 +8,9 @@ import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
-import com.afra55.baseclient.R;
-import com.afra55.baseclient.common.AlertUtils;
+import com.afra55.commontutils.R;
 import com.afra55.commontutils.log.LogUtils;
+import com.afra55.commontutils.ui.dialog.AlertDialogHelper;
 import com.afra55.commontutils.ui.dialog.EasyEditDialog;
 
 /**
@@ -28,24 +28,24 @@ public class CustomWebChromeClient extends WebChromeClient {
     @Override
     public boolean onJsAlert(WebView view, String url, String message, final JsResult result) {
         if (!message.isEmpty()) {
-            AlertUtils.showAlert(
+            AlertDialogHelper.show(
                     context
                     , "Tip"
                     , message
-                    , "Ok"
+                    , "OK"
+                    , new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            result.confirm();
+                        }
+                    }
                     , "Cancel"
-                    , new AlertUtils.OnDialogClickListener() {
-                @Override
-                public void onConfirm(DialogInterface dialog, int which) {
-                    result.confirm();
-                }
-
-                @Override
-                public void onCancel(DialogInterface dialog, int which) {
-                    result.cancel();
-                }
-
-            });
+                    , new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            result.cancel();
+                        }
+                    } );
         }
         return super.onJsAlert(view, url, message, result);
     }
@@ -53,23 +53,24 @@ public class CustomWebChromeClient extends WebChromeClient {
     @Override
     public boolean onJsConfirm(WebView view, String url, String message, final JsResult result) {
         if (!message.isEmpty()) {
-            AlertUtils.showAlert(
+            AlertDialogHelper.show(
                     context
                     , "Tip"
                     , message
-                    , "Ok"
-                    , "Cancel"
-                    , new AlertUtils.OnDialogClickListener() {
+                    , "OK"
+                    , new DialogInterface.OnClickListener() {
                         @Override
-                        public void onConfirm(DialogInterface dialog, int which) {
+                        public void onClick(DialogInterface dialog, int which) {
                             result.confirm();
                         }
-
+                    }
+                    , "Cancel"
+                    , new DialogInterface.OnClickListener() {
                         @Override
-                        public void onCancel(DialogInterface dialog, int which) {
+                        public void onClick(DialogInterface dialog, int which) {
                             result.cancel();
                         }
-                    });
+                    } );
         }
         return super.onJsConfirm(view, url, message, result);
     }

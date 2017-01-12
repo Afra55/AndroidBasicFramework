@@ -17,7 +17,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.afra55.baseclient.R;
+import com.afra55.commontutils.R;
 
 
 public class CategoryTabStrip extends HorizontalScrollView {
@@ -131,7 +131,6 @@ public class CategoryTabStrip extends HorizontalScrollView {
 
 	}
 
-	// ���㻬������о��θ����������������λ��
 	private void calculateIndicatorRect(Rect rect) {
 		ViewGroup currentTab = (ViewGroup)tabsContainer.getChildAt(currentPosition);
 
