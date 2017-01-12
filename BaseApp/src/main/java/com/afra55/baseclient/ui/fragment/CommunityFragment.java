@@ -56,22 +56,23 @@ public class CommunityFragment extends BaseFragment {
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        initView();
-    }
-
-    private void initView() {
+    protected void initView(View view) {
         mTextInputEditText = findView(R.id.commnunity_translate_et);
         mTextInputLayout = findView(R.id.commnunity_translate_layout);
+        mTextTranstaleResult = findView(R.id.commnunity_translate_result);
+    }
+
+    @Override
+    protected void initLogic() {
+
         findView(R.id.commnunity_translate_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 toTranslate(mTextInputEditText.getText().toString());
             }
         });
-        mTextTranstaleResult = findView(R.id.commnunity_translate_result);
     }
+
 
     public void showProgressDialog() {
         DialogMaker.showProgressDialog(mActivity, "Loading");

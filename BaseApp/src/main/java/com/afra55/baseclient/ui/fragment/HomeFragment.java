@@ -44,17 +44,13 @@ public class HomeFragment extends BaseFragment {
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        findView();
-
-        initBanner((RadioGroup) findView(R.id.vp_indicator_rg));
-
+    protected void initView(View view) {
+        bannerVp = findView(R.id.vp_banner);
     }
 
-    private void findView() {
-        bannerVp = findView(R.id.vp_banner);
+    @Override
+    protected void initLogic() {
+        initBanner((RadioGroup) findView(R.id.vp_indicator_rg));
     }
 
 

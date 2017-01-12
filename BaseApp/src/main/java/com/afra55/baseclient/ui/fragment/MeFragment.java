@@ -45,4 +45,14 @@ public class MeFragment extends BaseFragment {
         super.onActivityCreated(savedInstanceState);
     }
 
+    @Override
+    protected void initView(View view) {
+
+    }
+
+    @Override
+    protected void initLogic() {
+
+    }
+
 }
