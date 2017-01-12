@@ -6,7 +6,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.widget.Toast;
 
-import com.afra55.baseclient.view.CustomDialog;
+import com.afra55.commontutils.ui.widget.CustomDialog;
 
 
 public class AlertUtils {
