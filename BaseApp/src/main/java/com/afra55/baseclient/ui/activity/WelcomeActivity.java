@@ -108,7 +108,7 @@ public class WelcomeActivity extends BaseActivity{
      * 首次进入，打开欢迎界面
      */
     private void showSplashView() {
-        getWindow().setBackgroundDrawableResource(R.drawable.splash_bg);
+        getWindow().setBackgroundDrawableResource(R.drawable.welcom_bg);
         customSplash = true;
     }
 
