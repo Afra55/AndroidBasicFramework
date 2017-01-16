@@ -7,6 +7,7 @@ import android.os.Handler;
 
 import com.afra55.apimodule.helper.LoginUtils;
 import com.afra55.baseclient.R;
+import com.afra55.baseclient.ui.UIControlHelper;
 import com.afra55.commontutils.base.BaseActivity;
 import com.afra55.commontutils.log.LogUtils;
 
@@ -121,7 +122,7 @@ public class WelcomeActivity extends BaseActivity{
         if (isDestroyedCompatible()) {
             return;
         }
-        MainActivity.start(WelcomeActivity.this, intent);
+        UIControlHelper.startMainActivity(this, intent);
         finish();
     }
 }

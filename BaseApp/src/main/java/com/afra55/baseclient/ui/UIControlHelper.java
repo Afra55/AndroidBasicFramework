@@ -1,6 +1,7 @@
 package com.afra55.baseclient.ui;
 
 import android.content.Context;
+import android.content.Intent;
 
 import com.afra55.baseclient.ui.activity.MainActivity;
 import com.afra55.baseclient.ui.activity.WelcomeActivity;
@@ -20,8 +21,8 @@ public class UIControlHelper {
         WelcomeActivity.start(context);
     }
 
-    public static void startMainActivity(Context context) {
-        MainActivity.start(context);
+    public static void startMainActivity(Context context, Intent extras) {
+        MainActivity.start(context, extras);
     }
 
 }
