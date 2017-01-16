@@ -64,6 +64,7 @@ class ExternalStorage {
         boolean result = true;
         File root = new File(sdkStorageRoot);
         if (root.exists() && !root.isDirectory()) {
+            //noinspection ResultOfMethodCallIgnored
             root.delete();
         }
         for (StorageType storageType : StorageType.values()) {
@@ -95,6 +96,7 @@ class ExternalStorage {
         File noMediaFile = new File(path + "/" + NO_MEDIA_FILE_NAME);
         try {
             if (!noMediaFile.exists()) {
+                //noinspection ResultOfMethodCallIgnored
                 noMediaFile.createNewFile();
             }
         } catch (IOException e) {
