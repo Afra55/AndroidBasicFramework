@@ -97,8 +97,8 @@ public abstract class BaseActivity extends AppCompatActivity implements OnFragme
             Toolbar.LayoutParams navigationLayoutParams = (Toolbar.LayoutParams) mNavButtonView.getLayoutParams();
             navigationLayoutParams.width = getResources().getDimensionPixelSize(R.dimen.actionbar_navigation_size);
             navigationLayoutParams.height = getResources().getDimensionPixelSize(R.dimen.actionbar_navigation_size);
-            mNavButtonView.setAdjustViewBounds(true);
             mNavButtonView.setLayoutParams(navigationLayoutParams);
+            mNavButtonView.setAdjustViewBounds(true);
         }
 
         setSupportActionBar(toolbar);

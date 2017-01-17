@@ -65,7 +65,7 @@ public class MainActivity extends BaseActivity
 
     @Override
     protected String getScreenTitle() {
-        return null;
+        return "Home";
     }
 
 
