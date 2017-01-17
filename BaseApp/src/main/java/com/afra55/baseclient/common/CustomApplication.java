@@ -40,9 +40,8 @@ public class CustomApplication extends Application {
         LogUtils.init(path, Log.DEBUG);
 
         /* 异常捕获(debug 时不捕获异常) */
-        if (!BuildConfig.DEBUG) {
-            AppCrashHandler.getInstance(this, MainActivity.class);
-        } else {
+        AppCrashHandler.getInstance(this, MainActivity.class);
+        if (BuildConfig.DEBUG) {
             StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
                     .detectDiskReads()
                     .detectDiskWrites()

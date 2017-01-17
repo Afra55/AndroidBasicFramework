@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.afra55.commontutils.BuildConfig;
 import com.afra55.commontutils.R;
+import com.afra55.commontutils.log.LogUtils;
 
 import java.lang.Thread.UncaughtExceptionHandler;
 
@@ -59,6 +60,7 @@ public class AppCrashHandler implements Thread.UncaughtExceptionHandler{
 	public void uncaughtException(Thread thread, Throwable ex) {
 		// save log
 		saveException(ex, true);
+        LogUtils.e(thread.getName(), thread.toString(), ex);
 
         if (application.getPackageName().equals(getProcessName(application)))  {
 
