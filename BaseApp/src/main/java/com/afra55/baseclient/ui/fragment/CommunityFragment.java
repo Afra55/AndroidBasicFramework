@@ -74,10 +74,6 @@ public class CommunityFragment extends BaseFragment {
     }
 
 
-    public void showProgressDialog() {
-        DialogMaker.showProgressDialog(mActivity, "Loading");
-    }
-
     public void showToast(String s) {
         ToastUtils.showToast(mActivity, s);
     }
@@ -99,7 +95,7 @@ public class CommunityFragment extends BaseFragment {
         ToTransltateHelper.getInstance().toTanstale(string, new ToTransltateHelper.ToTranslateResultListener() {
             @Override
             public void showProgressDialog() {
-                showProgressDialog();
+                DialogMaker.showProgressDialog(mActivity, "Loading");
             }
 
             @Override
