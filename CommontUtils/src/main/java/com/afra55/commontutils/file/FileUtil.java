@@ -24,9 +24,9 @@ public class FileUtil {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(Uri.fromFile(file), getMimeType(file));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
         } else {
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
         }
         context.startActivity(intent);
 
