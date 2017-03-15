@@ -1,5 +1,9 @@
 package com.afra55.commontutils.file;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
@@ -11,6 +15,22 @@ import java.util.Locale;
 
 public class FileUtil {
     private static final String TAG = "FileUtil";
+
+    public static void openFile(Context context, File file) throws Exception{
+        if (file == null || !file.exists()) {
+            return;
+        }
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(Uri.fromFile(file), getMimeType(file));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
+        } else {
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        }
+        context.startActivity(intent);
+
+    }
 
     public static long getFileLength(String srcPath) {
         if (TextUtils.isEmpty(srcPath)) {
