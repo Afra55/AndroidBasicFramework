@@ -18,10 +18,11 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 class CrashSaver {
 
-	public static final void save(Context context, Throwable ex,
+	public static void save(Context context, Throwable ex,
 			boolean uncaught) {
 
 		if (!StorageUtil.isExternalStorageExist()) {// 如果没有sdcard，则不存储
@@ -59,7 +60,7 @@ class CrashSaver {
 		if(TextUtils.isEmpty(filename)) {
 			return;
 		}
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 		Date date = new Date();
 		String timestamp = sdf.format(date);
 		BufferedWriter mBufferedWriter = null;
@@ -68,6 +69,7 @@ class CrashSaver {
                     filename + ".crashlog", StorageType.TYPE_LOG));
 			File pFile = mFile.getParentFile();
 			if (!pFile.exists()) {// 如果文件夹不存在，则先创建文件夹
+				//noinspection ResultOfMethodCallIgnored
 				pFile.mkdirs();
 			}
 			int count = 1;
@@ -80,12 +82,10 @@ class CrashSaver {
                         int index = line.indexOf(":");
                         if(index != -1) {
                             String count_str = line.substring(++index);
-                            if(count_str != null) {
-                                count_str = count_str.trim();
-                                count = Integer.parseInt(count_str);
-                                count++;
-                            }
-                        }
+							count_str = count_str.trim();
+							count = Integer.parseInt(count_str);
+							count++;
+						}
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -99,10 +99,12 @@ class CrashSaver {
 
                     }
                 }
-                mFile.delete();
+				//noinspection ResultOfMethodCallIgnored
+				mFile.delete();
 			}
 
-            mFile.createNewFile();
+			//noinspection ResultOfMethodCallIgnored
+			mFile.createNewFile();
 			
 			mBufferedWriter = new BufferedWriter(new FileWriter(mFile, true));// 追加模式写文件
 			mBufferedWriter.append(CrashSnapshot.snapshot(context, uncaught, timestamp, stackTrace, count));

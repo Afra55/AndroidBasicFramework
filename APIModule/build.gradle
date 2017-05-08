@@ -1,17 +1,17 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.0"
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 24
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
 
-        buildConfigField("String", "BAIDU_APP_ID", "\"20160630000024309\"")
-        buildConfigField("String", "BAIDU_APP_SECRET", "\"b7x8quIU7LYafJ7bOCPo\"")
+        buildConfigField("String", "BAIDU_APP_ID", "\"${baidu_app_id}\"")
+        buildConfigField("String", "BAIDU_APP_SECRET", "\"${baidu_app_secret}\"")
     }
     buildTypes {
         release {

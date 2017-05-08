@@ -2,8 +2,7 @@ package com.afra55.commontutils.sys;
 
 import android.text.TextUtils;
 
-
-import com.afra55.commontutils.log.LogUtil;
+import com.afra55.commontutils.log.LogUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -39,7 +38,39 @@ public class ReflectionUtil {
             method.setAccessible(true);
             return method.invoke(obj, params);
         } catch (NoSuchMethodException e) {
-            LogUtil.i("reflect", "method " + methodName + " not found in " + obj.getClass().getName());
+            LogUtils.i("reflect", "method " + methodName + " not found in " + obj.getClass().getName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 通过类对象，运行指定方法
+     * @param obj 类对象
+     * @param methodName 方法名
+     * @param params 参数值
+     * @return 失败返回null
+     */
+    public static Object invokeDeclaredMethod(Object obj, String methodName, Object[] params) {
+        if (obj == null || TextUtils.isEmpty(methodName)) {
+            return null;
+        }
+
+        Class<?> clazz = obj.getClass();
+        try {
+            Class<?>[] paramTypes = null;
+            if (params != null) {
+                paramTypes = new Class[params.length];
+                for (int i = 0; i < params.length; ++i) {
+                    paramTypes[i] = params[i].getClass();
+                }
+            }
+            Method method = clazz.getDeclaredMethod(methodName, paramTypes);
+            method.setAccessible(true);
+            return method.invoke(obj, params);
+        } catch (NoSuchMethodException e) {
+            LogUtils.i("reflect", "method " + methodName + " not found in " + obj.getClass().getName());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -61,7 +92,7 @@ public class ReflectionUtil {
             }
             clazz = clazz.getSuperclass();
         }
-        LogUtil.e("reflect", "get field " + fieldName + " not found in " + obj.getClass().getName());
+        LogUtils.e("reflect", "get field " + fieldName + " not found in " + obj.getClass().getName());
         return null;
     }
 
@@ -81,6 +112,6 @@ public class ReflectionUtil {
             }
             clazz = clazz.getSuperclass();
         }
-        LogUtil.e("reflect", "set field " + fieldName + " not found in " + obj.getClass().getName());
+        LogUtils.e("reflect", "set field " + fieldName + " not found in " + obj.getClass().getName());
     }
 }

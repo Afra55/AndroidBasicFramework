@@ -12,7 +12,7 @@ import android.os.Build;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
-import com.afra55.commontutils.log.LogUtil;
+import com.afra55.commontutils.log.LogUtils;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -371,7 +371,7 @@ public class NetworkUtil {
 		}
 
 		String proxyHost = android.net.Proxy.getDefaultHost();
-		LogUtil.e(TAG, "proxyHost:" + proxyHost);
+		LogUtils.e(TAG, "proxyHost:" + proxyHost);
 		return proxyHost;
 	}
 
@@ -385,7 +385,7 @@ public class NetworkUtil {
 		}
 
 		String proxyHost = android.net.Proxy.getDefaultHost();
-		LogUtil.e(TAG, "proxyHost:" + proxyHost);
+		LogUtils.e(TAG, "proxyHost:" + proxyHost);
 		return proxyHost;
 	}
 

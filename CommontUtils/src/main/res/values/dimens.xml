@@ -10,4 +10,7 @@
     <dimen name="dialog_padding_vertical">20dip</dimen>
     <dimen name="custom_dialog_padding_vertical">15dip</dimen>
     <dimen name="dark_line_size">3px</dimen>
+    <dimen name="actionbar_navigation_size">24dp</dimen>
+    <dimen name="actionbar_navigation_margin_left">24dp</dimen>
+    <dimen name="category_tab_text">15.0sp</dimen>
 </resources>

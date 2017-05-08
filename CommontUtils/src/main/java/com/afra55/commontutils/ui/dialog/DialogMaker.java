@@ -2,24 +2,25 @@ package com.afra55.commontutils.ui.dialog;
 
 import android.content.Context;
 import android.content.DialogInterface.OnCancelListener;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import com.afra55.commontutils.log.LogUtil;
+import com.afra55.commontutils.log.LogUtils;
 
 
 public class DialogMaker {
 	private static EasyProgressDialog progressDialog;
 
-    public static EasyProgressDialog showProgressDialog(Context context, String message) {
+    public static EasyProgressDialog showProgressDialog(@NonNull Context context, String message) {
         return showProgressDialog(context, null, message, true, null);
     }
 
-	public static EasyProgressDialog showProgressDialog(Context context, String message, boolean cancelable) {
+	public static EasyProgressDialog showProgressDialog(@NonNull Context context, String message, boolean cancelable) {
 		return showProgressDialog(context, null, message, cancelable, null);
 	}
 	
 	@Deprecated
-	public static EasyProgressDialog showProgressDialog(Context context,
+	public static EasyProgressDialog showProgressDialog(@NonNull Context context,
 			String title, String message, boolean canCancelable, OnCancelListener listener) {
 
 		if (progressDialog == null) {
@@ -27,7 +28,7 @@ public class DialogMaker {
 		} else if (progressDialog.getContext() != context) {
 			// maybe existing dialog is running in a destroyed activity cotext
 			// we should recreate one
-			LogUtil.e("dialog", "there is a leaked window here,orign context: "
+			LogUtils.e("dialog", "there is a leaked window here,orign context: "
 					+ progressDialog.getContext() + " now: " + context);
 			dismissProgressDialog();
 			progressDialog = new EasyProgressDialog(context, message);

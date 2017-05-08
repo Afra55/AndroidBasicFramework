@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/AndroidBasicFramework.iml" filepath="$PROJECT_DIR$/AndroidBasicFramework.iml" />
       <module fileurl="file://$PROJECT_DIR$/BaseApp/BaseApp.iml" filepath="$PROJECT_DIR$/BaseApp/BaseApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/CommontUtils/CommontUtils.iml" filepath="$PROJECT_DIR$/CommontUtils/CommontUtils.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ModuleLibrary/ModuleLibrary.iml" filepath="$PROJECT_DIR$/ModuleLibrary/ModuleLibrary.iml" />
     </modules>
   </component>
 </project>
