@@ -1,7 +1,7 @@
 # AndroidBasicFramework
 ## Android项目的基本架构搭建
 
-MVP + Rxjava + Retrofit + Fresco.
+Clean(干净架构) + Rxjava + Retrofit + Fresco.
 ----------
 
 ### 第三方库
