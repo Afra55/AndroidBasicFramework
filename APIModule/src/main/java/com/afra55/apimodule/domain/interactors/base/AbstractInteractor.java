@@ -4,6 +4,9 @@ package com.afra55.apimodule.domain.interactors.base;
 import com.afra55.apimodule.domain.executor.Executor;
 import com.afra55.apimodule.domain.executor.MainThread;
 
+import rx.Subscriber;
+import rx.subscriptions.CompositeSubscription;
+
 /**
  * Created by dmilicic on 8/4/15.
  * <p/>
@@ -15,6 +18,8 @@ import com.afra55.apimodule.domain.executor.MainThread;
  * but the request will come from the UI thread unless the request was specifically assigned to a background thread.
  */
 public abstract class AbstractInteractor implements Interactor {
+
+    private CompositeSubscription compositeSubscription;
 
     protected Executor mThreadExecutor;
     protected MainThread mMainThread;
@@ -57,6 +62,20 @@ public abstract class AbstractInteractor implements Interactor {
 
         // start running this interactor in a background thread
         mThreadExecutor.execute(this);
+    }
+
+    protected <T> Subscriber<T> addSubscriber(Subscriber<T> subscriber){
+        if(compositeSubscription == null){
+            compositeSubscription = new CompositeSubscription();
+        }
+        compositeSubscription.add(subscriber);
+        return subscriber;
+    }
+
+    protected  void unSubscriber(){
+        if(compositeSubscription!=null){
+            compositeSubscription.unsubscribe();
+        }
     }
 
 }
