@@ -67,4 +67,16 @@ dependencies {
 
     // sql-cipher database encyrption (optional)
     compile "com.github.Raizlabs.DBFlow:dbflow-sqlcipher:${dbflow_version}"
+
+    compile "com.squareup.okhttp3:logging-interceptor:${okhttp3_logging_interceptor_version}"
+
+    compile "com.facebook.stetho:stetho-okhttp3:${stetho_version}"
+
+    compile ('com.squareup.retrofit2:converter-simplexml:2.0.1'){
+        exclude group: 'stax', module: 'stax-api'
+        exclude group: 'stax', module: 'stax'
+        exclude group: 'xpp3', module: 'xpp3'
+    }
+
+    compile "com.alibaba:fastjson:${fast_json_version}"
 }
