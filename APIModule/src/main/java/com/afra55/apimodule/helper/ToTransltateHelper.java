@@ -4,7 +4,7 @@ import android.text.TextUtils;
 
 import com.afra55.apimodule.api.APIField;
 import com.afra55.apimodule.api.APIServices;
-import com.afra55.apimodule.bean.TranslateBean;
+import com.afra55.apimodule.domain.model.TranslateBean;
 import com.afra55.commontutils.string.MD5;
 
 import java.util.HashMap;

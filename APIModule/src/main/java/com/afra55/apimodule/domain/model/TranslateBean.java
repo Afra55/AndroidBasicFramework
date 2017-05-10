@@ -1,11 +1,13 @@
-package com.afra55.apimodule.bean;
+package com.afra55.apimodule.domain.model;
+
+import com.afra55.apimodule.bean.BaseBean;
 
 import java.util.List;
 
 /**
  * Created by Victor Yang on 2016/7/1.
  */
-public class TranslateBean extends BaseBean{
+public class TranslateBean extends BaseBean {
 
     /**
      * from : en

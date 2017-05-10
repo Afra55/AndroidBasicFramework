@@ -9,8 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.afra55.apimodule.bean.TransResultBean;
-import com.afra55.apimodule.bean.TranslateBean;
+import com.afra55.apimodule.domain.model.TransResultBean;
+import com.afra55.apimodule.domain.model.TranslateBean;
 import com.afra55.apimodule.helper.ToTransltateHelper;
 import com.afra55.baseclient.R;
 import com.afra55.commontutils.base.BaseFragment;

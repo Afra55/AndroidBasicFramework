@@ -1,6 +1,6 @@
 package com.afra55.apimodule.api;
 
-import com.afra55.apimodule.bean.TranslateBean;
+import com.afra55.apimodule.domain.model.TranslateBean;
 
 import java.util.Map;
 

@@ -16,6 +16,7 @@ import com.afra55.commontutils.storage.StorageType;
 import com.afra55.commontutils.storage.StorageUtil;
 import com.afra55.commontutils.sys.ScreenUtil;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.raizlabs.android.dbflow.config.FlowManager;
 
 
 /**
@@ -27,6 +28,9 @@ public class CustomApplication extends Application {
         super.onCreate();
 
         TimeUtils.setAppStartTime(getApplicationContext(), System.currentTimeMillis());
+
+        // 数据库初始化 https://yumenokanata.gitbooks.io/dbflow-tutorials/content/index.html
+        FlowManager.init(this);
 
         Fresco.initialize(this.getApplicationContext());
         AppCache.setContext(this.getApplicationContext());
