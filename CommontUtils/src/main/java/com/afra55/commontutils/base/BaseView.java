@@ -1,4 +1,4 @@
-package com.afra55.apimodule.presentation.ui;
+package com.afra55.commontutils.base;
 
 /**
  * Created by dmilicic on 7/28/15.

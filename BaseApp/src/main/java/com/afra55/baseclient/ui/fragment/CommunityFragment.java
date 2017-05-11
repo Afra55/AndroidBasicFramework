@@ -9,16 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.afra55.apimodule.domain.executor.impl.ThreadExecutor;
 import com.afra55.apimodule.domain.model.TransResultBean;
 import com.afra55.apimodule.domain.model.TranslateBean;
 import com.afra55.apimodule.presentation.presenters.ToTranslatePresenter;
 import com.afra55.apimodule.presentation.presenters.impl.ToTranslatePresenterImpl;
 import com.afra55.apimodule.threading.MainThreadImpl;
+import com.afra55.apimodule.threading.ThreadExecutor;
 import com.afra55.baseclient.R;
 import com.afra55.commontutils.base.BaseFragment;
 import com.afra55.commontutils.base.BasePresenter;
-import com.afra55.commontutils.tip.ToastUtils;
 import com.afra55.commontutils.ui.dialog.DialogMaker;
 
 import java.util.List;

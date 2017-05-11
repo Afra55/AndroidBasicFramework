@@ -1,8 +1,8 @@
-package com.afra55.apimodule.domain.executor.impl;
+package com.afra55.apimodule.threading;
 
 
-import com.afra55.commontutils.base.Executor;
 import com.afra55.commontutils.base.AbstractInteractor;
+import com.afra55.commontutils.base.Executor;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;

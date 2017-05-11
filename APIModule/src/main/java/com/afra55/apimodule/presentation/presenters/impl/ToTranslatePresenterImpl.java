@@ -1,12 +1,12 @@
 package com.afra55.apimodule.presentation.presenters.impl;
 
-import com.afra55.commontutils.base.Executor;
-import com.afra55.commontutils.base.MainThread;
 import com.afra55.apimodule.domain.interactors.ToTranslateInteractor;
 import com.afra55.apimodule.domain.interactors.impl.ToTranslateInteractorImpl;
 import com.afra55.apimodule.domain.model.TranslateBean;
 import com.afra55.apimodule.presentation.presenters.ToTranslatePresenter;
 import com.afra55.commontutils.base.AbstractPresenter;
+import com.afra55.commontutils.base.Executor;
+import com.afra55.commontutils.base.MainThread;
 
 /**
  * Created by yangshuai on 2017/5/11.
@@ -57,5 +57,15 @@ public class ToTranslatePresenterImpl extends AbstractPresenter
     @Override
     public void onTranslateResultReturn(TranslateBean translateBean) {
         mView.onTranslateResultReturn(translateBean);
+    }
+
+    @Override
+    public void onStart() {
+        mView.showProgress();
+    }
+
+    @Override
+    public void onCompleted() {
+        mView.hideProgress();
     }
 }

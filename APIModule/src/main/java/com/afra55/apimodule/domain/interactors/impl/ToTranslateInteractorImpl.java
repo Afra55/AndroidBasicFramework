@@ -81,11 +81,22 @@ public class ToTranslateInteractorImpl extends AbstractInteractor implements ToT
                     @Override
                     public void onStart() {
                         super.onStart();
+                        mMainThread.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                mCallback.onStart();
+                            }
+                        });
                     }
 
                     @Override
                     public void onCompleted() {
-
+                        mMainThread.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                mCallback.onCompleted();
+                            }
+                        });
                     }
                 }));
 

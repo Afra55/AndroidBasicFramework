@@ -1,7 +1,8 @@
 package com.afra55.apimodule.domain.interactors;
 
-import com.afra55.commontutils.base.Interactor;
 import com.afra55.apimodule.domain.model.TranslateBean;
+import com.afra55.commontutils.base.BaseCallback;
+import com.afra55.commontutils.base.Interactor;
 
 /**
  * Created by yangshuai on 2017/5/10.
@@ -10,7 +11,8 @@ import com.afra55.apimodule.domain.model.TranslateBean;
 public interface ToTranslateInteractor extends Interactor {
 
 
-    interface Callback {
+    interface Callback extends BaseCallback{
         void onTranslateResultReturn(TranslateBean translateBean);
+
     }
 }
