@@ -1,5 +1,7 @@
 package com.afra55.commontutils.network;
 
+import android.text.TextUtils;
+
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
@@ -22,14 +24,17 @@ import retrofit2.Retrofit;
 public class ResponseConverterFactory extends Converter.Factory {
 
     private JSONObject jsonObject;
+
     public static ResponseConverterFactory create() {
         return create(new JSONObject());
     }
+
     private static ResponseConverterFactory create(JSONObject jsonObject) {
         return new ResponseConverterFactory(jsonObject);
     }
+
     private ResponseConverterFactory(JSONObject jsonObject) {
-        if (jsonObject == null)throw new NullPointerException("json == null");
+        if (jsonObject == null) throw new NullPointerException("json == null");
         this.jsonObject = jsonObject;
     }
 
@@ -59,47 +64,46 @@ class JsonResponseBodyConverter<T> implements Converter<ResponseBody, T> {
 
     @Override
     public T convert(ResponseBody value) throws IOException {
-       try{
-           //解析数据
-           BufferedReader br=new BufferedReader(value.charStream());
-           String line="";
-           StringBuffer buffer = new StringBuffer();
-           while((line=br.readLine())!=null){
-               buffer.append(line);
-           }
-           String result = buffer.toString();
-           br = null;
-           buffer = null;
-           if(result != null){
-               Result response = JSON.parseObject(result,Result.class);
-               if(value.contentType().subtype().equals("html")){
-                   return (T) response;
-               }else{
-                   try {
-                       if (response!=null && response.isSuccess()){
-                           try {
-                               return JSON.parseObject(response.getBizData(),mType);
-                           }catch (Exception e){
-                               try {
-                                   return JSON.parseObject(JSON.toJSONString(response.getBizData()),mType);
-                               } catch (Exception e1) {
-                                   return new Gson().fromJson(response.getBizData(), mType);
-                               }
-                           }
-                       }else{
-                           throw new HttpRuntimeException(response.getRtnCode(),response.getMsg());
-                       }
-                   }catch (Exception e){
-                       e.printStackTrace();
-                       throw new HttpRuntimeException(response.getRtnCode(),response.getMsg());
-                   }
-               }
-           }
-       }catch (Exception e){
-           e.printStackTrace();
-           throw new HttpRuntimeException(((HttpRuntimeException)e).getErrorCode(),((HttpRuntimeException)e).getErrorMsg());
-       }
-        return null;
+        try {
+            //解析数据
+            BufferedReader br = new BufferedReader(value.charStream());
+            String line;
+            StringBuilder buffer = new StringBuilder();
+            while ((line = br.readLine()) != null) {
+                buffer.append(line);
+            }
+            String result = buffer.toString();
+            Result response = JSON.parseObject(result, Result.class);
+            if (TextUtils.isEmpty(response.getBizData())
+                    && TextUtils.isEmpty(response.getRtnCode())) {
+                return JSON.parseObject(result, mType);
+            }
+            if (value.contentType().subtype().equals("html")) {
+                return (T) response;
+            } else {
+                try {
+                    if (response.isSuccess()) {
+                        try {
+                            return JSON.parseObject(response.getBizData(), mType);
+                        } catch (Exception e) {
+                            try {
+                                return JSON.parseObject(JSON.toJSONString(response.getBizData()), mType);
+                            } catch (Exception e1) {
+                                return new Gson().fromJson(response.getBizData(), mType);
+                            }
+                        }
+                    } else {
+                        throw new HttpRuntimeException(response.getRtnCode(), response.getMsg());
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    throw new HttpRuntimeException(response.getRtnCode(), response.getMsg());
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new HttpRuntimeException(((HttpRuntimeException) e).getErrorCode(), ((HttpRuntimeException) e).getErrorMsg());
+        }
     }
 }
 
@@ -109,13 +113,13 @@ final class JsonRequestBodyConverter<T> implements Converter<T, RequestBody> {
 
     @Override
     public RequestBody convert(T value) throws IOException {
-        try{
+        try {
             Buffer buffer = new Buffer();
             Writer writer = new OutputStreamWriter(buffer.outputStream(), UTF_8);
             writer.write(value.toString());
             writer.close();
             return RequestBody.create(MEDIA_TYPE, buffer.readByteString());
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;

@@ -4,9 +4,9 @@ public class Result {
 
     private static final String HTTP_SERVICE_SUCCESS = "0000000";
 
-    private String bizData;
-    private String rtnCode;
-    private String msg;
+    private String bizData = "";
+    private String rtnCode = "";
+    private String msg = "";
     private long ts;
 
     public String getBizData() {
