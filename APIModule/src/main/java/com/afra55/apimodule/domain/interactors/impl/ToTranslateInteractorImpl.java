@@ -1,12 +1,12 @@
 package com.afra55.apimodule.domain.interactors.impl;
 
-import com.afra55.commontutils.base.APIField;
 import com.afra55.apimodule.api.APIServices;
+import com.afra55.apimodule.domain.interactors.ToTranslateInteractor;
+import com.afra55.apimodule.domain.model.TranslateBean;
+import com.afra55.commontutils.base.APIField;
+import com.afra55.commontutils.base.AbstractInteractor;
 import com.afra55.commontutils.base.Executor;
 import com.afra55.commontutils.base.MainThread;
-import com.afra55.apimodule.domain.interactors.ToTranslateInteractor;
-import com.afra55.commontutils.base.AbstractInteractor;
-import com.afra55.apimodule.domain.model.TranslateBean;
 import com.afra55.commontutils.network.DataCoverSubscriber;
 import com.afra55.commontutils.network.Request;
 import com.afra55.commontutils.network.RequestQuery;
@@ -41,7 +41,9 @@ public class ToTranslateInteractorImpl extends AbstractInteractor implements ToT
     public void run() {
         int salt = new Random(100).nextInt();
         RetrofitUtil.createService(APIServices.class)
-                .toTranslate(new RequestQuery.Build()
+                .toTranslate(
+                        APIField.OtherHttp.TRANSLATE_HOST + APIField.OtherHttp.TRANSLATE_API
+                        ,new RequestQuery.Build()
                                 .withParams("q", text)
                                 .withParams("from", "auto")
                                 .withParams("to", "auto")
@@ -49,8 +51,8 @@ public class ToTranslateInteractorImpl extends AbstractInteractor implements ToT
                                 .withParams("salt", String.valueOf(salt))
                                 .withParams("sign", MD5.getStringMD5(APIField.OtherHttp.APPID
                                         + text + salt + APIField.OtherHttp.SECRET))
-                                .build(),
-                        new Request.Builder()
+                                .build()
+                        ,new Request.Builder()
 //                                .withObject(JSON.toJSONString(info))
                                 .build())
                 .subscribeOn(Schedulers.io())
