@@ -11,8 +11,8 @@ import android.widget.TextView;
 
 import com.afra55.apimodule.domain.model.TransResultBean;
 import com.afra55.apimodule.domain.model.TranslateBean;
-import com.afra55.apimodule.presentation.presenters.ToTranslatePresenter;
-import com.afra55.apimodule.presentation.presenters.impl.ToTranslatePresenterImpl;
+import com.afra55.apimodule.presentation.presenters.CommunityPresenter;
+import com.afra55.apimodule.presentation.presenters.impl.CommunityPresenterImpl;
 import com.afra55.apimodule.threading.MainThreadImpl;
 import com.afra55.apimodule.threading.ThreadExecutor;
 import com.afra55.baseclient.R;
@@ -22,7 +22,7 @@ import com.afra55.commontutils.ui.dialog.DialogMaker;
 
 import java.util.List;
 
-public class CommunityFragment extends BaseFragment implements ToTranslatePresenter.View{
+public class CommunityFragment extends BaseFragment implements CommunityPresenter.View{
 
     private TextInputEditText mTextInputEditText;
 
@@ -30,7 +30,7 @@ public class CommunityFragment extends BaseFragment implements ToTranslatePresen
 
     private TextView mTextTranslateResult;
 
-    private ToTranslatePresenter mPresenter;
+    private CommunityPresenter mPresenter;
 
     public static CommunityFragment newInstance(String param1, String param2) {
         Bundle args = new Bundle();
@@ -80,7 +80,7 @@ public class CommunityFragment extends BaseFragment implements ToTranslatePresen
 
     @Override
     protected BasePresenter createPresenter() {
-        mPresenter = new ToTranslatePresenterImpl(
+        mPresenter = new CommunityPresenterImpl(
                 ThreadExecutor.getInstance()
                 , MainThreadImpl.getInstance()
                 ,this);

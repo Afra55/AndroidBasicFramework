@@ -8,7 +8,7 @@ import com.afra55.commontutils.base.BaseView;
  * Created by yangshuai on 2017/5/11.
  */
 
-public interface ToTranslatePresenter extends BasePresenter {
+public interface CommunityPresenter extends BasePresenter {
 
     interface View extends BaseView{
         void onTranslateResultReturn(TranslateBean translateBean);
