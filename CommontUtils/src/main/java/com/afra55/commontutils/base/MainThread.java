@@ -1,4 +1,4 @@
-package com.afra55.apimodule.domain.executor;
+package com.afra55.commontutils.base;
 
 /**
  * This interface will define a class that will enable interactors to run certain operations on the main (UI) thread. For example,

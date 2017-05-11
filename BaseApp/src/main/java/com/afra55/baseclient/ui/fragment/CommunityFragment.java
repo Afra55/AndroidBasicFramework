@@ -9,23 +9,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.afra55.apimodule.domain.executor.impl.ThreadExecutor;
 import com.afra55.apimodule.domain.model.TransResultBean;
 import com.afra55.apimodule.domain.model.TranslateBean;
-import com.afra55.apimodule.helper.ToTransltateHelper;
+import com.afra55.apimodule.presentation.presenters.ToTranslatePresenter;
+import com.afra55.apimodule.presentation.presenters.impl.ToTranslatePresenterImpl;
+import com.afra55.apimodule.threading.MainThreadImpl;
 import com.afra55.baseclient.R;
 import com.afra55.commontutils.base.BaseFragment;
+import com.afra55.commontutils.base.BasePresenter;
 import com.afra55.commontutils.tip.ToastUtils;
 import com.afra55.commontutils.ui.dialog.DialogMaker;
 
 import java.util.List;
 
-public class CommunityFragment extends BaseFragment {
+public class CommunityFragment extends BaseFragment implements ToTranslatePresenter.View{
 
     private TextInputEditText mTextInputEditText;
 
     private TextInputLayout mTextInputLayout;
 
-    private TextView mTextTranstaleResult;
+    private TextView mTextTranslateResult;
+
+    private ToTranslatePresenter mPresenter;
 
     public static CommunityFragment newInstance(String param1, String param2) {
         Bundle args = new Bundle();
@@ -59,7 +65,7 @@ public class CommunityFragment extends BaseFragment {
     protected void initView(View view) {
         mTextInputEditText = findView(R.id.commnunity_translate_et);
         mTextInputLayout = findView(R.id.commnunity_translate_layout);
-        mTextTranstaleResult = findView(R.id.commnunity_translate_result);
+        mTextTranslateResult = findView(R.id.commnunity_translate_result);
     }
 
     @Override
@@ -73,16 +79,21 @@ public class CommunityFragment extends BaseFragment {
         });
     }
 
-
-    public void showToast(String s) {
-        ToastUtils.showToast(mActivity, s);
+    @Override
+    protected BasePresenter createPresenter() {
+        mPresenter = new ToTranslatePresenterImpl(
+                ThreadExecutor.getInstance()
+                , MainThreadImpl.getInstance()
+                ,this);
+        return mPresenter;
     }
+
 
     public void setTranslateResult(String result) {
         showKeyboard(false);
         DialogMaker.dismissProgressDialog();
         mTextInputLayout.setError(null);
-        mTextTranstaleResult.setText(result);
+        mTextTranslateResult.setText(result);
     }
 
     public void setTranslateError(String s) {
@@ -92,27 +103,28 @@ public class CommunityFragment extends BaseFragment {
     }
 
     public void toTranslate(String string) {
-        ToTransltateHelper.getInstance().toTanstale(string, new ToTransltateHelper.ToTranslateResultListener() {
-            @Override
-            public void showProgressDialog() {
-                DialogMaker.showProgressDialog(mActivity, "Loading");
-            }
 
-            @Override
-            public void onSuccess(TranslateBean translateBean) {
-                List<TransResultBean> list = translateBean.getTrans_result();
-                String result = "";
-                for (TransResultBean resultBean : list) {
-                    result += resultBean.getDst() + " ";
-                }
-                setTranslateResult(result);
-            }
+        mPresenter.translateText(string);
 
-            @Override
-            public void onFaile(String tip) {
-                showToast(tip);
-                setTranslateError(tip);
-            }
-        });
     }
+
+    @Override
+    public void showError(String message) {
+        super.showError(message);
+        setTranslateError(message);
+    }
+
+    @Override
+    public void onTranslateResultReturn(TranslateBean translateBean) {
+        if (translateBean == null) {
+            return;
+        }
+        List<TransResultBean> list = translateBean.getTrans_result();
+        String result = "";
+        for (TransResultBean resultBean : list) {
+            result += resultBean.getDst() + " ";
+        }
+        setTranslateResult(result);
+    }
+
 }

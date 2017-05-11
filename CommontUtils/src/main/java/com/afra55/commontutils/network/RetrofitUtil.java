@@ -1,5 +1,7 @@
 package com.afra55.commontutils.network;
 
+import com.afra55.commontutils.base.APIField;
+
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.convert.AnnotationStrategy;
 import org.simpleframework.xml.core.Persister;
@@ -9,20 +11,11 @@ import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 
-/**
- * @author houwenpeng
- * @version V1.0
- * @Package 酷行
- * @Title com.hwp.framework.network
- * @date 16/9/21
- * @Description:
- */
 public class RetrofitUtil {
 
     private static Retrofit mRetrofit;
     private static Retrofit mRetrofit2;
     private static OkHttpClient mOkHttpClient;
-    public static String API_SERVER = "";
     public static boolean isDebug = true;
     /**
      * 获取retrofit实例
@@ -34,7 +27,7 @@ public class RetrofitUtil {
                 mOkHttpClient = OkHttpClientUtil.getOkHttpClient();
             }
             mRetrofit = new Retrofit.Builder()
-                    .baseUrl(API_SERVER)
+                    .baseUrl(APIField.getAppServiceUrl())
                     .addConverterFactory(ResponseConverterFactory.create())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .client(mOkHttpClient)

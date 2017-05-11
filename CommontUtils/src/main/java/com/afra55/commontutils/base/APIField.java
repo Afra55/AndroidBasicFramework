@@ -1,6 +1,6 @@
-package com.afra55.apimodule.api;
+package com.afra55.commontutils.base;
 
-import com.afra55.apimodule.BuildConfig;
+import com.afra55.commontutils.BuildConfig;
 
 /**
  * Created by yangshuai in the 9:47 of 2016.01.07 .

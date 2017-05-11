@@ -1,11 +1,12 @@
 package com.afra55.apimodule.domain.interactors.impl;
 
-import com.afra55.apimodule.api.APIField;
+import com.afra55.commontutils.base.APIField;
 import com.afra55.apimodule.api.APIServices;
-import com.afra55.apimodule.domain.executor.Executor;
-import com.afra55.apimodule.domain.executor.MainThread;
+import com.afra55.commontutils.base.Executor;
+import com.afra55.commontutils.base.MainThread;
 import com.afra55.apimodule.domain.interactors.ToTranslateInteractor;
-import com.afra55.apimodule.domain.interactors.base.AbstractInteractor;
+import com.afra55.commontutils.base.AbstractInteractor;
+import com.afra55.apimodule.domain.model.TranslateBean;
 import com.afra55.commontutils.network.DataCoverSubscriber;
 import com.afra55.commontutils.network.Request;
 import com.afra55.commontutils.network.RequestQuery;
@@ -21,16 +22,19 @@ import rx.schedulers.Schedulers;
  * Created by yangshuai on 2017/5/10.
  */
 
-public class ToTransltateInteractorImpl extends AbstractInteractor implements ToTranslateInteractor {
+public class ToTranslateInteractorImpl extends AbstractInteractor implements ToTranslateInteractor {
 
     private String text;
+    private ToTranslateInteractor.Callback mCallback;
 
-    public ToTransltateInteractorImpl(
+    public ToTranslateInteractorImpl(
             Executor threadExecutor
             , MainThread mainThread
-            , String text) {
+            , String text
+            , Callback callback) {
         super(threadExecutor, mainThread);
         this.text = text;
+        this.mCallback = callback;
     }
 
     @Override
@@ -51,14 +55,35 @@ public class ToTransltateInteractorImpl extends AbstractInteractor implements To
                                 .build())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(addSubscriber(new DataCoverSubscriber<Object>() {
+                .subscribe(addSubscriber(new DataCoverSubscriber<TranslateBean>() {
                     @Override
-                    public void onSuccess(Object info) {
-
+                    public void onSuccess(final TranslateBean info) {
+                        mMainThread.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                mCallback.onTranslateResultReturn(info);
+                            }
+                        });
                     }
 
                     @Override
                     public void onFailure(int errorCode, String errorMsg) {
+                        mMainThread.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                mCallback.onTranslateResultReturn(null);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                    }
+
+                    @Override
+                    public void onCompleted() {
+
                     }
                 }));
 

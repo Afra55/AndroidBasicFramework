@@ -1,4 +1,4 @@
-package com.afra55.apimodule.domain.interactors.base;
+package com.afra55.commontutils.base;
 
 /**
  * Created by dmilicic on 12/13/15.

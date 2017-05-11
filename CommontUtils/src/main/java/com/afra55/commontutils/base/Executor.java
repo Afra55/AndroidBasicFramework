@@ -1,7 +1,7 @@
-package com.afra55.apimodule.domain.executor;
+package com.afra55.commontutils.base;
 
 
-import com.afra55.apimodule.domain.interactors.base.AbstractInteractor;
+import com.afra55.commontutils.base.AbstractInteractor;
 
 /**
  * This executor is responsible for running interactors on background threads.

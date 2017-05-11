@@ -1,13 +1,5 @@
 package com.afra55.commontutils.network;
 
-/**
- * @author houwenpeng
- * @version V1.0
- * @Package yuanxiaobao
- * @Title com.hwp.framework.network
- * @date 16/12/12
- * @Description:
- */
 public class HttpRuntimeException extends RuntimeException {
 
     private String errorCode;

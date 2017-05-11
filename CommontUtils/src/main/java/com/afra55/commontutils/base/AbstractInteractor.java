@@ -1,8 +1,6 @@
-package com.afra55.apimodule.domain.interactors.base;
+package com.afra55.commontutils.base;
 
 
-import com.afra55.apimodule.domain.executor.Executor;
-import com.afra55.apimodule.domain.executor.MainThread;
 
 import rx.Subscriber;
 import rx.subscriptions.CompositeSubscription;
@@ -44,6 +42,7 @@ public abstract class AbstractInteractor implements Interactor {
     public void cancel() {
         mIsCanceled = true;
         mIsRunning = false;
+        unSubscriber();
     }
 
     public boolean isRunning() {

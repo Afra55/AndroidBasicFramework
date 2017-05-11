@@ -1,6 +1,6 @@
 package com.afra55.apimodule.helper;
 
-import com.afra55.apimodule.api.APIField;
+import com.afra55.commontutils.base.APIField;
 
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;

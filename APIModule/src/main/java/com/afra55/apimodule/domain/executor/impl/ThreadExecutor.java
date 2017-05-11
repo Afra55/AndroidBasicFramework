@@ -1,7 +1,8 @@
 package com.afra55.apimodule.domain.executor.impl;
 
-import com.kodelabs.mycosts.domain.executor.Executor;
-import com.kodelabs.mycosts.domain.interactors.base.AbstractInteractor;
+
+import com.afra55.commontutils.base.Executor;
+import com.afra55.commontutils.base.AbstractInteractor;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;

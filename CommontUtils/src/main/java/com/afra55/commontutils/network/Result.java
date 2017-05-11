@@ -1,13 +1,5 @@
 package com.afra55.commontutils.network;
 
-/**
- * @author houwenpeng
- * @version V1.0
- * @Package yuanxiaobao
- * @Title com.hwp.base.net
- * @date 16/12/10
- * @Description:
- */
 public class Result {
 
     private static final String HTTP_SERVICE_SUCCESS = "0000000";

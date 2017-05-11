@@ -10,6 +10,10 @@ import android.view.View;
 
 import com.afra55.commontutils.device.KeyBoardUtils;
 import com.afra55.commontutils.log.LogUtils;
+import com.afra55.commontutils.tip.ToastUtils;
+import com.afra55.commontutils.ui.dialog.DialogMaker;
+
+import java.util.prefs.AbstractPreferences;
 
 
 public abstract class BaseFragment extends Fragment {
@@ -36,6 +40,8 @@ public abstract class BaseFragment extends Fragment {
 
     private int containerId;
 
+    private BasePresenter basePresenter;
+
     public int getContainerId() {
         return containerId;
     }
@@ -58,18 +64,20 @@ public abstract class BaseFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         LogUtils.ui("fragment: " + getClass().getSimpleName() + " onActivityCreated()");
         destroyed = false;
-        initLogic();
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initView(view);
+        basePresenter = createPresenter();
     }
 
     protected abstract void initView(View view);
 
     protected abstract void initLogic();
+
+    protected abstract BasePresenter createPresenter();
 
     @Override
     public void onAttach(Context context) {
@@ -99,10 +107,17 @@ public abstract class BaseFragment extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        initLogic();
+    }
+
+    @Override
     public void onDetach() {
         super.onDetach();
         mInteractionListener = null;
         mActivity = null;
+
     }
 
     @Override
@@ -110,6 +125,34 @@ public abstract class BaseFragment extends Fragment {
         super.onDestroy();
         LogUtils.ui("fragment: " + getClass().getSimpleName() + " onDestroy()");
         destroyed = true;
+
+        if (basePresenter != null) {
+            basePresenter.destroy();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (basePresenter != null) {
+            basePresenter.resume();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (basePresenter != null) {
+            basePresenter.stop();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (basePresenter != null) {
+            basePresenter.pause();
+        }
     }
 
     public final Handler getHandler() {
@@ -192,6 +235,18 @@ public abstract class BaseFragment extends Fragment {
 
     public String getInitParam2() {
         return mInitParam2;
+    }
+
+    public void showProgress() {
+        DialogMaker.showProgressDialog(getContext(), "");
+    }
+
+    public void hideProgress() {
+        DialogMaker.dismissProgressDialog();
+    }
+
+    public void showError(String message) {
+        ToastUtils.showToast(mActivity, message);
     }
 
 }

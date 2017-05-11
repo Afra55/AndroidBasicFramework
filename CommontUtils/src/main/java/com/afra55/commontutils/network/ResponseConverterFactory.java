@@ -19,14 +19,6 @@ import okio.Buffer;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
 
-/**
- * @author houwenpeng
- * @version V1.0
- * @Package 酷行
- * @Title com.hwp.framework.network
- * @date 16/9/21
- * @Description:
- */
 public class ResponseConverterFactory extends Converter.Factory {
 
     private JSONObject jsonObject;

@@ -1,7 +1,5 @@
 package com.afra55.commontutils.network;
 
-import com.hwp.framework.util.LogUtils;
-
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 
@@ -20,14 +18,6 @@ import okio.Buffer;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
 
-/**
- * @author houwenpeng
- * @version V1.0
- * @Package 酷行
- * @Title com.hwp.framework.network
- * @date 16/9/26
- * @Description:
- */
 public class ResponseConverterXmlFactory extends Converter.Factory {
     /** Create an instance using a default {@link Persister} instance for conversion. */
     public static ResponseConverterXmlFactory create() {
@@ -126,7 +116,6 @@ final class SimpleXmlResponseBodyConverter<T> implements Converter<ResponseBody,
                 e.printStackTrace();
             }
         }
-        LogUtils.d("hwp","================"+sb.toString());
     }
 
 }

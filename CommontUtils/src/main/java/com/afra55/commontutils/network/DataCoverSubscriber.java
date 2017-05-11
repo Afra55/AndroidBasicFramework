@@ -12,14 +12,6 @@ import java.net.SocketTimeoutException;
 import retrofit2.adapter.rxjava.HttpException;
 import rx.Subscriber;
 
-/**
- * @author houwenpeng
- * @version V1.0
- * @Package 酷行
- * @Title com.hwp.base.net
- * @date 16/9/21
- * @Description:
- */
 public abstract class DataCoverSubscriber<T> extends Subscriber<T> {
 
     private final String TAG = DataCoverSubscriber.class.getSimpleName();
