@@ -14,6 +14,7 @@
 
 package com.afra55.commontutils.sys;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -36,6 +37,36 @@ import com.afra55.commontutils.ui.UIUtils;
  */
 public class PermissionsUtils {
     private static final String TAG = LogUtils.makeLogTag(PermissionsUtils.class);
+
+    private static String[] permissions = new String[]{
+            Manifest.permission.ACCESS_WIFI_STATE,
+            Manifest.permission.ACCESS_NETWORK_STATE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.INTERNET,
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.WAKE_LOCK,
+            Manifest.permission.CHANGE_NETWORK_STATE,
+            Manifest.permission.CAMERA,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS
+    };
+
+    public static boolean handle(Activity context, int requestCode) {
+        return handle(context, permissions, requestCode);
+    }
+
+    public static boolean handle(Activity context, String[] unGranted, int requestCode) {
+        if (!permissionsAlreadyGranted(context, unGranted)) {
+            ActivityCompat.requestPermissions(context,
+                    unGranted,
+                    requestCode);
+            return false;
+        } else {
+            return true;
+        }
+    }
 
     /**
      * Determine if any permission is in the denied state.
