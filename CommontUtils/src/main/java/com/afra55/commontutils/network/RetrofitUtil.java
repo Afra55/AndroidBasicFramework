@@ -16,7 +16,6 @@ public class RetrofitUtil {
     private static Retrofit mRetrofit;
     private static Retrofit mRetrofit2;
     private static OkHttpClient mOkHttpClient;
-    public static boolean isDebug = true;
     /**
      * 获取retrofit实例
      * @return
@@ -27,7 +26,7 @@ public class RetrofitUtil {
                 mOkHttpClient = OkHttpClientUtil.getOkHttpClient();
             }
             mRetrofit = new Retrofit.Builder()
-                    .baseUrl(APIField.getAppServiceUrl())
+                    .baseUrl(APIField.OtherHttp.TRANSLATE_HOST)
                     .addConverterFactory(ResponseConverterFactory.create())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .client(mOkHttpClient)
@@ -55,7 +54,4 @@ public class RetrofitUtil {
         return mRetrofit2.create(cla);
     }
 
-    public static void setIsDebug(boolean isDebug) {
-        RetrofitUtil.isDebug = isDebug;
-    }
 }

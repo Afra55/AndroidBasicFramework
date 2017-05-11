@@ -32,7 +32,7 @@ public class OkHttpClientUtil {
     public static OkHttpClient getOkHttpClient() {
         if (null == mOkHttpClient) {
             HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-            if (RetrofitUtil.isDebug) {
+            if (AppCache.isDebug()) {
                 loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
             }
             mOkHttpClient = new OkHttpClient.Builder()

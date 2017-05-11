@@ -12,7 +12,6 @@ import com.afra55.commontutils.AppCache;
 import com.afra55.commontutils.crash.AppCrashHandler;
 import com.afra55.commontutils.format.TimeUtils;
 import com.afra55.commontutils.log.LogUtils;
-import com.afra55.commontutils.network.RetrofitUtil;
 import com.afra55.commontutils.storage.StorageType;
 import com.afra55.commontutils.storage.StorageUtil;
 import com.afra55.commontutils.sys.ScreenUtil;
@@ -47,7 +46,7 @@ public class CustomApplication extends Application {
         /* 异常捕获(debug 时不捕获异常) */
         AppCrashHandler.getInstance(this, MainActivity.class);
         if (BuildConfig.DEBUG) {
-            RetrofitUtil.setIsDebug(true);
+            AppCache.setIsDebug(true);
             StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
                     .detectDiskReads()
                     .detectDiskWrites()
@@ -62,7 +61,7 @@ public class CustomApplication extends Application {
                     .penaltyDeath()
                     .build());
         } else {
-            RetrofitUtil.setIsDebug(false);
+            AppCache.setIsDebug(false);
         }
 
     }
