@@ -2,15 +2,17 @@ package com.afra55.commontutils.log;
 
 import android.util.Log;
 
-import com.afra55.commontutils.BuildConfig;
-
 public class LogUtils {
 
     private static String LOG_PREFIX = "afra55_";
     private static int LOG_PREFIX_LENGTH = LOG_PREFIX.length();
     private static final int MAX_LOG_TAG_LENGTH = 23;
 
-    public static boolean LOGGING_ENABLED = !BuildConfig.BUILD_TYPE.equalsIgnoreCase("release");
+    private static boolean LOGGING_ENABLED;
+
+    public static void setLoggingEnabled(boolean loggingEnabled) {
+        LOGGING_ENABLED = loggingEnabled;
+    }
 
     public static String makeLogTag(String str) {
         if (str.length() > MAX_LOG_TAG_LENGTH - LOG_PREFIX_LENGTH) {

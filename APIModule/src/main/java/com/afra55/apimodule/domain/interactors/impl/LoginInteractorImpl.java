@@ -6,12 +6,15 @@ import com.afra55.apimodule.domain.repository.LoginRepository;
 import com.afra55.commontutils.base.AbstractInteractor;
 import com.afra55.commontutils.base.Executor;
 import com.afra55.commontutils.base.MainThread;
+import com.afra55.commontutils.log.LogUtils;
 
 /**
  * Created by yangshuai on 2017/5/12.
  */
 
 public class LoginInteractorImpl extends AbstractInteractor implements LoginInteractor {
+
+    private final String TAG = LogUtils.makeLogTag(LoginInteractorImpl.class);
 
     private long phone;
     private LoginInteractor.Callback mCallback;
@@ -31,6 +34,9 @@ public class LoginInteractorImpl extends AbstractInteractor implements LoginInte
 
     @Override
     public void run() {
+
+        LogUtils.i(TAG, "start");
+
 
         mMainThread.post(new Runnable() {
             @Override
@@ -61,10 +67,12 @@ public class LoginInteractorImpl extends AbstractInteractor implements LoginInte
             }
         });
 
+        LogUtils.i(TAG, "end");
     }
 
     @Override
     protected void onCompleted() {
+        LogUtils.i(TAG, "onCompleted");
         mMainThread.post(new Runnable() {
             @Override
             public void run() {

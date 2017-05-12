@@ -7,6 +7,7 @@ import com.afra55.baseclient.ui.activity.MainActivity;
 import com.afra55.commontutils.AppCache;
 import com.afra55.commontutils.base.CustomApplication;
 import com.afra55.commontutils.crash.AppCrashHandler;
+import com.afra55.commontutils.log.LogUtils;
 
 /**
  * Created by yangshuai on 2017/5/12.
@@ -19,8 +20,12 @@ public class AppApplication extends CustomApplication {
         super.onCreate();
          /* 异常捕获(debug 时不捕获异常) */
         AppCrashHandler.getInstance(this, MainActivity.class);
-        if (BuildConfig.DEBUG) {
-            AppCache.setIsDebug(true);
+
+        AppCache.setIsDebug(BuildConfig.DEBUG);
+
+        LogUtils.setLoggingEnabled(AppCache.isDebug());
+
+        if (AppCache.isDebug()) {
             StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
                     .detectDiskReads()
                     .detectDiskWrites()
@@ -34,8 +39,6 @@ public class AppApplication extends CustomApplication {
                     .penaltyLog()
                     .penaltyDeath()
                     .build());
-        } else {
-            AppCache.setIsDebug(false);
         }
     }
 }

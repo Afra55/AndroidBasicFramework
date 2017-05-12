@@ -8,7 +8,6 @@ import com.afra55.apimodule.domain.repository.LoginRepository;
 import com.afra55.commontutils.base.BaseBean;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
-import java.util.List;
 
 /**
  * Created by yangshuai on 2017/5/12.
@@ -50,16 +49,10 @@ public class LoginRepositoryImpl implements LoginRepository {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        List<LoginBean> loginBeenList = SQLite
+
+        return SQLite
                 .select()
                 .from(LoginBean.class)
-                .queryList();
-
-        LoginBean loginBean = null;
-
-        if (loginBeenList.size() > 0) {
-            loginBean = loginBeenList.get(0);
-        }
-        return loginBean;
+                .querySingle();
     }
 }
