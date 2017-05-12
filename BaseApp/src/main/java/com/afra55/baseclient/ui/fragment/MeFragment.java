@@ -6,12 +6,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.afra55.apimodule.domain.model.LoginBean;
+import com.afra55.apimodule.presentation.presenters.LoginPresenter;
+import com.afra55.apimodule.presentation.presenters.impl.LoginPresenterImpl;
+import com.afra55.apimodule.threading.MainThreadImpl;
+import com.afra55.apimodule.threading.ThreadExecutor;
 import com.afra55.baseclient.R;
 import com.afra55.commontutils.base.BaseFragment;
-import com.afra55.commontutils.base.BasePresenter;
+import com.afra55.commontutils.log.LogUtils;
+import com.afra55.commontutils.tip.ToastUtils;
 
-public class MeFragment extends BaseFragment {
+public class MeFragment extends BaseFragment implements LoginPresenter.View {
 
+    private LoginPresenter loginPresenter;
 
     public static MeFragment newInstance(String param1, String param2) {
         Bundle args = new Bundle();
@@ -28,7 +35,13 @@ public class MeFragment extends BaseFragment {
 
     @Override
     protected void onFragmentSelected(boolean isFirst) {
-
+        if (loginPresenter != null) {
+            if (isFirst) {
+                loginPresenter.toLogin(11110000);
+            } else {
+                loginPresenter.toLogin(222200000);
+            }
+        }
     }
 
     @Override
@@ -48,7 +61,8 @@ public class MeFragment extends BaseFragment {
 
     @Override
     protected void initView(View view) {
-
+        loginPresenter = new LoginPresenterImpl(ThreadExecutor.getInstance()
+                , MainThreadImpl.getInstance(), this);
     }
 
     @Override
@@ -57,8 +71,11 @@ public class MeFragment extends BaseFragment {
     }
 
     @Override
-    protected BasePresenter createPresenter() {
-        return null;
+    public void onLoginResultReturn(LoginBean loginBean) {
+        if (loginBean != null) {
+            String message = loginBean.toString();
+            ToastUtils.showToast(getContext(), message);
+            LogUtils.i("onLoginResultReturn", message);
+        }
     }
-
 }

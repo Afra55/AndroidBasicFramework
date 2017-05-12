@@ -50,8 +50,27 @@ public abstract class AbstractInteractor implements Interactor {
     }
 
     public void onFinished() {
-        mIsRunning = false;
-        mIsCanceled = false;
+        onFinished(false);
+    }
+
+    /**
+     * 如果拦截完成行为，在完成操作时 需要 强制完成
+     * @param forced boolean
+     */
+    public void onFinished(boolean forced) {
+        if (forced || !interceptFinishOperation()) {
+            mIsRunning = false;
+            mIsCanceled = false;
+            onCompleted();
+        }
+    }
+
+    /**
+     * 是否拦截完成行为
+     * @return true 是， false 否。
+     */
+    protected boolean interceptFinishOperation() {
+        return false;
     }
 
     public void execute() {
@@ -76,5 +95,7 @@ public abstract class AbstractInteractor implements Interactor {
             compositeSubscription.unsubscribe();
         }
     }
+
+    protected abstract void onCompleted();
 
 }

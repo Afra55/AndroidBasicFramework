@@ -17,7 +17,6 @@ import com.afra55.apimodule.threading.MainThreadImpl;
 import com.afra55.apimodule.threading.ThreadExecutor;
 import com.afra55.baseclient.R;
 import com.afra55.commontutils.base.BaseFragment;
-import com.afra55.commontutils.base.BasePresenter;
 import com.afra55.commontutils.ui.dialog.DialogMaker;
 
 import java.util.List;
@@ -65,6 +64,12 @@ public class CommunityFragment extends BaseFragment implements CommunityPresente
         mTextInputEditText = findView(R.id.commnunity_translate_et);
         mTextInputLayout = findView(R.id.commnunity_translate_layout);
         mTextTranslateResult = findView(R.id.commnunity_translate_result);
+
+        mPresenter = new CommunityPresenterImpl(
+                ThreadExecutor.getInstance()
+                , MainThreadImpl.getInstance()
+                ,this);
+        registerPresenter(mPresenter);
     }
 
     @Override
@@ -76,15 +81,6 @@ public class CommunityFragment extends BaseFragment implements CommunityPresente
                 toTranslate(mTextInputEditText.getText().toString());
             }
         });
-    }
-
-    @Override
-    protected BasePresenter createPresenter() {
-        mPresenter = new CommunityPresenterImpl(
-                ThreadExecutor.getInstance()
-                , MainThreadImpl.getInstance()
-                ,this);
-        return mPresenter;
     }
 
 

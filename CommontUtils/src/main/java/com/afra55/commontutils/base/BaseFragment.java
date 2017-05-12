@@ -13,7 +13,8 @@ import com.afra55.commontutils.log.LogUtils;
 import com.afra55.commontutils.tip.ToastUtils;
 import com.afra55.commontutils.ui.dialog.DialogMaker;
 
-import java.util.prefs.AbstractPreferences;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public abstract class BaseFragment extends Fragment {
@@ -40,7 +41,7 @@ public abstract class BaseFragment extends Fragment {
 
     private int containerId;
 
-    private BasePresenter basePresenter;
+    private List<BasePresenter> presenterList = new ArrayList<>();
 
     public int getContainerId() {
         return containerId;
@@ -70,14 +71,17 @@ public abstract class BaseFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initView(view);
-        basePresenter = createPresenter();
+    }
+
+    protected void registerPresenter(BasePresenter presenter) {
+        if (!presenterList.contains(presenter)) {
+            presenterList.add(presenter);
+        }
     }
 
     protected abstract void initView(View view);
 
     protected abstract void initLogic();
-
-    protected abstract BasePresenter createPresenter();
 
     @Override
     public void onAttach(Context context) {
@@ -126,32 +130,40 @@ public abstract class BaseFragment extends Fragment {
         LogUtils.ui("fragment: " + getClass().getSimpleName() + " onDestroy()");
         destroyed = true;
 
-        if (basePresenter != null) {
-            basePresenter.destroy();
+        for (BasePresenter presenter : presenterList) {
+            if (presenter != null) {
+                presenter.destroy();
+            }
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (basePresenter != null) {
-            basePresenter.resume();
+        for (BasePresenter presenter : presenterList) {
+            if (presenter != null) {
+                presenter.resume();
+            }
         }
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        if (basePresenter != null) {
-            basePresenter.stop();
+        for (BasePresenter presenter : presenterList) {
+            if (presenter != null) {
+                presenter.stop();
+            }
         }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        if (basePresenter != null) {
-            basePresenter.pause();
+        for (BasePresenter presenter : presenterList) {
+            if (presenter != null) {
+                presenter.pause();
+            }
         }
     }
 

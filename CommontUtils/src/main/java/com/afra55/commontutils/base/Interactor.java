@@ -10,4 +10,8 @@ public interface Interactor {
      * background thread.
      */
     void execute();
+
+    void cancel();
+
+    boolean isRunning();
 }

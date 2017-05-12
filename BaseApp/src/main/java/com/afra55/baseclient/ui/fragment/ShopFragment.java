@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 
 import com.afra55.baseclient.R;
 import com.afra55.commontutils.base.BaseFragment;
-import com.afra55.commontutils.base.BasePresenter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -58,11 +57,6 @@ public class ShopFragment extends BaseFragment  {
     @Override
     protected void initLogic() {
 
-    }
-
-    @Override
-    protected BasePresenter createPresenter() {
-        return null;
     }
 
 }

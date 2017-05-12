@@ -1,6 +1,6 @@
 package com.afra55.apimodule.domain.model;
 
-import com.afra55.apimodule.bean.BaseBean;
+import com.afra55.commontutils.base.BaseBean;
 
 /**
  * Created by Victor Yang on 2016/9/19.

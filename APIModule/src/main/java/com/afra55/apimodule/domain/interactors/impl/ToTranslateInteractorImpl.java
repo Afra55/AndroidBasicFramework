@@ -38,6 +38,21 @@ public class ToTranslateInteractorImpl extends AbstractInteractor implements ToT
     }
 
     @Override
+    protected boolean interceptFinishOperation() {
+        return true;
+    }
+
+    @Override
+    protected void onCompleted() {
+        mMainThread.post(new Runnable() {
+            @Override
+            public void run() {
+                mCallback.onCompleted();
+            }
+        });
+    }
+
+    @Override
     public void run() {
         int salt = new Random(100).nextInt();
         RetrofitUtil.createService(APIServices.class)
@@ -91,12 +106,7 @@ public class ToTranslateInteractorImpl extends AbstractInteractor implements ToT
 
                     @Override
                     public void onCompleted() {
-                        mMainThread.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                mCallback.onCompleted();
-                            }
-                        });
+                        onFinished(true);
                     }
                 }));
 

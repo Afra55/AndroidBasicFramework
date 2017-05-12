@@ -16,9 +16,10 @@ public class CommunityPresenterImpl extends AbstractPresenter
         implements CommunityPresenter, ToTranslateInteractor.Callback{
 
     private CommunityPresenter.View mView;
+    private ToTranslateInteractor toTranslateInteractor;
 
     public CommunityPresenterImpl(Executor executor, MainThread mainThread, View view) {
-        super(executor, mainThread);
+        super(executor, mainThread, view);
         this.mView = view;
     }
 
@@ -39,7 +40,9 @@ public class CommunityPresenterImpl extends AbstractPresenter
 
     @Override
     public void destroy() {
-
+        if (toTranslateInteractor != null) {
+            toTranslateInteractor.cancel();
+        }
     }
 
     @Override
@@ -49,7 +52,7 @@ public class CommunityPresenterImpl extends AbstractPresenter
 
     @Override
     public void translateText(String text) {
-        ToTranslateInteractor toTranslateInteractor = new ToTranslateInteractorImpl(
+        toTranslateInteractor = new ToTranslateInteractorImpl(
                 mExecutor, mMainThread, text, this);
         toTranslateInteractor.execute();
     }
@@ -59,13 +62,4 @@ public class CommunityPresenterImpl extends AbstractPresenter
         mView.onTranslateResultReturn(translateBean);
     }
 
-    @Override
-    public void onStart() {
-        mView.showProgress();
-    }
-
-    @Override
-    public void onCompleted() {
-        mView.hideProgress();
-    }
 }

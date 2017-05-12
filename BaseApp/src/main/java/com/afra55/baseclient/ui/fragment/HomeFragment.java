@@ -14,7 +14,6 @@ import com.afra55.baseclient.R;
 import com.afra55.baseclient.adapter.BannerAdapter;
 import com.afra55.baseclient.common.BinnerHelper;
 import com.afra55.commontutils.base.BaseFragment;
-import com.afra55.commontutils.base.BasePresenter;
 import com.facebook.drawee.drawable.ScalingUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -52,11 +51,6 @@ public class HomeFragment extends BaseFragment {
     @Override
     protected void initLogic() {
         initBanner((RadioGroup) findView(R.id.vp_indicator_rg));
-    }
-
-    @Override
-    protected BasePresenter createPresenter() {
-        return null;
     }
 
 
