@@ -87,6 +87,10 @@
     public static ** valueOf(java.lang.String);
 }
 
+-keepclassmembers class * {
+	public <init>(org.json.JSONObject);
+}
+
 -keep class * implements android.os.Parcelable {
   public static final android.os.Parcelable$Creator *;
 }
@@ -158,4 +162,27 @@
 }
 -keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueConsumerNodeRef {
  rx.internal.util.atomic.LinkedQueueNode consumerNode;
+}
+
+# FlowDB
+-keep class * extends com.raizlabs.android.dbflow.config.DatabaseHolder { *; }
+
+# fastjson
+-keep  class com.alibaba.fastjson.**{ *;}
+-dontwarn com.alibaba.fastjson.**
+-dontskipnonpubliclibraryclassmembers
+-dontskipnonpubliclibraryclasses
+-keep class * implements java.io.Serializable { *; }
+
+
+# Application  methods contain  'get' or 'set' or 'is'  will be used by Fastjson
+-keepclassmembers class *{
+    *** set*(...);
+    *** is*(...);
+    *** get*(...);
+}
+
+# Only required if you use AsyncExecutor
+-keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
+    <init>(java.lang.Throwable);
 }
