@@ -1,4 +1,4 @@
-package com.afra55.apimodule.api;
+package com.afra55.apimodule.services;
 
 import com.afra55.apimodule.domain.model.TranslateBean;
 import com.afra55.commontutils.network.Request;

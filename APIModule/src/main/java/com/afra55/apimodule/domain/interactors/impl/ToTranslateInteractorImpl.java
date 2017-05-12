@@ -1,8 +1,8 @@
 package com.afra55.apimodule.domain.interactors.impl;
 
-import com.afra55.apimodule.api.APIServices;
 import com.afra55.apimodule.domain.interactors.ToTranslateInteractor;
 import com.afra55.apimodule.domain.model.TranslateBean;
+import com.afra55.apimodule.services.APIServices;
 import com.afra55.commontutils.base.APIField;
 import com.afra55.commontutils.base.AbstractInteractor;
 import com.afra55.commontutils.base.Executor;
