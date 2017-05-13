@@ -50,6 +50,8 @@ android {
 }
 
 dependencies {
+    def version = rootProject.ext.dependencies
+    testCompile "junit:junit:$version.junit_version"
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'

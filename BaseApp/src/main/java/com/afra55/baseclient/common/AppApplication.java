@@ -17,11 +17,13 @@ public class AppApplication extends CustomApplication {
 
     @Override
     public void onCreate() {
+
+        AppCache.setIsDebug(BuildConfig.DEBUG);
+
         super.onCreate();
          /* 异常捕获(debug 时不捕获异常) */
         AppCrashHandler.getInstance(this, MainActivity.class);
 
-        AppCache.setIsDebug(BuildConfig.DEBUG);
 
         LogUtils.setLoggingEnabled(AppCache.isDebug());
 

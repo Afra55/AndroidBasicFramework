@@ -23,6 +23,8 @@ android {
 }
 
 dependencies {
+    def version = rootProject.ext.dependencies
+    testCompile "junit:junit:$version.junit_version"
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':CommontUtils')
 }
