@@ -70,6 +70,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        LogUtils.ui("fragment: " + getClass().getSimpleName() + " onViewCreated()");
         initView(view);
     }
 
