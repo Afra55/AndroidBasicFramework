@@ -27,4 +27,11 @@ dependencies {
     testCompile "junit:junit:$version.junit_version"
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':CommontUtils')
+    annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:$version.dbflow_version"
+
+    compile "com.github.Raizlabs.DBFlow:dbflow-core:$version.dbflow_version"
+    compile "com.github.Raizlabs.DBFlow:dbflow:$version.dbflow_version"
+
+    // sql-cipher database encryption (optional)
+    compile "com.github.Raizlabs.DBFlow:dbflow-sqlcipher:$version.dbflow_version"
 }

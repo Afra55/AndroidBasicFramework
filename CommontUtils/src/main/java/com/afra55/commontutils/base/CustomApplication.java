@@ -28,8 +28,6 @@ public class CustomApplication extends Application {
         // 数据库初始化 https://yumenokanata.gitbooks.io/dbflow-tutorials/content/index.html
         FlowManager.init(this);
 
-
-
         Fresco.initialize(this.getApplicationContext());
         AppCache.setContext(this.getApplicationContext());
 

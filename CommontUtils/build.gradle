@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.neenbedankt.android-apt'
 
 android {
     def app = rootProject.ext.android
@@ -68,13 +67,6 @@ dependencies {
     compile "io.reactivex:rxandroid:$version.rxandroid_version"
     compile "com.android.support.constraint:constraint-layout:$version.constraint_version"
 
-    apt "com.github.Raizlabs.DBFlow:dbflow-processor:$version.dbflow_version"
-    compile "com.github.Raizlabs.DBFlow:dbflow-core:$version.dbflow_version"
-    compile "com.github.Raizlabs.DBFlow:dbflow:$version.dbflow_version"
-
-    // sql-cipher database encyrption (optional)
-    compile "com.github.Raizlabs.DBFlow:dbflow-sqlcipher:$version.dbflow_version"
-
     compile "com.squareup.okhttp3:logging-interceptor:$version.okhttp3_logging_interceptor_version"
 
     compile "com.facebook.stetho:stetho-okhttp3:$version.stetho_version"
@@ -86,4 +78,13 @@ dependencies {
     }
 
     compile "com.alibaba:fastjson:$version.fast_json_version"
+
+    annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:$version.dbflow_version"
+
+    compile "com.github.Raizlabs.DBFlow:dbflow-core:$version.dbflow_version"
+    compile "com.github.Raizlabs.DBFlow:dbflow:$version.dbflow_version"
+
+    // sql-cipher database encryption (optional)
+    compile "com.github.Raizlabs.DBFlow:dbflow-sqlcipher:$version.dbflow_version"
+
 }
