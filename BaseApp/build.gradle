@@ -1,14 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
+    def app = rootProject.ext.android
+    compileSdkVersion app.compileSdkVersion
+    buildToolsVersion app.buildToolsVersion
     defaultConfig {
         applicationId "com.afra55.baseclient"
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode = Integer.valueOf("" + appVersionCode).intValue()
-        versionName "${appVersionName}"
+        minSdkVersion app.minSdkVersion
+        targetSdkVersion app.targetSdkVersion
+        versionCode app.versionCode
+        versionName app.versionName
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
@@ -54,8 +55,4 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
     compile project(':ModuleLibrary')
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
-    compile 'com.android.support:appcompat-v7:25.1.0'
-    compile 'com.android.support:design:25.1.0'
-    testCompile 'junit:junit:4.12'
 }
