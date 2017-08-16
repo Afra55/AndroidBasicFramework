@@ -9,11 +9,11 @@ import android.view.ViewGroup;
 import com.afra55.apimodule.domain.model.LoginBean;
 import com.afra55.apimodule.presentation.presenters.LoginPresenter;
 import com.afra55.apimodule.presentation.presenters.impl.LoginPresenterImpl;
-import com.afra55.apimodule.threading.MainThreadImpl;
-import com.afra55.apimodule.threading.ThreadExecutor;
 import com.afra55.baseclient.R;
 import com.afra55.commontutils.base.BaseFragment;
 import com.afra55.commontutils.log.LogUtils;
+import com.afra55.commontutils.threading.MainThreadImpl;
+import com.afra55.commontutils.threading.ThreadExecutor;
 import com.afra55.commontutils.tip.ToastUtils;
 
 public class MeFragment extends BaseFragment implements LoginPresenter.View {

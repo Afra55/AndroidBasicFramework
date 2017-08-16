@@ -1,12 +1,21 @@
 package com.afra55.commontutils.base;
 
 
+import com.afra55.commontutils.threading.MainThreadImpl;
+import com.afra55.commontutils.threading.ThreadExecutor;
+
 /**
  */
 public abstract class AbstractPresenter {
     protected Executor mExecutor;
     protected MainThread mMainThread;
     private BaseView mView;
+
+    public AbstractPresenter(BaseView view) {
+        this(ThreadExecutor.getInstance()
+                , MainThreadImpl.getInstance()
+                , view);
+    }
 
     public AbstractPresenter(Executor executor, MainThread mainThread, BaseView view) {
         mExecutor = executor;

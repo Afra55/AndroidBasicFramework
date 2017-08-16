@@ -13,10 +13,10 @@ import com.afra55.apimodule.domain.model.TransResultBean;
 import com.afra55.apimodule.domain.model.TranslateBean;
 import com.afra55.apimodule.presentation.presenters.CommunityPresenter;
 import com.afra55.apimodule.presentation.presenters.impl.CommunityPresenterImpl;
-import com.afra55.apimodule.threading.MainThreadImpl;
-import com.afra55.apimodule.threading.ThreadExecutor;
 import com.afra55.baseclient.R;
 import com.afra55.commontutils.base.BaseFragment;
+import com.afra55.commontutils.threading.MainThreadImpl;
+import com.afra55.commontutils.threading.ThreadExecutor;
 import com.afra55.commontutils.ui.dialog.DialogMaker;
 
 import java.util.List;

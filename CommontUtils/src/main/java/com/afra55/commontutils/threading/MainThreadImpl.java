@@ -1,4 +1,4 @@
-package com.afra55.apimodule.threading;
+package com.afra55.commontutils.threading;
 
 import android.os.Handler;
 import android.os.Looper;
