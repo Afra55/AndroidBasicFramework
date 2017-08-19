@@ -18,6 +18,5 @@ package com.afra55.commontutils.base;
 
 public interface BaseView<T> {
 
-    void setPresenter(T presenter);
 
 }

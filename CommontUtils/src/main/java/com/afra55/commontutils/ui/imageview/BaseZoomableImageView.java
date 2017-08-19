@@ -369,7 +369,7 @@ public abstract class BaseZoomableImageView extends View {
 			return 1f;
 	}
 
-	// Returns the current scale of the view 
+	// Returns the current scale of the view
 	public float getScale() {
 		return getScale(mSuppMatrix);
 	}

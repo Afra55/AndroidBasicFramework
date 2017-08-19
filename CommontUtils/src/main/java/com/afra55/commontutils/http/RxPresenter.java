@@ -12,7 +12,7 @@ import rx.subscriptions.CompositeSubscription;
 
 public class RxPresenter implements BasePresenter {
 
-    private IActionListener.ViewAction view;
+    protected IActionListener.ViewAction viewAction;
     private CompositeSubscription compositeSubscription;
 
     public RxPresenter(IActionListener.ViewAction view) {
@@ -20,25 +20,25 @@ public class RxPresenter implements BasePresenter {
     }
 
     public IActionListener.ViewAction getBaseView() {
-        return view;
+        return viewAction;
     }
 
     @Override
     public void addView(IActionListener.ViewAction view) {
-        this.view = view;
+        this.viewAction = view;
     }
 
     @Override
     public void removeView() {
-        if (view != null && (view instanceof ViewGroup)) {
-            ((ViewGroup) view).removeAllViews();
-            view = null;
+        if (viewAction != null && (viewAction instanceof ViewGroup)) {
+            ((ViewGroup) viewAction).removeAllViews();
+            viewAction = null;
         }
         unSubscriber();
     }
 
-    protected <T> Subscriber addSubscriber(Subscriber<T> subscriber) {
-        if (compositeSubscription == null) {
+    protected <T> Subscriber<T> addSubscriber(Subscriber<T> subscriber){
+        if(compositeSubscription == null){
             compositeSubscription = new CompositeSubscription();
         }
         compositeSubscription.add(subscriber);

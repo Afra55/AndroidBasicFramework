@@ -14,18 +14,21 @@ import com.afra55.apimodule.bean.TranslateBean;
 import com.afra55.apimodule.helper.ToTranslateHelper;
 import com.afra55.baseclient.R;
 import com.afra55.commontutils.base.BaseFragment;
+import com.afra55.commontutils.http.IActionListener;
 import com.afra55.commontutils.tip.ToastUtils;
 import com.afra55.commontutils.ui.dialog.DialogMaker;
 
 import java.util.List;
 
-public class CommunityFragment extends BaseFragment {
+public class CommunityFragment extends BaseFragment implements IActionListener.ViewAction {
 
     private TextInputEditText mTextInputEditText;
 
     private TextInputLayout mTextInputLayout;
 
-    private TextView mTextTranstaleResult;
+    private TextView mTextTranslateResult;
+
+    private ToTranslateHelper toTranslateHelper;
 
     public static CommunityFragment newInstance(String param1, String param2) {
         Bundle args = new Bundle();
@@ -59,7 +62,7 @@ public class CommunityFragment extends BaseFragment {
     protected void initView(View view) {
         mTextInputEditText = findView(R.id.commnunity_translate_et);
         mTextInputLayout = findView(R.id.commnunity_translate_layout);
-        mTextTranstaleResult = findView(R.id.commnunity_translate_result);
+        mTextTranslateResult = findView(R.id.commnunity_translate_result);
     }
 
     @Override
@@ -82,7 +85,7 @@ public class CommunityFragment extends BaseFragment {
         showKeyboard(false);
         DialogMaker.dismissProgressDialog();
         mTextInputLayout.setError(null);
-        mTextTranstaleResult.setText(result);
+        mTextTranslateResult.setText(result);
     }
 
     public void setTranslateError(String s) {
@@ -92,27 +95,29 @@ public class CommunityFragment extends BaseFragment {
     }
 
     public void toTranslate(String string) {
-        ToTranslateHelper.getInstance().toTanstale(string, new ToTranslateHelper.ToTranslateResultListener() {
-            @Override
-            public void showProgressDialog() {
-                DialogMaker.showProgressDialog(mActivity, "Loading");
-            }
 
-            @Override
-            public void onSuccess(TranslateBean translateBean) {
-                List<TransResultBean> list = translateBean.getTrans_result();
-                String result = "";
-                for (TransResultBean resultBean : list) {
-                    result += resultBean.getDst() + " ";
-                }
-                setTranslateResult(result);
-            }
+        if (toTranslateHelper == null) {
+            toTranslateHelper = ToTranslateHelper.getInstance(this);
+        }
 
-            @Override
-            public void onFaile(String tip) {
-                showToast(tip);
-                setTranslateError(tip);
+        DialogMaker.showProgressDialog(mActivity, "Loading");
+
+        toTranslateHelper.toTranslate(string);
+    }
+
+    @Override
+    public void showInfoView(int type, Object obj) {
+        DialogMaker.dismissProgressDialog();
+        if (obj != null && obj instanceof TranslateBean) {
+            TranslateBean translateBean = (TranslateBean) obj;
+            List<TransResultBean> list = translateBean.getTrans_result();
+            String result = "";
+            for (TransResultBean resultBean : list) {
+                result += resultBean.getDst() + " ";
             }
-        });
+            setTranslateResult(result);
+        } else {
+            setTranslateError("查询失败");
+        }
     }
 }

@@ -9,10 +9,10 @@ import com.afra55.commontutils.base.BaseView;
 
 public class IActionListener {
     /**
-     * view 接口的监听
+     * viewAction 接口的监听
      */
     public interface ViewAction<T> extends BaseView {
-        void showInfoView(int type, T obj);
+        void showInfoView(int type, Object obj);
     }
 
     /**
