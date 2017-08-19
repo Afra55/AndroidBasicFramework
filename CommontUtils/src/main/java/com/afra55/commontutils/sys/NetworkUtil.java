@@ -591,7 +591,7 @@ public class NetworkUtil {
 					sb.append(activeNetInfo.getTypeName());
 					sb.append(" [");
 					if (tm != null) {
-						// Result may be unreliable on CDMA networks
+						// ResultBean may be unreliable on CDMA networks
 						sb.append(tm.getNetworkOperatorName());
 						sb.append("#");
 					}

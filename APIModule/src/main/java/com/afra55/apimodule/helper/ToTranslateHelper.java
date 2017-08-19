@@ -5,10 +5,13 @@ import android.text.TextUtils;
 import com.afra55.apimodule.api.APIField;
 import com.afra55.apimodule.api.APIServices;
 import com.afra55.apimodule.bean.TranslateBean;
+import com.afra55.apimodule.util.DataCoverSubscriber;
+import com.afra55.commontutils.http.IActionListener;
+import com.afra55.commontutils.http.RequestBody;
+import com.afra55.commontutils.http.RequestQuery;
+import com.afra55.commontutils.http.RxPresenter;
 import com.afra55.commontutils.string.MD5;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 import rx.Subscriber;
@@ -18,20 +21,20 @@ import rx.schedulers.Schedulers;
 /**
  * Created by Victor Yang on 2016/7/4.
  */
-public class ToTransltateHelper {
+public class ToTranslateHelper extends RxPresenter {
 
     private static final String TAG = ToTranslateResultListener.class.getSimpleName();
+    
+    private APIServices apiServices;
 
-    private ToTransltateHelper() {
+    private ToTranslateHelper(IActionListener.ViewAction viewAction) {
+        super(viewAction);
+        apiServices = RetrofitHelper.createService(APIField.OtherHttp.TRANSLATE_HOST, APIServices.class);
 
     }
 
-    private static class Instance {
-        public static final ToTransltateHelper instance = new ToTransltateHelper();
-    }
-
-    public static ToTransltateHelper getInstance() {
-        return Instance.instance;
+    public static ToTranslateHelper getInstance(IActionListener.ViewAction viewAction) {
+        return new ToTranslateHelper(viewAction);
     }
 
     private Subscriber<TranslateBean> subscriber;
@@ -44,25 +47,36 @@ public class ToTransltateHelper {
             return;
         }
 
-        Map<String, String> map = new HashMap<>();
-        map.put("q", string);
-        map.put("from", "auto");
-        map.put("to", "auto");
-        map.put("appid", APIField.OtherHttp.APPID);
-        int salt = new Random(100).nextInt();
-        map.put("salt", String.valueOf(salt));
-        map.put("sign", MD5.getStringMD5(APIField.OtherHttp.APPID + string + salt + APIField.OtherHttp.SECRET));
-
         if (subscriber != null && !subscriber.isUnsubscribed()) {
             subscriber.unsubscribe();
         }
         initSubscriber(listener);
-        RetrofitHelper.retrofit(APIField.OtherHttp.TRANSLATE_HOST)
-                .create(APIServices.class)
-                .toTranslate(map)
+
+        int salt = new Random(100).nextInt();
+        apiServices.toTranslate(
+                RequestQuery.getBuildInstance()
+                .withParam("q", string)
+                .withParam("from", "auto")
+                .withParam("to", "auto")
+                .withParam("appid", APIField.OtherHttp.APPID)
+                .withParam("salt", String.valueOf(salt))
+                .withParam("sign", MD5.getStringMD5(APIField.OtherHttp.APPID + string + salt + APIField.OtherHttp.SECRET))
+                .build()
+        , RequestBody.getBuilderInstance().build())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subscriber);
+                .subscribe(addSubscriber(new DataCoverSubscriber<TranslateBean>() {
+                    @Override
+                    public void onSuccess(TranslateBean o) {
+
+                    }
+
+                    @Override
+                    public void onFailure(int errorCode, String errorMsg) {
+
+                    }
+                }));
+        
     }
 
     private void initSubscriber(final ToTranslateResultListener listener) {
@@ -83,6 +97,7 @@ public class ToTransltateHelper {
 
                 @Override
                 public void onError(Throwable e) {
+                    // 可以封装一个类专门抓取错误信息
                     if (listener != null)
                         listener.onFaile(e.toString());
                 }

@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.afra55.apimodule.bean.TransResultBean;
 import com.afra55.apimodule.bean.TranslateBean;
-import com.afra55.apimodule.helper.ToTransltateHelper;
+import com.afra55.apimodule.helper.ToTranslateHelper;
 import com.afra55.baseclient.R;
 import com.afra55.commontutils.base.BaseFragment;
 import com.afra55.commontutils.tip.ToastUtils;
@@ -92,7 +92,7 @@ public class CommunityFragment extends BaseFragment {
     }
 
     public void toTranslate(String string) {
-        ToTransltateHelper.getInstance().toTanstale(string, new ToTransltateHelper.ToTranslateResultListener() {
+        ToTranslateHelper.getInstance().toTanstale(string, new ToTranslateHelper.ToTranslateResultListener() {
             @Override
             public void showProgressDialog() {
                 DialogMaker.showProgressDialog(mActivity, "Loading");

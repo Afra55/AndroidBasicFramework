@@ -1,5 +1,6 @@
 package com.afra55.commontutils.tip;
 
+import android.content.Context;
 import android.widget.Toast;
 
 import com.afra55.commontutils.base.BaseActivity;
@@ -19,6 +20,15 @@ public class ToastUtils {
         if (context.isDestroyedCompatible()) {
             return;
         }
+        if (toast == null) {
+            toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+        } else {
+            toast.setText(message);
+        }
+        toast.show();
+    }
+
+    public static void showToast(Context context, String message) {
         if (toast == null) {
             toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
         } else {
