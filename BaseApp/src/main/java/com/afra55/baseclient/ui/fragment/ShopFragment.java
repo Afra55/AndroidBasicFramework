@@ -50,11 +50,6 @@ public class ShopFragment extends BaseFragment  {
     }
 
     @Override
-    protected void initView(View view) {
-
-    }
-
-    @Override
     protected void initLogic() {
 
     }

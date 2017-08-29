@@ -87,4 +87,7 @@ dependencies {
     // sql-cipher database encryption (optional)
     compile "com.github.Raizlabs.DBFlow:dbflow-sqlcipher:$version.dbflow_version"
 
+    compile "com.jakewharton:butterknife:$version.butterknife"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$version.butterknife"
+
 }

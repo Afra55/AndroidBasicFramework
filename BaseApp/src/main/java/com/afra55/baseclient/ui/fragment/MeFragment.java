@@ -60,14 +60,9 @@ public class MeFragment extends BaseFragment implements LoginPresenter.View {
     }
 
     @Override
-    protected void initView(View view) {
+    protected void initLogic() {
         loginPresenter = new LoginPresenterImpl(ThreadExecutor.getInstance()
                 , MainThreadImpl.getInstance(), this);
-    }
-
-    @Override
-    protected void initLogic() {
-
     }
 
     @Override

@@ -21,13 +21,18 @@ import com.afra55.commontutils.ui.dialog.DialogMaker;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.OnClick;
+
 public class CommunityFragment extends BaseFragment implements CommunityPresenter.View{
 
-    private TextInputEditText mTextInputEditText;
+    @BindView(R.id.commnunity_translate_et) TextInputEditText mTextInputEditText;
 
-    private TextInputLayout mTextInputLayout;
+    @BindView(R.id.commnunity_translate_layout) TextInputLayout mTextInputLayout;
 
-    private TextView mTextTranslateResult;
+    @BindView(R.id.commnunity_translate_result) TextView mTextTranslateResult;
+
+    @BindView(R.id.commnunity_translate_btn) View mTranslateBtn;
 
     private CommunityPresenter mPresenter;
 
@@ -60,10 +65,7 @@ public class CommunityFragment extends BaseFragment implements CommunityPresente
     }
 
     @Override
-    protected void initView(View view) {
-        mTextInputEditText = findView(R.id.commnunity_translate_et);
-        mTextInputLayout = findView(R.id.commnunity_translate_layout);
-        mTextTranslateResult = findView(R.id.commnunity_translate_result);
+    protected void initLogic() {
 
         mPresenter = new CommunityPresenterImpl(
                 ThreadExecutor.getInstance()
@@ -72,15 +74,9 @@ public class CommunityFragment extends BaseFragment implements CommunityPresente
         registerPresenter(mPresenter);
     }
 
-    @Override
-    protected void initLogic() {
-
-        findView(R.id.commnunity_translate_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toTranslate(mTextInputEditText.getText().toString());
-            }
-        });
+    @OnClick(R.id.commnunity_translate_btn)
+    public void onTranslateBtnClicked(View view) {
+        toTranslate(mTextInputEditText.getText().toString());
     }
 
 

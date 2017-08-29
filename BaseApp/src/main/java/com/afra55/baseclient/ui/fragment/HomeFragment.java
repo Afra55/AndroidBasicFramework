@@ -19,9 +19,11 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+
 public class HomeFragment extends BaseFragment {
 
-    private ViewPager bannerVp; // 广告Binner
+    @BindView(R.id.vp_banner) ViewPager bannerVp; // 广告Binner
     private ArrayList<View> binnerViewArray; // 存储Binner view的容器
     private BannerAdapter bannerAdapter;
 
@@ -45,7 +47,7 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected void initView(View view) {
-        bannerVp = findView(R.id.vp_banner);
+
     }
 
     @Override

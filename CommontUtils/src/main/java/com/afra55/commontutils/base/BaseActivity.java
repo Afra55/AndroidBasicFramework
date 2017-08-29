@@ -31,6 +31,8 @@ import com.afra55.commontutils.log.LogUtils;
 import com.afra55.commontutils.sys.ReflectionUtil;
 import com.afra55.commontutils.tip.ToastUtils;
 
+import butterknife.ButterKnife;
+
 /**
  * View 对应于Activity，负责View的绘制以及与用户交互
  * Model 业务逻辑和实体模型
@@ -63,6 +65,8 @@ public abstract class BaseActivity extends AppCompatActivity implements OnFragme
         super.onCreate(savedInstanceState);
 
         LogUtils.ui("activity: " + getClass().getSimpleName() + " onCreate()");
+
+        ButterKnife.bind(this);
     }
 
     @Override

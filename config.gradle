@@ -29,6 +29,7 @@ ext {
         fast_json_version : "1.1.57.android",
         retrofit_version : "2.2.0",
         constraint_version : "1.0.0-alpha8",
-        rxandroid_version : "1.2.1"
+        rxandroid_version : "1.2.1",
+        butterknife : "8.8.1"
     ]
 }

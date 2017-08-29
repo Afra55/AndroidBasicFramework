@@ -16,10 +16,15 @@ import com.afra55.commontutils.ui.dialog.DialogMaker;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 
 public abstract class BaseFragment extends Fragment {
 
     private static final String TAG = LogUtils.makeLogTag(BaseFragment.class);
+
+    protected Unbinder unbinder;
 
     private boolean destroyed;
 
@@ -71,7 +76,7 @@ public abstract class BaseFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         LogUtils.ui("fragment: " + getClass().getSimpleName() + " onViewCreated()");
-        initView(view);
+        unbinder = ButterKnife.bind(this, view);
     }
 
     protected void registerPresenter(BasePresenter presenter) {
@@ -79,8 +84,6 @@ public abstract class BaseFragment extends Fragment {
             presenterList.add(presenter);
         }
     }
-
-    protected abstract void initView(View view);
 
     protected abstract void initLogic();
 
@@ -136,6 +139,7 @@ public abstract class BaseFragment extends Fragment {
                 presenter.destroy();
             }
         }
+        unbinder.unbind();
     }
 
     @Override
