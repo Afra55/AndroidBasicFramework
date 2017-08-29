@@ -13,6 +13,8 @@ import com.afra55.commontutils.log.LogUtils;
 import com.afra55.commontutils.tip.ToastUtils;
 import com.afra55.commontutils.ui.dialog.DialogMaker;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -120,6 +122,13 @@ public abstract class BaseFragment extends Fragment {
         initLogic();
     }
 
+    /**
+     * 需要注册的时候再注册
+     */
+    protected void setEventBusAction() {
+        EventBus.getDefault().register(this);
+    }
+
     @Override
     public void onDetach() {
         super.onDetach();
@@ -140,6 +149,7 @@ public abstract class BaseFragment extends Fragment {
             }
         }
         unbinder.unbind();
+
     }
 
     @Override
@@ -159,6 +169,9 @@ public abstract class BaseFragment extends Fragment {
             if (presenter != null) {
                 presenter.stop();
             }
+        }
+        if (EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().unregister(this);
         }
     }
 

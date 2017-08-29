@@ -31,6 +31,8 @@ import com.afra55.commontutils.log.LogUtils;
 import com.afra55.commontutils.sys.ReflectionUtil;
 import com.afra55.commontutils.tip.ToastUtils;
 
+import org.greenrobot.eventbus.EventBus;
+
 import butterknife.ButterKnife;
 
 /**
@@ -127,6 +129,21 @@ public abstract class BaseActivity extends AppCompatActivity implements OnFragme
 
     protected boolean displayHomeAsUpEnabled() {
         return true;
+    }
+
+    /**
+     * 需要注册的时候再注册
+     */
+    protected void setEventBusAction() {
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        if (EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().unregister(this);
+        }
+        super.onStop();
     }
 
     @Override

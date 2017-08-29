@@ -90,4 +90,6 @@ dependencies {
     compile "com.jakewharton:butterknife:$version.butterknife"
     annotationProcessor "com.jakewharton:butterknife-compiler:$version.butterknife"
 
+    compile "org.greenrobot:eventbus:$version.eventbus"
+
 }
