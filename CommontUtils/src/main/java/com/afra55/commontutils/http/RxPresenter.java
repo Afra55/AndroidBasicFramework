@@ -2,8 +2,9 @@ package com.afra55.commontutils.http;
 
 import android.view.ViewGroup;
 
-import rx.Subscriber;
-import rx.subscriptions.CompositeSubscription;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.observers.DisposableObserver;
+
 
 /**
  * Created by yangshuai on 2017/8/19.
@@ -13,7 +14,7 @@ import rx.subscriptions.CompositeSubscription;
 public class RxPresenter implements BasePresenter {
 
     protected IActionListener.ViewAction viewAction;
-    private CompositeSubscription compositeSubscription;
+    private CompositeDisposable compositeSubscription;
 
     public RxPresenter(IActionListener.ViewAction view) {
         addView(view);
@@ -37,17 +38,17 @@ public class RxPresenter implements BasePresenter {
         unSubscriber();
     }
 
-    protected <T> Subscriber<T> addSubscriber(Subscriber<T> subscriber){
+    protected <T> DisposableObserver<T> addSubscriber(DisposableObserver<T> disposableObserver) {
         if(compositeSubscription == null){
-            compositeSubscription = new CompositeSubscription();
+            compositeSubscription = new CompositeDisposable();
         }
-        compositeSubscription.add(subscriber);
-        return subscriber;
+        compositeSubscription.add(disposableObserver);
+        return disposableObserver;
     }
 
     protected void unSubscriber() {
         if (compositeSubscription != null) {
-            compositeSubscription.unsubscribe();
+            compositeSubscription.clear();
         }
     }
 

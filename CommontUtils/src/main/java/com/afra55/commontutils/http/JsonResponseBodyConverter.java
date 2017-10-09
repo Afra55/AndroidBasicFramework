@@ -40,28 +40,22 @@ public class JsonResponseBodyConverter<T> implements Converter<ResponseBody, T> 
             }else{
                 try {
                     if (response!=null && response.isSuccess()){
-                        try {
-                            return JSON.parseObject(response.getBizData(),mType);
-                        }catch (Exception e){
-                            try {
-                                return JSON.parseObject(JSON.toJSONString(response.getBizData()),mType);
-                            } catch (Exception e1) {
-                                return new Gson().fromJson(response.getBizData(), mType);
-                            }
-                        }
+                        String bizData = response.getBizData();
+                        return getBizBean(bizData);
                     }else{
-                        if (response != null) {
-                            throw new HttpRuntimeException(response.getRtnCode(), response.getMsg());
-                        } else {
-                            throw new Exception("Unknown Exception: response is null");
-                        }
+                        return returnError(response);
                     }
                 }catch (Exception e){
-                    e.printStackTrace();
-                    if (response != null) {
-                        throw new HttpRuntimeException(response.getRtnCode(), response.getMsg());
+                    if (e.toString().contains("NullPointerException")) {
+                        try {
+                            return getBizBean(result);
+                        } catch (Exception e1) {
+                            e1.printStackTrace();
+                            throw new Exception("Unknown Exception: response is null");
+                        }
                     } else {
-                        throw new Exception("Unknown Exception: response is null");
+                        e.printStackTrace();
+                        returnError(response);
                     }
                 }
             }
@@ -69,5 +63,25 @@ public class JsonResponseBodyConverter<T> implements Converter<ResponseBody, T> 
             e.printStackTrace();
         }
         return null;
+    }
+
+    private T returnError(ResultBean response) throws Exception {
+        if (response != null) {
+            throw new HttpRuntimeException(response.getRtnCode(), response.getMsg());
+        } else {
+            throw new Exception("Unknown Exception: response is null");
+        }
+    }
+
+    private T getBizBean(String bizData) {
+        try {
+            return JSON.parseObject(bizData, mType);
+        } catch (Exception e) {
+            try {
+                return JSON.parseObject(JSON.toJSONString(bizData), mType);
+            } catch (Exception e1) {
+                return new Gson().fromJson(bizData, mType);
+            }
+        }
     }
 }

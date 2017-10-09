@@ -55,7 +55,9 @@ public class CustomApplication extends Application {
                     .penaltyLog()
                     .penaltyDeath()
                     .build());
+            AppCache.setIsDebugMode(true);
         }
+
 
     }
 

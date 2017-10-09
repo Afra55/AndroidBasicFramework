@@ -5,8 +5,8 @@ import android.text.TextUtils;
 import com.afra55.apimodule.api.APIField;
 import com.afra55.apimodule.api.APIServices;
 import com.afra55.apimodule.bean.TranslateBean;
-import com.afra55.apimodule.util.DataCoverSubscriber;
 import com.afra55.commontutils.AppCache;
+import com.afra55.commontutils.http.BaseDisposableObserver;
 import com.afra55.commontutils.http.IActionListener;
 import com.afra55.commontutils.http.RequestBody;
 import com.afra55.commontutils.http.RequestQuery;
@@ -16,8 +16,9 @@ import com.afra55.commontutils.tip.ToastUtils;
 
 import java.util.Random;
 
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+
 
 /**
  * Created by Victor Yang on 2016/7/4.
@@ -59,7 +60,7 @@ public class ToTranslateHelper extends RxPresenter {
         , RequestBody.getBuilderInstance().build())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(addSubscriber(new DataCoverSubscriber<TranslateBean>() {
+                .subscribeWith(addSubscriber(new BaseDisposableObserver<TranslateBean>() {
                     @Override
                     public void onSuccess(TranslateBean o) {
 

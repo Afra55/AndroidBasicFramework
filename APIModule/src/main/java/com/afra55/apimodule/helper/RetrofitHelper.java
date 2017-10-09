@@ -12,7 +12,7 @@ import org.simpleframework.xml.strategy.Strategy;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 /**
  * Created by Victor Yang on 2016/7/26.
@@ -37,7 +37,7 @@ public class RetrofitHelper {
             mJsonRetrofit = new Retrofit.Builder()
                     .baseUrl(baseUrl)
                     .addConverterFactory(ResponseConverterFactory.create())
-                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .client(mOkHttpClient)
                     .build();
         }
@@ -56,7 +56,7 @@ public class RetrofitHelper {
             mXmlRetrofit = new Retrofit.Builder()
                     .baseUrl(base_url)
                     .addConverterFactory(ResponseConverterXmlFactory.create(serializer))
-                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .client(mOkHttpClient)
                     .build();
         }
