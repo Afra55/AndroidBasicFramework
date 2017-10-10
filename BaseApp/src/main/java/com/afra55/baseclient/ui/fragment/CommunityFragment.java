@@ -60,7 +60,7 @@ public class CommunityFragment extends BaseFragment implements CommunityPresente
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View toCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_community, container, false);
     }
 

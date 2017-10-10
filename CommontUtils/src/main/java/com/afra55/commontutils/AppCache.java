@@ -8,6 +8,15 @@ import android.content.Context;
 public class AppCache {
     private static Context context;
     private static boolean isDebug;
+    private static String appServiceUrl;
+
+    public static String getAppServiceUrl() {
+        return appServiceUrl;
+    }
+
+    public static void setAppServiceUrl(String appServiceUrl) {
+        AppCache.appServiceUrl = appServiceUrl;
+    }
 
     public static Context getContext() {
         return context;
@@ -24,4 +33,10 @@ public class AppCache {
     public static void setIsDebug(boolean isDebug) {
         AppCache.isDebug = isDebug;
     }
+
+    public static String getToken() {
+        return "";
+    }
+
+
 }

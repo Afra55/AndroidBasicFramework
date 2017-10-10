@@ -1,22 +1,24 @@
-package com.afra55.commontutils.network;
+package com.afra55.commontutils.http;
 
-import com.afra55.commontutils.AppCache;
-import com.afra55.commontutils.sys.AppInfoUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 import java.util.Hashtable;
 import java.util.Map;
 
-public class Request {
+/**
+ * Created by yangshuai on 2017/8/19.
+ * {link http://afra55.github.io}
+ */
 
-    private AppInfoUtil.AppInfo AppInfo;
+public class RequestBody {
+
+    public static RequestBody.Builder getBuilderInstance() {
+        return new RequestBody.Builder();
+    }
+
     private String style;
     private Map<String, Object> data = new Hashtable<>();
-
-    public void setAppInfo(AppInfoUtil.AppInfo AppInfo) {
-        this.AppInfo = AppInfo;
-    }
 
     public void setStyle(String style) {
         this.style = style;
@@ -26,10 +28,6 @@ public class Request {
         this.data = data;
     }
 
-
-    public AppInfoUtil.AppInfo getAppInfo() {
-        return AppInfo;
-    }
 
     public String getStyle() {
         return style;
@@ -45,17 +43,10 @@ public class Request {
     }
 
     public static class Builder {
-        private AppInfoUtil.AppInfo appInfo;
         private String style = "black";
         private Map<String, Object> data = new Hashtable<>();
 
         public Builder() {
-            appInfo = AppInfoUtil.getAppInfo(AppCache.getContext());
-        }
-
-        public Builder withAppInfo(AppInfoUtil.AppInfo AppInfo) {
-            this.appInfo = AppInfo;
-            return this;
         }
 
         public Builder withStyle(String style) {
@@ -77,11 +68,18 @@ public class Request {
             return this;
         }
 
+        /**
+         * .withObject(JSON.toJSONString(bean))
+         *
+         * @param jsonStr JSON.toJSONString(bean)
+         * @return this
+         */
         public Builder withObject(String jsonStr){
-            if (jsonStr != null){
-                JSONObject  jasonObject = JSONObject.parseObject(jsonStr);
-                Map<String,String> map = (Map) jasonObject;
-                for (Map.Entry<String,String> entry : map.entrySet()){
+            if (jsonStr != null) {
+                JSONObject jasonObject = JSONObject.parseObject(jsonStr);
+                @SuppressWarnings("unchecked")
+                Map<String, Object> map = (Map) jasonObject;
+                for (Map.Entry<String, Object> entry : map.entrySet()){
                     this.data.put(entry.getKey(),entry.getValue());
                 }
             }
@@ -89,14 +87,13 @@ public class Request {
         }
 
 
-        public Request build() {
-            Request request = new Request();
+        public RequestBody build() {
+            RequestBody request = new RequestBody();
             request.setStyle(this.style);
-            request.setAppInfo(this.appInfo);
             request.setData(this.data);
             return request;
         }
 
     }
-}
 
+}

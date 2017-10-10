@@ -1,4 +1,4 @@
-package com.afra55.commontutils.network;
+package com.afra55.commontutils.http;
 
 import com.afra55.commontutils.AppCache;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
@@ -15,6 +15,10 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 
+/**
+ * Created by yangshuai on 2017/8/19.
+ * {link http://afra55.github.io}
+ */
 public class OkHttpClientUtil {
 
     private static OkHttpClient mOkHttpClient;
@@ -58,9 +62,10 @@ public class OkHttpClientUtil {
             Request.Builder newBuilder = chain.request().newBuilder();
             HttpUrl url = chain.request().url();
             if (url!=null && url.toString().contains("?")){
-                newBuilder.url(url +"&token="+ "token");
+                newBuilder.url(url + "&token=" + AppCache.getToken());
             }else{
-                newBuilder.url(url +"?token="+ "token");
+                newBuilder.url(url + "?token=" + AppCache.getToken());
+
             }
             return chain.proceed(newBuilder.build());
         }

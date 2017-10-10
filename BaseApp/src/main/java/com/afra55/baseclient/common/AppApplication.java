@@ -9,6 +9,8 @@ import com.afra55.commontutils.base.CustomApplication;
 import com.afra55.commontutils.crash.AppCrashHandler;
 import com.afra55.commontutils.log.LogUtils;
 
+import butterknife.ButterKnife;
+
 /**
  * Created by yangshuai on 2017/5/12.
  */
@@ -42,5 +44,6 @@ public class AppApplication extends CustomApplication {
                     .penaltyDeath()
                     .build());
         }
+        ButterKnife.setDebug(AppCache.isDebug());
     }
 }

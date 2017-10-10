@@ -1,28 +1,31 @@
-package com.afra55.commontutils.network;
+package com.afra55.commontutils.http;
 
 import android.text.TextUtils;
 
 import com.afra55.commontutils.AppCache;
-import com.afra55.commontutils.log.LogUtils;
 import com.afra55.commontutils.sys.NetworkUtil;
 import com.afra55.commontutils.tip.ToastUtils;
 
 import java.net.SocketTimeoutException;
 
-import retrofit2.adapter.rxjava.HttpException;
-import rx.Subscriber;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.observers.DisposableObserver;
+import retrofit2.HttpException;
 
-public abstract class DataCoverSubscriber<T> extends Subscriber<T> {
+/**
+ * Created by yangshuai on 2017/10/9.
+ * {link http://afra55.github.io}
+ */
 
-    private final String TAG = DataCoverSubscriber.class.getSimpleName();
+public abstract class BaseDisposableObserver<T> extends DisposableObserver<T> {
 
     @Override
-    public void onCompleted() {
-
+    public void onNext(@NonNull T t) {
+        onSuccess(t);
     }
 
     @Override
-    public void onError(Throwable e) {
+    public void onError(@NonNull Throwable e) {
         Throwable throwable = e;
         //获取最根源的异常
         while (throwable.getCause() != null) {
@@ -33,15 +36,14 @@ public abstract class DataCoverSubscriber<T> extends Subscriber<T> {
         if (!NetworkUtil.isNetAvailable(AppCache.getContext())
                 || e instanceof SocketTimeoutException) {
             onFailure(1, e.getMessage());
-            ToastUtils.showToast(AppCache.getContext(),"网络不正常,请检查网络");
+            ToastUtils.showToast(AppCache.getContext(), "网络不正常,请检查网络");
         } else if (e instanceof HttpRuntimeException) {
             //业务异常
             HttpRuntimeException exception = (HttpRuntimeException) e;
             int errorCode = Integer.parseInt(exception.getErrorCode());
             onFailure(errorCode, exception.getErrorMsg());
-            if (errorCode == 401) {
-                ToastUtils.showToast(AppCache.getContext(),"您的登录已过期，请重新登录");
-//                LogoutHelper.logout(AppCache.getContext());
+            if (errorCode == 401 || exception.getErrorMsg().contains("登录过期")) {
+                ToastUtils.showToast(AppCache.getContext(), "您的登录已过期，请重新登录");
                 return;
             }
             String message = e.getMessage();
@@ -54,15 +56,13 @@ public abstract class DataCoverSubscriber<T> extends Subscriber<T> {
             int errorCode = httpException.code();
             onFailure(errorCode,
                     httpException.getMessage());
-            if (errorCode == 401) {
-                ToastUtils.showToast(AppCache.getContext(),"您的登录已过期，请重新登录");
-//                LogoutHelper.logout(AppCache.getContext());
+            if (errorCode == 401 || httpException.getMessage().contains("登录过期")) {
+                ToastUtils.showToast(AppCache.getContext(), "您的登录已过期，请重新登录");
             }
         } else {
             //其他异常
             onFailure(0, e.getMessage());
-            if(!TextUtils.isEmpty(e.getMessage())){
-                LogUtils.e(TAG,"======="+e.getMessage(), e);
+            if (!TextUtils.isEmpty(e.getMessage())) {
                 if (!e.getMessage().contains("Attempt to invoke interface method")) {
                     ToastUtils.showToast(AppCache.getContext(), e.getMessage());
                 } else {
@@ -73,10 +73,11 @@ public abstract class DataCoverSubscriber<T> extends Subscriber<T> {
     }
 
     @Override
-    public void onNext(T t) {
-        onSuccess(t);
+    public void onComplete() {
+
     }
 
     public abstract void onSuccess(T t);
-    public abstract void onFailure(int errorCode,String errorMsg);
+
+    public abstract void onFailure(int errorCode, String errorMsg);
 }

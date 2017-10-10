@@ -62,9 +62,10 @@ dependencies {
     compile "com.google.code.gson:gson:$version.gson_version"
     compile 'com.facebook.fresco:fresco:0.10.0'
     compile "com.squareup.retrofit2:retrofit:$version.retrofit_version"
-    compile "com.squareup.retrofit2:adapter-rxjava:$version.retrofit_version"
+    compile "com.squareup.retrofit2:adapter-rxjava2:$version.retrofit_version"
     compile "com.squareup.retrofit2:converter-gson:$version.retrofit_version"
-    compile "io.reactivex:rxandroid:$version.rxandroid_version"
+    compile "io.reactivex.rxjava2:rxjava:$version.rxjava_version"
+    compile "io.reactivex.rxjava2:rxandroid:$version.rxandroid_version"
     compile "com.android.support.constraint:constraint-layout:$version.constraint_version"
 
     compile "com.squareup.okhttp3:logging-interceptor:$version.okhttp3_logging_interceptor_version"

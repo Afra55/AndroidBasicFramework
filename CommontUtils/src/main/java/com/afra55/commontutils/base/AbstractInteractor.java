@@ -1,9 +1,8 @@
 package com.afra55.commontutils.base;
 
 
-
-import rx.Subscriber;
-import rx.subscriptions.CompositeSubscription;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.observers.DisposableObserver;
 
 /**
  * Created by dmilicic on 8/4/15.
@@ -17,7 +16,7 @@ import rx.subscriptions.CompositeSubscription;
  */
 public abstract class AbstractInteractor implements Interactor {
 
-    private CompositeSubscription compositeSubscription;
+    private CompositeDisposable compositeSubscription;
 
     protected Executor mThreadExecutor;
     protected MainThread mMainThread;
@@ -55,6 +54,7 @@ public abstract class AbstractInteractor implements Interactor {
 
     /**
      * 如果拦截完成行为，在完成操作时 需要 强制完成
+     *
      * @param forced boolean
      */
     public void onFinished(boolean forced) {
@@ -67,6 +67,7 @@ public abstract class AbstractInteractor implements Interactor {
 
     /**
      * 是否拦截完成行为
+     *
      * @return true 是， false 否。
      */
     protected boolean interceptFinishOperation() {
@@ -82,19 +83,20 @@ public abstract class AbstractInteractor implements Interactor {
         mThreadExecutor.execute(this);
     }
 
-    protected <T> Subscriber<T> addSubscriber(Subscriber<T> subscriber){
-        if(compositeSubscription == null){
-            compositeSubscription = new CompositeSubscription();
+    protected <T> DisposableObserver<T> addSubscriber(DisposableObserver<T> disposableObserver) {
+        if (compositeSubscription == null) {
+            compositeSubscription = new CompositeDisposable();
         }
-        compositeSubscription.add(subscriber);
-        return subscriber;
+        compositeSubscription.add(disposableObserver);
+        return disposableObserver;
     }
 
-    protected  void unSubscriber(){
-        if(compositeSubscription!=null){
-            compositeSubscription.unsubscribe();
+    protected void unSubscriber() {
+        if (compositeSubscription != null) {
+            compositeSubscription.clear();
         }
     }
+
 
     protected abstract void onCompleted();
 

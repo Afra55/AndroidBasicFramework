@@ -1,5 +1,6 @@
 package com.afra55.commontutils.base;
 
+import com.afra55.commontutils.AppCache;
 import com.afra55.commontutils.BuildConfig;
 
 /**
@@ -26,6 +27,7 @@ public class APIField {
     private static void useUAT() {
         isQA = true;
         APP_SERVICE_URL = "www.baidu.com";
+        AppCache.setAppServiceUrl(OtherHttp.TRANSLATE_HOST);
     }
 
     /**
@@ -34,6 +36,7 @@ public class APIField {
     private static void usePro() {
         isQA = false;
         APP_SERVICE_URL = "www.google.com";
+        AppCache.setAppServiceUrl(APP_SERVICE_URL);
     }
 
     public interface IAD{

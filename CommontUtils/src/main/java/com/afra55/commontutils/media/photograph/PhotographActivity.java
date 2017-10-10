@@ -32,10 +32,13 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
 
 import static com.afra55.commontutils.media.CameraUtils.setDisplayOrientation;
 
@@ -437,9 +440,9 @@ public class PhotographActivity extends BaseActivity{
         public void onPictureTaken(final byte[] data, Camera camera) {
             Bundle bundle = new Bundle();
             bundle.putByteArray("bytes", data); //将图片字节数据保存在bundle当中，实现数据交换
-            Observable.create(new Observable.OnSubscribe<String>() {
+            Observable.create(new ObservableOnSubscribe<String>() {
                 @Override
-                public void call(Subscriber<? super String> subscriber) {
+                public void subscribe(@NonNull ObservableEmitter<String> subscriber) throws Exception {
                     String imagePath;
                     try {
                         imagePath = CameraUtils.saveToSDCard(data, mCurrentCameraId);
@@ -447,10 +450,11 @@ public class PhotographActivity extends BaseActivity{
                     } catch (Exception e) {
                         subscriber.onError(e);
                     }
-                    subscriber.onCompleted();
+                    subscriber.onComplete();
                 }
+
             }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Subscriber<String>() {
+                    .subscribeWith(new DisposableObserver<String>() {
 
                         @Override
                         public void onStart() {
@@ -458,14 +462,14 @@ public class PhotographActivity extends BaseActivity{
                         }
 
                         @Override
-                        public void onCompleted() {
-                            dismissLoading();
-                        }
-
-                        @Override
                         public void onError(Throwable e) {
                             dismissLoading();
                             LogUtils.e(TAG, "onPictureTaken", e);
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            dismissLoading();
                         }
 
                         @Override

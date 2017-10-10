@@ -1,12 +1,17 @@
-package com.afra55.commontutils.network;
+package com.afra55.commontutils.http;
 
-public class Result {
+/**
+ * Created by yangshuai on 2017/8/19.
+ * {link http://afra55.github.io}
+ * 一个通用接口返回格式
+ */
+public class ResultBean {
 
     private static final String HTTP_SERVICE_SUCCESS = "0000000";
 
-    private String bizData = "";
-    private String rtnCode = "";
-    private String msg = "";
+    private String bizData;
+    private String rtnCode;
+    private String msg;
     private long ts;
 
     public String getBizData() {

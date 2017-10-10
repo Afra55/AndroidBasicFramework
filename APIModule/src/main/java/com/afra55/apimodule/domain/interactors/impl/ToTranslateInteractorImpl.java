@@ -7,16 +7,17 @@ import com.afra55.commontutils.base.APIField;
 import com.afra55.commontutils.base.AbstractInteractor;
 import com.afra55.commontutils.base.Executor;
 import com.afra55.commontutils.base.MainThread;
-import com.afra55.commontutils.network.DataCoverSubscriber;
-import com.afra55.commontutils.network.Request;
-import com.afra55.commontutils.network.RequestQuery;
-import com.afra55.commontutils.network.RetrofitUtil;
+import com.afra55.commontutils.http.BaseDisposableObserver;
+import com.afra55.commontutils.http.RequestBody;
+import com.afra55.commontutils.http.RequestQuery;
+import com.afra55.commontutils.http.RetrofitHelper;
 import com.afra55.commontutils.string.MD5;
 
 import java.util.Random;
 
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+
 
 /**
  * Created by yangshuai on 2017/5/10.
@@ -55,24 +56,24 @@ public class ToTranslateInteractorImpl extends AbstractInteractor implements ToT
     @Override
     public void run() {
         int salt = new Random(100).nextInt();
-        RetrofitUtil.createService(APIServices.class)
+        RetrofitHelper.createService(APIServices.class)
                 .toTranslate(
                         APIField.OtherHttp.TRANSLATE_HOST + APIField.OtherHttp.TRANSLATE_API
                         ,new RequestQuery.Build()
-                                .withParams("q", text)
-                                .withParams("from", "auto")
-                                .withParams("to", "auto")
-                                .withParams("appid", APIField.OtherHttp.APPID)
-                                .withParams("salt", String.valueOf(salt))
-                                .withParams("sign", MD5.getStringMD5(APIField.OtherHttp.APPID
+                                .withParam("q", text)
+                                .withParam("from", "auto")
+                                .withParam("to", "auto")
+                                .withParam("appid", APIField.OtherHttp.APPID)
+                                .withParam("salt", String.valueOf(salt))
+                                .withParam("sign", MD5.getStringMD5(APIField.OtherHttp.APPID
                                         + text + salt + APIField.OtherHttp.SECRET))
                                 .build()
-                        ,new Request.Builder()
+                        , new RequestBody.Builder()
 //                                .withObject(JSON.toJSONString(info))
                                 .build())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(addSubscriber(new DataCoverSubscriber<TranslateBean>() {
+                .subscribeWith(addSubscriber(new BaseDisposableObserver<TranslateBean>() {
                     @Override
                     public void onSuccess(final TranslateBean info) {
                         mMainThread.post(new Runnable() {
@@ -105,9 +106,11 @@ public class ToTranslateInteractorImpl extends AbstractInteractor implements ToT
                     }
 
                     @Override
-                    public void onCompleted() {
+                    public void onComplete() {
+                        super.onComplete();
                         onFinished(true);
                     }
+
                 }));
 
     }
