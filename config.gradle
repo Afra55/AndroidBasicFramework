@@ -9,7 +9,7 @@ ext {
         minSdkVersion: 15,
         targetSdkVersion: 25,
         compileSdkVersion: 25,
-        buildToolsVersion: '25.0.0'
+        buildToolsVersion: '26.0.2'
     ]
 
     code = [
@@ -21,7 +21,7 @@ ext {
     dependencies = [
             junit_version                      : "4.12",
             android_support_lib_version        : "25.1.0",
-            android_support_multidex_version   : "1.0.1",
+            android_support_multidex_version   : "1.0.2",
             gson_version                       : "2.7",
             dbflow_version                     : "4.0.1",
             okhttp3_logging_interceptor_version: "3.9.0",
