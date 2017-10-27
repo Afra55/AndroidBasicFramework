@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     def app = rootProject.ext.android
-    compileSdkVersion app.compileSdkVersion
+    compileSdkVersion 26
     buildToolsVersion app.buildToolsVersion
     defaultConfig {
         applicationId "com.afra55.baseclient"
