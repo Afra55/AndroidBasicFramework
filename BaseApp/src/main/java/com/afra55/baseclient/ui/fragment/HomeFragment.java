@@ -12,8 +12,8 @@ import android.widget.RadioGroup;
 
 import com.afra55.baseclient.R;
 import com.afra55.baseclient.adapter.BannerAdapter;
+import com.afra55.baseclient.common.AppFragment;
 import com.afra55.baseclient.common.BinnerHelper;
-import com.afra55.commontutils.base.BaseFragment;
 import com.facebook.drawee.drawable.ScalingUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 
-public class HomeFragment extends BaseFragment {
+public class HomeFragment extends AppFragment {
 
     @BindView(R.id.vp_banner)
     ViewPager bannerVp; // 广告Binner

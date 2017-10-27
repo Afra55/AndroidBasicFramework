@@ -14,7 +14,7 @@ import com.afra55.apimodule.domain.model.TranslateBean;
 import com.afra55.apimodule.presentation.presenters.CommunityPresenter;
 import com.afra55.apimodule.presentation.presenters.impl.CommunityPresenterImpl;
 import com.afra55.baseclient.R;
-import com.afra55.commontutils.base.BaseFragment;
+import com.afra55.baseclient.common.AppFragment;
 import com.afra55.commontutils.threading.MainThreadImpl;
 import com.afra55.commontutils.threading.ThreadExecutor;
 import com.afra55.commontutils.ui.dialog.DialogMaker;
@@ -24,7 +24,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class CommunityFragment extends BaseFragment implements CommunityPresenter.View{
+public class CommunityFragment extends AppFragment implements CommunityPresenter.View {
 
     @BindView(R.id.commnunity_translate_et) TextInputEditText mTextInputEditText;
 

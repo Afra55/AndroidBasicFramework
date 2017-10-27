@@ -8,12 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.afra55.baseclient.R;
-import com.afra55.commontutils.base.BaseFragment;
+import com.afra55.baseclient.common.AppFragment;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShopFragment extends BaseFragment  {
+public class ShopFragment extends AppFragment {
 
 
     public static ShopFragment newInstance(String param1, String param2) {
