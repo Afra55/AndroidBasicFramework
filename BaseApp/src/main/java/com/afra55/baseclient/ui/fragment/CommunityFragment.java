@@ -2,6 +2,7 @@ package com.afra55.baseclient.ui.fragment;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.view.LayoutInflater;
@@ -13,14 +14,14 @@ import com.afra55.apimodule.bean.TransResultBean;
 import com.afra55.apimodule.bean.TranslateBean;
 import com.afra55.apimodule.helper.ToTranslateHelper;
 import com.afra55.baseclient.R;
-import com.afra55.commontutils.base.BaseFragment;
+import com.afra55.baseclient.common.AppFragment;
 import com.afra55.commontutils.http.IActionListener;
 import com.afra55.commontutils.tip.ToastUtils;
 import com.afra55.commontutils.ui.dialog.DialogMaker;
 
 import java.util.List;
 
-public class CommunityFragment extends BaseFragment implements IActionListener.ViewAction {
+public class CommunityFragment extends AppFragment implements IActionListener.ViewAction {
 
     private TextInputEditText mTextInputEditText;
 
@@ -54,8 +55,9 @@ public class CommunityFragment extends BaseFragment implements IActionListener.V
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_community, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        setLayoutView(inflater, container, R.layout.fragment_community);
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override

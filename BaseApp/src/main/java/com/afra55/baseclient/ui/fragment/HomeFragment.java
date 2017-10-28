@@ -12,14 +12,14 @@ import android.widget.RadioGroup;
 
 import com.afra55.baseclient.R;
 import com.afra55.baseclient.adapter.BannerAdapter;
+import com.afra55.baseclient.common.AppFragment;
 import com.afra55.baseclient.common.BinnerHelper;
-import com.afra55.commontutils.base.BaseFragment;
 import com.facebook.drawee.drawable.ScalingUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
 
-public class HomeFragment extends BaseFragment {
+public class HomeFragment extends AppFragment {
 
     private ViewPager bannerVp; // 广告Binner
     private ArrayList<View> binnerViewArray; // 存储Binner view的容器
@@ -40,7 +40,8 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        setLayoutView(inflater, container, R.layout.fragment_home);
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override

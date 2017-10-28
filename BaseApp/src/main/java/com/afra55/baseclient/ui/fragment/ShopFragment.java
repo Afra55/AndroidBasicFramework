@@ -2,18 +2,19 @@ package com.afra55.baseclient.ui.fragment;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.afra55.baseclient.R;
-import com.afra55.commontutils.base.BaseFragment;
+import com.afra55.baseclient.common.AppFragment;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShopFragment extends BaseFragment  {
+public class ShopFragment extends AppFragment {
 
 
     public static ShopFragment newInstance(String param1, String param2) {
@@ -40,8 +41,9 @@ public class ShopFragment extends BaseFragment  {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_shop, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        setLayoutView(inflater, container, R.layout.fragment_shop);
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override

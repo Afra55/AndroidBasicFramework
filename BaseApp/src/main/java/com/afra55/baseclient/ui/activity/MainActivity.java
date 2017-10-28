@@ -11,17 +11,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afra55.baseclient.R;
+import com.afra55.baseclient.common.AppActivity;
+import com.afra55.baseclient.common.AppFragment;
 import com.afra55.baseclient.ui.fragment.CommunityFragment;
 import com.afra55.baseclient.ui.fragment.HomeFragment;
 import com.afra55.baseclient.ui.fragment.MeFragment;
 import com.afra55.baseclient.ui.fragment.ShopFragment;
 import com.afra55.commontutils.activity.ActivityUtils;
-import com.afra55.commontutils.base.BaseActivity;
-import com.afra55.commontutils.base.BaseFragment;
 import com.afra55.commontutils.base.OnFragmentInteractionListener;
 
 
-public class MainActivity extends BaseActivity
+public class MainActivity extends AppActivity
         implements View.OnClickListener, OnFragmentInteractionListener {
 
     private static final int INIT_TAB_ID = -1;
@@ -31,7 +31,7 @@ public class MainActivity extends BaseActivity
     private TextView homeText, communityText, shopText, meText;
 
     /* framgent */
-    private BaseFragment selectedFragment;
+    private AppFragment selectedFragment;
     private HomeFragment homeFragment;
     private CommunityFragment communityFragment;
     private ShopFragment shopFragment;
@@ -71,6 +71,7 @@ public class MainActivity extends BaseActivity
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
         if (outState != null) {
             if (currentFragmentId != INIT_TAB_ID) {
                 outState.putInt(KEY_BUNDLE_ID, currentFragmentId);

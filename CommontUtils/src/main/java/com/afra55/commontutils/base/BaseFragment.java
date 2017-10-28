@@ -4,9 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.afra55.commontutils.device.KeyBoardUtils;
 import com.afra55.commontutils.http.RxPresenter;
@@ -14,6 +18,9 @@ import com.afra55.commontutils.log.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 
 public abstract class BaseFragment extends Fragment {
@@ -35,6 +42,7 @@ public abstract class BaseFragment extends Fragment {
     private String mInitParam2;
 
     private static final Handler handler = new Handler();
+    private Unbinder unbinder;
 
     public boolean isDestroyed() {
         return destroyed;
@@ -50,6 +58,8 @@ public abstract class BaseFragment extends Fragment {
         this.containerId = containerId;
     }
 
+    protected View rootView;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +67,32 @@ public abstract class BaseFragment extends Fragment {
             mInitParam1 = getArguments().getString(ARG_PARAM1);
             mInitParam2 = getArguments().getString(ARG_PARAM2);
         }
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        if (rootView != null) {
+            return rootView;
+        }
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    protected void setLayoutView(LayoutInflater inflater, ViewGroup container, @LayoutRes int resId) {
+        rootView = inflater.inflate(resId, container, false);
+        initView();
+    }
+
+    protected void setLayoutView(View view) {
+        rootView = view;
+        initView();
+    }
+
+    private void initView() {
+        if (rootView == null) {
+            return;
+        }
+        unbinder = ButterKnife.bind(this, rootView);
     }
 
     @Override
@@ -124,6 +160,9 @@ public abstract class BaseFragment extends Fragment {
         destroyed = true;
         for (RxPresenter presenter : rxPresenterList) {
             presenter.removeView();
+        }
+        if (unbinder != null) {
+            unbinder.unbind();
         }
     }
 

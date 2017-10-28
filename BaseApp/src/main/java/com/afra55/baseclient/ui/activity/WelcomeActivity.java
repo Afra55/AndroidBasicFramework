@@ -7,11 +7,11 @@ import android.os.Handler;
 
 import com.afra55.apimodule.helper.LoginUtils;
 import com.afra55.baseclient.R;
+import com.afra55.baseclient.common.AppActivity;
 import com.afra55.baseclient.ui.UIControlHelper;
-import com.afra55.commontutils.base.BaseActivity;
 import com.afra55.commontutils.log.LogUtils;
 
-public class WelcomeActivity extends BaseActivity{
+public class WelcomeActivity extends AppActivity {
 
     private static final String TAG = "WelcomeActivity";
 
