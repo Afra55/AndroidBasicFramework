@@ -12,7 +12,8 @@ android {
         targetSdkVersion app.targetSdkVersion
         versionCode app.versionCode
         versionName app.versionName
-
+        buildConfigField("String", "BAIDU_APP_ID", "\"$rootProject.ext.code.baidu_app_id\"")
+        buildConfigField("String", "BAIDU_APP_SECRET", "\"$rootProject.ext.code.baidu_app_secret\"")
     }
     buildTypes {
         release {
