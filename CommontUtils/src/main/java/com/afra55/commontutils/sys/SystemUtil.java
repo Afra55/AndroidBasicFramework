@@ -4,6 +4,8 @@ import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.text.TextUtils;
 
 import java.util.List;
@@ -15,6 +17,7 @@ public class SystemUtil {
 
     /**
      * 获取当前进程名
+     *
      * @param context
      * @return 进程名
      */
@@ -70,4 +73,21 @@ public class SystemUtil {
         return false;
     }
 
+    /**
+     * 获取App安装包信息
+     *
+     * @return PackageInfo
+     */
+    public static PackageInfo getPackageInfo(Context context) {
+        PackageInfo info = null;
+        try {
+            info = context.getPackageManager().getPackageInfo(
+                    context.getApplicationContext().getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (info == null)
+            info = new PackageInfo();
+        return info;
+    }
 }
