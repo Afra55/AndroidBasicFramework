@@ -27,9 +27,18 @@ import android.widget.ImageButton;
 
 import com.afra55.commontutils.R;
 import com.afra55.commontutils.device.KeyBoardUtils;
+import com.afra55.commontutils.http.RxPresenter;
 import com.afra55.commontutils.log.LogUtils;
 import com.afra55.commontutils.sys.ReflectionUtil;
 import com.afra55.commontutils.tip.ToastUtils;
+
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * View 对应于Activity，负责View的绘制以及与用户交互
@@ -41,6 +50,9 @@ public abstract class BaseActivity extends AppCompatActivity implements OnFragme
     private static Handler handler;
 
     private boolean destroyed = false;
+
+    private List<RxPresenter> rxPresenterList = new ArrayList<>();
+    private Unbinder unbinder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +75,8 @@ public abstract class BaseActivity extends AppCompatActivity implements OnFragme
         super.onCreate(savedInstanceState);
 
         LogUtils.ui("activity: " + getClass().getSimpleName() + " onCreate()");
+
+        unbinder = ButterKnife.bind(this);
     }
 
     @Override
@@ -125,10 +139,42 @@ public abstract class BaseActivity extends AppCompatActivity implements OnFragme
         return true;
     }
 
+    /**
+     * 需要注册的时候再注册
+     */
+    protected void setEventBusAction() {
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
+        super.onStop();
+    }
+
+    protected void addPresenter(RxPresenter rxPresenter) {
+        if (!rxPresenterList.contains(rxPresenter)) {
+            rxPresenterList.add(rxPresenter);
+        }
+    }
+
     @Override
     protected void onDestroy() {
         LogUtils.ui("activity: " + getClass().getSimpleName() + " onDestroy()");
         destroyed = true;
+        if (unbinder != null) {
+            unbinder.unbind();
+        }
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
+        if (!rxPresenterList.isEmpty()) {
+            for (RxPresenter rxPresenter : rxPresenterList) {
+                rxPresenter.removeView();
+            }
+        }
         super.onDestroy();
     }
 
