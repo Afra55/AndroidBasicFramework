@@ -115,12 +115,12 @@ public class ActivityUtils {
             }
         } else {
             if (!to.isAdded()) {
-                from.setFragmentSeleted(false);
+                from.setFragmentSelected(false);
                 transaction.hide(from).add(to.getContainerId(), to, to.getClass().getSimpleName()).commit();
             } else {
-                from.setFragmentSeleted(false);
+                from.setFragmentSelected(false);
                 transaction.hide(from).show(to).commit();
-                to.setFragmentSeleted(true);
+                to.setFragmentSelected(true);
             }
         }
     }

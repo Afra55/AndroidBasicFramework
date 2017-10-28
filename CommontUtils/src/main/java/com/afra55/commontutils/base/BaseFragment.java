@@ -9,7 +9,11 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.afra55.commontutils.device.KeyBoardUtils;
+import com.afra55.commontutils.http.RxPresenter;
 import com.afra55.commontutils.log.LogUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public abstract class BaseFragment extends Fragment {
@@ -21,6 +25,8 @@ public abstract class BaseFragment extends Fragment {
     protected BaseActivity mActivity;
 
     protected OnFragmentInteractionListener mInteractionListener;
+
+    private List<RxPresenter> rxPresenterList = new ArrayList<>();
 
     public static final String ARG_PARAM1 = "mInitParam1";
     public static final String ARG_PARAM2 = "mInitParam2";
@@ -71,6 +77,12 @@ public abstract class BaseFragment extends Fragment {
 
     protected abstract void initLogic();
 
+    public void registerPresenter(RxPresenter rxPresenter) {
+        if (!rxPresenterList.contains(rxPresenter)) {
+            rxPresenterList.add(rxPresenter);
+        }
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -110,6 +122,9 @@ public abstract class BaseFragment extends Fragment {
         super.onDestroy();
         LogUtils.ui("fragment: " + getClass().getSimpleName() + " onDestroy()");
         destroyed = true;
+        for (RxPresenter presenter : rxPresenterList) {
+            presenter.removeView();
+        }
     }
 
     public final Handler getHandler() {
@@ -153,7 +168,7 @@ public abstract class BaseFragment extends Fragment {
     /**
      * 当Fragment选中时, 手动调用
      */
-    public void setFragmentSeleted(boolean selected) {
+    public void setFragmentSelected(boolean selected) {
         if (!selected) {
             onFragmentUnSelected();
         } else if (isFirst) {

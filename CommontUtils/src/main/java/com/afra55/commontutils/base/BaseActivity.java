@@ -154,7 +154,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnFragme
         super.onStop();
     }
 
-    protected void addPresenter(RxPresenter rxPresenter) {
+    protected void registerPresenter(RxPresenter rxPresenter) {
         if (!rxPresenterList.contains(rxPresenter)) {
             rxPresenterList.add(rxPresenter);
         }
