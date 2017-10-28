@@ -159,7 +159,12 @@ public abstract class BaseFragment extends Fragment {
                 presenter.destroy();
             }
         }
-        unbinder.unbind();
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
+        if (unbinder != null) {
+            unbinder.unbind();
+        }
 
     }
 
@@ -181,7 +186,7 @@ public abstract class BaseFragment extends Fragment {
                 presenter.stop();
             }
         }
-        if (EventBus.getDefault().isRegistered(this)){
+        if (EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this);
         }
     }
@@ -249,6 +254,7 @@ public abstract class BaseFragment extends Fragment {
     }
 
     protected abstract void onFragmentSelected(boolean isFirst);
+
     protected abstract void onFragmentUnSelected();
 
     /**

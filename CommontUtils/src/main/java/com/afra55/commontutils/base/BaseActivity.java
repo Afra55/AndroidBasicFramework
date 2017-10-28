@@ -51,7 +51,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnFragme
 
     private boolean destroyed = false;
 
-    private List<RxPresenter> rxPresenterList = new ArrayList<>();
+    private List<BasePresenter> presenterList = new ArrayList<>();
     private Unbinder unbinder;
 
     @Override
@@ -154,9 +154,9 @@ public abstract class BaseActivity extends AppCompatActivity implements OnFragme
         super.onStop();
     }
 
-    protected void addPresenter(RxPresenter rxPresenter) {
-        if (!rxPresenterList.contains(rxPresenter)) {
-            rxPresenterList.add(rxPresenter);
+    protected void registerPresenter(BasePresenter presenter) {
+        if (!presenterList.contains(presenter)) {
+            presenterList.add(presenter);
         }
     }
 
@@ -170,9 +170,9 @@ public abstract class BaseActivity extends AppCompatActivity implements OnFragme
         if (EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this);
         }
-        if (!rxPresenterList.isEmpty()) {
-            for (RxPresenter rxPresenter : rxPresenterList) {
-                rxPresenter.removeView();
+        for (BasePresenter presenter : presenterList) {
+            if (presenter != null) {
+                presenter.destroy();
             }
         }
         super.onDestroy();
