@@ -3,7 +3,7 @@ package com.afra55.apimodule.bean;
 /**
  * Created by Victor Yang on 2016/9/19.
  */
-public class TransResultBean extends BaseBean{
+public class TransResultBean extends ApiBaseBean {
     private String src;
     private String dst;
 
