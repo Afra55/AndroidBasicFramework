@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.afra55.apimodule.bean.TransResultBean;
 import com.afra55.apimodule.bean.TranslateBean;
-import com.afra55.apimodule.helper.ToTranslateHelper;
+import com.afra55.apimodule.helper.ToTranslatePresenter;
 import com.afra55.baseclient.R;
 import com.afra55.baseclient.common.AppFragment;
 import com.afra55.commontutils.http.IActionListener;
@@ -29,7 +29,7 @@ public class CommunityFragment extends AppFragment implements IActionListener.Vi
 
     private TextView mTextTranslateResult;
 
-    private ToTranslateHelper toTranslateHelper;
+    private ToTranslatePresenter toTranslatePresenter;
 
     public static CommunityFragment newInstance(String param1, String param2) {
         Bundle args = new Bundle();
@@ -98,13 +98,14 @@ public class CommunityFragment extends AppFragment implements IActionListener.Vi
 
     public void toTranslate(String string) {
 
-        if (toTranslateHelper == null) {
-            toTranslateHelper = ToTranslateHelper.getInstance(this);
+        if (toTranslatePresenter == null) {
+            toTranslatePresenter = ToTranslatePresenter.getInstance(this);
+            registerPresenter(toTranslatePresenter);
         }
 
         DialogMaker.showProgressDialog(mActivity, "Loading");
 
-        toTranslateHelper.toTranslate(string);
+        toTranslatePresenter.toTranslate(string);
     }
 
     @Override

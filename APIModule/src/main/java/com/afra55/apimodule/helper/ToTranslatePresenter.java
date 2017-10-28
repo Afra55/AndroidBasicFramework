@@ -22,22 +22,22 @@ import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Victor Yang on 2016/7/4.
- * ToTranslateHelper
+ * ToTranslatePresenter
  */
-public class ToTranslateHelper extends RxPresenter {
+public class ToTranslatePresenter extends RxPresenter {
 
-    private static final String TAG = ToTranslateHelper.class.getSimpleName();
+    private static final String TAG = ToTranslatePresenter.class.getSimpleName();
     
     private APIServices apiServices;
 
-    private ToTranslateHelper(IActionListener.ViewAction viewAction) {
+    private ToTranslatePresenter(IActionListener.ViewAction viewAction) {
         super(viewAction);
         apiServices = RetrofitHelper.createService(APIField.OtherHttp.TRANSLATE_HOST, APIServices.class);
 
     }
 
-    public static ToTranslateHelper getInstance(IActionListener.ViewAction viewAction) {
-        return new ToTranslateHelper(viewAction);
+    public static ToTranslatePresenter getInstance(IActionListener.ViewAction viewAction) {
+        return new ToTranslatePresenter(viewAction);
     }
 
     public void toTranslate(String string) {
