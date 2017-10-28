@@ -15,7 +15,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.view.LayoutInflaterCompat;
-import android.support.v4.view.LayoutInflaterFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
@@ -57,11 +56,14 @@ public abstract class BaseActivity extends AppCompatActivity implements OnFragme
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        LayoutInflaterCompat.setFactory(LayoutInflater.from(this), new LayoutInflaterFactory() {
+        LayoutInflaterCompat.setFactory2(LayoutInflater.from(this), new LayoutInflater.Factory2() {
+            @Override
+            public View onCreateView(String name, Context context, AttributeSet attrs) {
+                return null;
+            }
+
             @Override
             public View onCreateView(View parent, String name, Context context, AttributeSet attrs) {
-
-
                 AppCompatDelegate delegate = getDelegate();
                 View view = delegate.createView(parent, name, context, attrs);
                 // 全局搜索 View 替换 View
@@ -70,13 +72,23 @@ public abstract class BaseActivity extends AppCompatActivity implements OnFragme
                 }*/
                 return view;
             }
+
+
         });
 
         super.onCreate(savedInstanceState);
+        hardwareAccelerate();
 
         LogUtils.ui("activity: " + getClass().getSimpleName() + " onCreate()");
 
         unbinder = ButterKnife.bind(this);
+    }
+
+    protected void hardwareAccelerate() {
+        // 4.0以上支持硬件加速
+        this.getWindow().setFlags(
+                WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
+                WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
     }
 
     @Override

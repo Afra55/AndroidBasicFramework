@@ -26,6 +26,13 @@
             android:configChanges="keyboard|screenSize|orientation"
             android:launchMode="singleTask"
             android:theme="@style/MainTheme" />
+
+        <activity
+            android:name=".common.ComponentActivity"
+            android:configChanges="keyboard|screenSize|orientation"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme" />
+
         <activity
             android:name=".ui.activity.TemplateActivity"
             android:label="@string/title_activity_template"
