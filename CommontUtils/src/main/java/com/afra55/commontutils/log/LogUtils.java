@@ -4,6 +4,8 @@ import android.util.Log;
 
 import com.afra55.commontutils.BuildConfig;
 
+import javax.annotation.Nonnull;
+
 public class LogUtils {
 
     private static String LOG_PREFIX = "afra55_";
@@ -31,6 +33,138 @@ public class LogUtils {
         LogImpl.init(logFile, level);
     }
 
+    private static String getSimpleClassName(String name) {
+        int lastIndex = name.lastIndexOf(".");
+        return name.substring(lastIndex + 1);
+    }
+
+    private static int getStackOffset(StackTraceElement[] trace) {
+        for (int i = 2; i < trace.length; i++) {
+            StackTraceElement e = trace[i];
+            String name = e.getClassName();
+            if (!name.equals(LogUtils.class.getName())) {
+                return --i;
+            }
+        }
+        return -1;
+    }
+
+    private static StackTraceElement getTraceElement() {
+        StackTraceElement[] trace = Thread.currentThread().getStackTrace();
+        int stackOffset = getStackOffset(trace) + 1;
+
+        if (stackOffset > trace.length) {
+            stackOffset = trace.length - 1;
+        }
+        return trace[stackOffset];
+
+    }
+
+    private static String getTag(@Nonnull StackTraceElement element) {
+        return LogUtils.makeLogTag(getSimpleClassName(element.getClassName()));
+    }
+
+    private static String getMessage(@Nonnull StackTraceElement element, String msg) {
+        return getSimpleClassName(element.getClassName()) +
+                "." +
+                element.getMethodName() +
+                " " +
+                " (" +
+                element.getFileName() +
+                ":" +
+                element.getLineNumber() +
+                ")" +
+                " | " +
+                msg;
+    }
+
+    public static void v(String msg) {
+        StackTraceElement element = getTraceElement();
+        String tag = getTag(element);
+        if (LOGGING_ENABLED && Log.isLoggable(tag, Log.DEBUG)) {
+            msg = getMessage(element, msg);
+            LogImpl.v(tag, buildMessage(msg));
+        }
+    }
+
+    public static void v(String msg, Throwable thr) {
+        StackTraceElement element = getTraceElement();
+        String tag = getTag(element);
+        if (LOGGING_ENABLED && Log.isLoggable(tag, Log.DEBUG)) {
+            msg = getMessage(element, msg);
+            LogImpl.v(tag, buildMessage(msg), thr);
+        }
+    }
+
+    public static void d(String msg) {
+        StackTraceElement element = getTraceElement();
+        String tag = getTag(element);
+        if (LOGGING_ENABLED && Log.isLoggable(tag, Log.DEBUG)) {
+            msg = getMessage(element, msg);
+            LogImpl.d(tag, buildMessage(msg));
+        }
+    }
+
+    public static void d(String msg, Throwable thr) {
+        StackTraceElement element = getTraceElement();
+        String tag = getTag(element);
+        if (LOGGING_ENABLED && Log.isLoggable(tag, Log.DEBUG)) {
+            msg = getMessage(element, msg);
+            LogImpl.d(tag, buildMessage(msg), thr);
+        }
+    }
+
+    public static void i(String msg) {
+        StackTraceElement element = getTraceElement();
+        String tag = getTag(element);
+        if (LOGGING_ENABLED && Log.isLoggable(tag, Log.DEBUG)) {
+            msg = getMessage(element, msg);
+            LogImpl.i(tag, buildMessage(msg));
+        }
+    }
+
+    public static void i(String msg, Throwable thr) {
+        StackTraceElement element = getTraceElement();
+        String tag = getTag(element);
+        if (LOGGING_ENABLED && Log.isLoggable(tag, Log.DEBUG)) {
+            msg = getMessage(element, msg);
+            LogImpl.i(tag, buildMessage(msg), thr);
+        }
+    }
+
+    public static void w(String msg) {
+        StackTraceElement element = getTraceElement();
+        String tag = getTag(element);
+        msg = getMessage(element, msg);
+        LogImpl.w(tag, buildMessage(msg));
+    }
+
+    public static void w(String msg, Throwable thr) {
+        StackTraceElement element = getTraceElement();
+        String tag = getTag(element);
+        msg = getMessage(element, msg);
+        LogImpl.w(tag, buildMessage(msg), thr);
+    }
+
+    public static void w(Throwable thr) {
+        StackTraceElement element = getTraceElement();
+        String tag = getTag(element);
+        LogImpl.w(tag, buildMessage(""), thr);
+    }
+
+    public static void e(String msg) {
+        StackTraceElement element = getTraceElement();
+        String tag = getTag(element);
+        msg = getMessage(element, msg);
+        LogImpl.e(tag, buildMessage(msg));
+    }
+
+    public static void e(String msg, Throwable thr) {
+        StackTraceElement element = getTraceElement();
+        String tag = getTag(element);
+        msg = getMessage(element, msg);
+        LogImpl.e(tag, buildMessage(msg), thr);
+    }
     public static void v(String tag, String msg) {
         if (LOGGING_ENABLED && Log.isLoggable(tag, Log.DEBUG)) {
             LogImpl.v(tag, buildMessage(msg));
@@ -70,9 +204,6 @@ public class LogUtils {
         LogImpl.w(tag, buildMessage(msg), thr);
     }
 
-    public static void w(String tag, Throwable thr) {
-        LogImpl.w(tag, buildMessage(""), thr);
-    }
 
     public static void e(String tag, String msg) {
         LogImpl.e(tag, buildMessage(msg));
