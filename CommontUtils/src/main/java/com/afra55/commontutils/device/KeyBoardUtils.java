@@ -34,6 +34,34 @@ public class KeyBoardUtils {
         }
     }
 
+    public static boolean showKeyboard(Activity activity, boolean isShow, KeyboardReceiver resultReceiver) {
+        if (activity == null) {
+            return false;
+        }
+
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm == null) {
+            return false;
+        }
+
+        if (isShow) {
+            if (activity.getCurrentFocus() == null) {
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+                return false;
+            } else {
+                imm.showSoftInput(activity.getCurrentFocus(), 0, resultReceiver);
+                return true;
+            }
+        } else {
+            if (activity.getCurrentFocus() != null) {
+                imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS, resultReceiver);
+                return true;
+            }
+
+        }
+        return false;
+    }
     public static void hideKeyboard(Activity activity, View view) {
         if (activity == null) {
             return;
