@@ -23,7 +23,7 @@ public class KeyBoardUtils {
             if (activity.getCurrentFocus() == null) {
                 imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
             } else {
-                imm.showSoftInput(activity.getCurrentFocus(), 0);
+                imm.showSoftInput(activity.getCurrentFocus(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
             }
         } else {
             if (activity.getCurrentFocus() != null) {
@@ -49,14 +49,13 @@ public class KeyBoardUtils {
                 imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
                 return false;
             } else {
-                imm.showSoftInput(activity.getCurrentFocus(), 0, resultReceiver);
-                return true;
+                return imm.showSoftInput(activity.getCurrentFocus(), InputMethodManager.RESULT_UNCHANGED_SHOWN, resultReceiver);
             }
         } else {
             if (activity.getCurrentFocus() != null) {
-                imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(),
+                // 可以通过返回值 来判断键盘是否显示，false 即键盘隐藏状态，这个时候 receiver 也不会接收到信息
+                return imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(),
                         InputMethodManager.HIDE_NOT_ALWAYS, resultReceiver);
-                return true;
             }
 
         }
