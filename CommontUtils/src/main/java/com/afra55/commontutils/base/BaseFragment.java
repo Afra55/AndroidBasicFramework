@@ -60,6 +60,9 @@ public abstract class BaseFragment extends Fragment {
 
     protected View rootView;
 
+    private boolean isLazyLoaded;
+    private boolean isPrepared;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +91,25 @@ public abstract class BaseFragment extends Fragment {
         initView();
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        lazyLoad();
+    }
+
+    private void lazyLoad() {
+        if (getUserVisibleHint() && isPrepared && !isLazyLoaded) {
+            onLazyLoad();
+            isLazyLoaded = true;
+        }
+    }
+
+    protected void onLazyLoad() {
+        initLogic();
+    }
+
+
+
     private void initView() {
         if (rootView == null) {
             return;
@@ -100,7 +122,12 @@ public abstract class BaseFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         LogUtils.ui("fragment: " + getClass().getSimpleName() + " onActivityCreated()");
         destroyed = false;
-        initLogic();
+
+        isPrepared = true;
+        //只有Fragment onCreateView好了，
+        //另外这里调用一次lazyLoad(）
+        lazyLoad();
+
     }
 
     @Override
