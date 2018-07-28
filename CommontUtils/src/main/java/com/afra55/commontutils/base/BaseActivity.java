@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.ColorInt;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
@@ -21,6 +22,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 
@@ -30,6 +32,7 @@ import com.afra55.commontutils.http.RxPresenter;
 import com.afra55.commontutils.log.LogUtils;
 import com.afra55.commontutils.sys.ReflectionUtil;
 import com.afra55.commontutils.tip.ToastUtils;
+import com.afra55.commontutils.ui.dialog.DialogMaker;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -81,7 +84,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnFragme
 
         LogUtils.ui("activity: " + getClass().getSimpleName() + " onCreate()");
 
-        unbinder = ButterKnife.bind(this);
+
     }
 
     protected void hardwareAccelerate() {
@@ -101,7 +104,10 @@ public abstract class BaseActivity extends AppCompatActivity implements OnFragme
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
         super.setContentView(layoutResID);
-        initSupportActionBar(getScreenTitle());
+        unbinder = ButterKnife.bind(this);
+        if (getStatusBarColorRes() != BaseFlag.DefaultData.NONE) {
+            setStatusBarColor(getResources().getColor(getStatusBarColorRes()));
+        }
     }
 
     /**
@@ -336,4 +342,53 @@ public abstract class BaseActivity extends AppCompatActivity implements OnFragme
     }
 
 
+    public void showMarkerProgressDialog(String msg) {
+        DialogMaker.showProgressDialog(this, msg);
+    }
+
+    public void showMarkerProgressDialog() {
+        DialogMaker.showProgressDialog(this, "");
+    }
+
+    public void showMarkerProgressDialog(boolean cancelable) {
+        DialogMaker.showProgressDialog(this, "", cancelable);
+    }
+
+    public void dismissMarkerProgressDialog() {
+        DialogMaker.dismissProgressDialog();
+    }
+
+    public Context getContext() {
+        return this;
+    }
+
+    public Activity getActivity() {
+        return this;
+    }
+
+    public boolean checkDestroyed() {
+        return getActivity() == null || getActivity().isFinishing() || isDestroyedCompatible();
+    }
+
+    /**
+     * statusBarColor 状态栏颜色，默认使用colorPrimaryDark
+     *
+     * @param color ColorInt
+     */
+    protected void setStatusBarColor(@ColorInt int color) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(color);
+        }
+    }
+
+    /**
+     * 重写这个方法返回 status bar
+     *
+     * @return color res
+     */
+    protected int getStatusBarColorRes() {
+        return BaseFlag.DefaultData.NONE;
+    }
 }
